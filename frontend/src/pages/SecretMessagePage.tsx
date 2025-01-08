@@ -12,7 +12,7 @@ import { MessageList } from "@/components/MessageList";
 import { Send, RefreshCw, Edit2 } from "lucide-react";
 import { motion } from "framer-motion";
 
-function AppLayout() {
+function SecretMessagePage() {
 	const account = useAccount();
 	const { disconnect } = useDisconnect();
 	const provider = useEthersProvider();
@@ -200,4 +200,4 @@ function AppLayout() {
 	);
 }
 
-export default AppLayout;
+export default SecretMessagePage;
