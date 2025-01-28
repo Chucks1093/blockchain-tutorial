@@ -1,0 +1,28 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+solc = "0.8.28"
+
+cache = true
+cache_path = "cache"
+force = false        # Don't force recompilation if files haven't changed
+
+
+remappings = ["@libraries/=src/libraries", "@simple-tasks/=src/simple-tasks/"]
+
+[fmt]
+line_length = 120
+tab_width = 3
+
+bracket_spacing = true
+
+# Number of spaces per indentation level
+
+
+# Ensure consistent indentation style
+indent_width = 3
+indent_type = "tabs"
+
+
+# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
