@@ -7,8 +7,8 @@ import { useEthersSigner } from "@/hooks/useEthersSigner";
 import { handleSecretMessageCustomContractError, showToast } from "@/lib/utils";
 import { SecretMessage__factory } from "@/types/contracts";
 import { Alert } from "@/components/Alert";
-import { MessageForm } from "@/components/MessageForm";
-import { MessageList } from "@/components/MessageList";
+import { MessageForm } from "@/components/messaging/MessageForm";
+import { MessageList } from "@/components/messaging/MessageList";
 import { Send, RefreshCw, Edit2 } from "lucide-react";
 import { motion } from "framer-motion";
 

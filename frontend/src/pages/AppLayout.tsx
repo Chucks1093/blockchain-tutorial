@@ -1,203 +1,220 @@
-import { useAccount, useDisconnect } from "wagmi";
-import { ConnectKitButton } from "connectkit";
-import { useRef, useState, useEffect } from "react";
-import { SECRETMESSAGE_CONTRACT_ADDRESS } from "@/lib/constants";
-import { useEthersProvider } from "@/hooks/useEthersProvider";
-import { useEthersSigner } from "@/hooks/useEthersSigner";
-import { handleSecretMessageCustomContractError, showToast } from "@/lib/utils";
-import { SecretMessage__factory } from "@/types/contracts";
-import { Alert } from "@/components/Alert";
-import { MessageForm } from "@/components/MessageForm";
-import { MessageList } from "@/components/MessageList";
-import { Send, RefreshCw, Edit2 } from "lucide-react";
+import { useState } from "react";
 import { motion } from "framer-motion";
+import {
+	ExternalLink,
+	Code,
+	Box,
+	Shield,
+	BoxIcon,
+	GitBranchPlus,
+	Wallet,
+} from "lucide-react";
 
-function AppLayout() {
-	const account = useAccount();
-	const { disconnect } = useDisconnect();
-	const provider = useEthersProvider();
-	const signer = useEthersSigner();
-	const [message, setMessage] = useState("");
-	const [isLoading, setIsLoading] = useState(false);
-	const inputRef = useRef<HTMLInputElement>(null);
+const AppLayout = () => {
+	const [activeFilter, setActiveFilter] = useState("all");
 
-	useEffect(() => {
-		if (provider) {
-			getMessage();
-		}
-	}, [account.isConnected]);
-
-	const getMessage = async () => {
-		const contract = SecretMessage__factory.connect(
-			SECRETMESSAGE_CONTRACT_ADDRESS,
-			provider
-		);
-		try {
-			setIsLoading(true);
-			const result = await contract.getGeneralMessage();
-			setMessage(result);
-			showToast.success("Message fetched successfully");
-		} catch (error) {
-			console.error(error);
-			console.error(error);
-			const errorMessage = handleSecretMessageCustomContractError(
-				error,
-				contract
-			);
-			showToast.error(errorMessage);
-		} finally {
-			setIsLoading(false);
-		}
-	};
-
-	const setGeneralMessage = async () => {
-		if (!inputRef.current?.value) {
-			showToast.error("Please enter a message");
-			return;
-		}
-		setIsLoading(true);
-		const contract = SecretMessage__factory.connect(
-			SECRETMESSAGE_CONTRACT_ADDRESS,
-			provider
-		);
-
-		try {
-			showToast.loading("Creating Tx...");
-			const contractSigner = contract.connect(signer);
-			const tx = await contractSigner.setGeneralMessage(
-				inputRef.current.value
-			);
-
-			showToast.loading("Waiting for confirmation..");
-			await tx.wait();
-			await getMessage();
-
-			showToast.success("General message updated successfully!");
-			inputRef.current.value = "";
-		} catch (error) {
-			console.error(error);
-			const errorMessage = handleSecretMessageCustomContractError(
-				error,
-				contract
-			);
-			showToast.error(errorMessage);
-		} finally {
-			setIsLoading(false);
-		}
-	};
+	const projects = [
+		{
+			title: "Multi-Signature Wallet",
+			description:
+				"A secure wallet requiring multiple signatures for transaction approval",
+			category: "DeFi",
+			stack: ["Solidity", "Hardhat", "React"],
+			metrics: { contracts: 3, tests: 45, complexity: "High" },
+			demoUrl: "#",
+			githubUrl: "#",
+			icon: <Wallet className='h-6 w-6' />,
+		},
+		{
+			title: "NFT Marketplace",
+			description:
+				"Trade and auction unique digital assets with royalty support",
+			category: "NFT",
+			stack: ["Solidity", "IPFS", "NextJS"],
+			metrics: { contracts: 4, tests: 52, complexity: "Medium" },
+			demoUrl: "/multisign",
+			githubUrl: "#",
+			icon: <Box className='h-6 w-6' />,
+		},
+		{
+			title: "DEX Protocol",
+			description: "Decentralized exchange with automated market making",
+			category: "DeFi",
+			stack: ["Solidity", "Foundry", "TypeScript"],
+			metrics: { contracts: 5, tests: 78, complexity: "High" },
+			demoUrl: "#",
+			githubUrl: "#",
+			icon: <BoxIcon className='h-6 w-6' />,
+		},
+	];
 
 	return (
-		<motion.div
-			initial={{ opacity: 0, y: 20 }}
-			animate={{ opacity: 1, y: 0 }}
-			className='min-h-screen py-12 px-4 sm:px-6 bg-gray-50'>
-			<div className='max-w-6xl mx-auto'>
+		<div className='min-h-screen bg-gradient-to-b from-gray-50 to-gray-100   pb-10'>
+			<div className=' mx-auto '>
 				{/* Header Section */}
-				<motion.div
-					initial={{ opacity: 0, y: -20 }}
-					animate={{ opacity: 1, y: 0 }}
-					className='flex items-center justify-between mb-8'>
-					<ConnectKitButton />
-					<motion.h1
-						className='text-3xl font-semibold text-gray-500 tracking-tight'
-						initial={{ scale: 0.9 }}
-						animate={{ scale: 1 }}
-						transition={{ type: "spring", stiffness: 200 }}>
-						Message Dapp
-					</motion.h1>
-					<motion.button
-						whileHover={{ scale: 1.05 }}
-						whileTap={{ scale: 0.95 }}
-						className='px-6 py-2.5 bg-red-500/90 hover:bg-red-600 rounded-xl text-white 
-              font-medium shadow-lg shadow-red-500/20 transition-colors duration-200'
-						onClick={() => disconnect()}>
-						Disconnect
-					</motion.button>
-				</motion.div>
-
-				{/* General Message Section */}
-				{account.address && (
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						className='bg-white p-6 rounded-2xl shadow-lg mb-8'>
-						<h2 className='text-xl font-semibold text-gray-800 mb-4'>
-							General Message
-						</h2>
-
-						{/* Current Message Display */}
-						<div className='bg-gray-50 p-4 rounded-xl mb-4'>
-							<p className='text-gray-700'>
-								{message || "No message set"}
-							</p>
-						</div>
-
-						{/* Message Input */}
-						<div className='space-y-4'>
-							<div className='relative'>
-								<Edit2 className='absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400' />
-								<input
-									ref={inputRef}
-									type='text'
-									placeholder='Enter new general message...'
-									className='w-full pl-12 pr-4 py-3 rounded-xl bg-white border border-gray-200 
-                    text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 
-                    focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200'
-								/>
+				<div className='relative overflow-hidden bg-gradient-to-br from-purple-50 via-blue-50 to-gray-50 mb-8'>
+					<div className='relative pt-24 pb-32 px-4 sm:px-6 max-w-6xl mx-auto'>
+						<nav className='max-w-6xl mx-auto flex justify-between items-center mb-20'>
+							<div className='text-2xl font-semibold'>Portfolio</div>
+							<div className='flex items-center gap-8'>
+								<a
+									href='#'
+									className='text-gray-600 hover:text-gray-900'>
+									Projects
+								</a>
+								<a
+									href='#'
+									className='text-gray-600 hover:text-gray-900'>
+									About
+								</a>
+								<a
+									href='#'
+									className='text-gray-600 hover:text-gray-900'>
+									Contact
+								</a>
+								<a
+									href='#'
+									className='px-4 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors'>
+									Get in touch
+								</a>
 							</div>
+						</nav>
 
-							<div className='flex gap-4'>
-								<motion.button
-									whileHover={{ scale: 1.02 }}
-									whileTap={{ scale: 0.98 }}
-									className='flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-blue-500 
-                    hover:bg-blue-600 rounded-xl text-white font-medium shadow-lg 
-                    shadow-blue-500/20 transition-colors duration-200'
-									onClick={setGeneralMessage}
-									disabled={isLoading}>
-									<Send className='h-5 w-5' />
-									Update Message
-								</motion.button>
-
-								<motion.button
-									whileHover={{ scale: 1.02 }}
-									whileTap={{ scale: 0.98 }}
-									className='flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 
-                    hover:bg-gray-200 rounded-xl text-gray-700 font-medium 
-                    transition-colors duration-200'
-									onClick={getMessage}
-									disabled={isLoading}>
-									<RefreshCw
-										className={`h-5 w-5 ${
-											isLoading ? "animate-spin" : ""
-										}`}
-									/>
-									Refresh
-								</motion.button>
-							</div>
-						</div>
-					</motion.div>
-				)}
-
-				{/* Alert Message */}
-				{!account.address && (
-					<Alert
-						message='Connect wallet to send and receive messages'
-						variant='error'
-						isLoading={false}
-					/>
-				)}
-
-				{/* Main Content */}
-				{account.address && (
-					<div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
-						<MessageForm />
-						<MessageList />
+						<section className='max-w-6xl mx-auto'>
+							<motion.div
+								initial={{ opacity: 0, y: 20 }}
+								animate={{ opacity: 1, y: 0 }}
+								className='max-w-3xl'>
+								<span className='inline-block px-4 py-1 bg-white/50 backdrop-blur-sm rounded-full text-sm text-gray-600 mb-6'>
+									Blockchain Developer
+								</span>
+								<h1 className='text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight'>
+									Building the future
+									<br />
+									with Web3 technology.
+								</h1>
+								<p className='text-xl text-gray-600 mb-8 leading-relaxed'>
+									A collection of decentralized applications showcasing
+									innovative solutions in DeFi, NFTs, and blockchain
+									infrastructure.
+								</p>
+								<div className='flex items-center gap-4'>
+									<motion.button
+										whileHover={{ scale: 1.02 }}
+										whileTap={{ scale: 0.98 }}
+										className='px-8 py-3 bg-black text-white rounded-full hover:bg-gray-800 transition-colors'>
+										View Projects
+									</motion.button>
+									<motion.button
+										whileHover={{ scale: 1.02 }}
+										whileTap={{ scale: 0.98 }}
+										className='px-8 py-3 bg-white text-gray-900 rounded-full hover:bg-gray-50 transition-colors'>
+										Contact Me
+									</motion.button>
+								</div>
+							</motion.div>
+						</section>
 					</div>
-				)}
+				</div>
+
+				{/* Filters */}
+				<div className='flex justify-center gap-4 mb-12'>
+					{["all", "DeFi", "NFT", "DAO"].map((filter) => (
+						<motion.button
+							key={filter}
+							whileHover={{ scale: 1.05 }}
+							whileTap={{ scale: 0.95 }}
+							onClick={() => setActiveFilter(filter)}
+							className={`px-6 py-2 rounded-full ${
+								activeFilter === filter
+									? "bg-gray-900 text-white"
+									: "bg-white text-gray-600 hover:bg-gray-50"
+							} shadow-sm transition-all duration-200`}>
+							{filter.charAt(0).toUpperCase() + filter.slice(1)}
+						</motion.button>
+					))}
+				</div>
+
+				{/* Projects Grid */}
+				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto '>
+					{projects
+						.filter(
+							(project) =>
+								activeFilter === "all" ||
+								project.category === activeFilter
+						)
+						.map((project, index) => (
+							<motion.div
+								key={project.title}
+								initial={{ opacity: 0, y: 20 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ delay: index * 0.1 }}
+								className='bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300'>
+								{/* Project Header */}
+								<div className='p-6 border-b border-gray-100'>
+									<div className='flex items-center justify-between mb-4'>
+										<div className='p-3 bg-gray-100 rounded-lg'>
+											{project.icon}
+										</div>
+										<span className='px-4 py-1 bg-gray-100 rounded-full text-sm text-gray-600'>
+											{project.category}
+										</span>
+									</div>
+									<h3 className='text-xl font-semibold text-gray-900 mb-2'>
+										{project.title}
+									</h3>
+									<p className='text-gray-600'>
+										{project.description}
+									</p>
+								</div>
+
+								{/* Project Details */}
+								<div className='px-6 py-4 bg-gray-50'>
+									<div className='flex flex-wrap gap-2 mb-4'>
+										{project.stack.map((tech) => (
+											<span
+												key={tech}
+												className='px-3 py-1 bg-gray-100 rounded-full text-sm text-gray-600'>
+												{tech}
+											</span>
+										))}
+									</div>
+
+									<div className='flex justify-between items-center'>
+										<div className='flex gap-2'>
+											<motion.a
+												whileHover={{ scale: 1.05 }}
+												whileTap={{ scale: 0.95 }}
+												href={project.githubUrl}
+												className='p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors'>
+												<GitBranchPlus className='h-5 w-5' />
+											</motion.a>
+											<motion.a
+												whileHover={{ scale: 1.05 }}
+												whileTap={{ scale: 0.95 }}
+												href={project.demoUrl}
+												className='p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors'>
+												<ExternalLink className='h-5 w-5' />
+											</motion.a>
+										</div>
+										<div className='flex items-center gap-4'>
+											<span className='flex items-center gap-1 text-sm text-gray-500'>
+												<Code className='h-4 w-4' />
+												{project.metrics.contracts}
+											</span>
+											<span className='flex items-center gap-1 text-sm text-gray-500'>
+												<Shield className='h-4 w-4' />
+												{project.metrics.tests}
+											</span>
+										</div>
+									</div>
+								</div>
+							</motion.div>
+						))}
+				</div>
 			</div>
-		</motion.div>
+		</div>
 	);
-}
+};
 
 export default AppLayout;
