@@ -61,3 +61,9 @@
 	background-color: rgba(17, 25, 40, 0.75);
 	border: 1px solid rgba(255, 255, 255, 0.125);
 }
+
+.noicy {
+	background-image: url(/images/noise-light.png);
+
+	background-color: #0052ff;
+}

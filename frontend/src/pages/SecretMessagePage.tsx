@@ -22,13 +22,16 @@ function SecretMessagePage() {
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	useEffect(() => {
+		if (!provider) {
+			showToast.error("Provider issues");
+		}
 		if (provider) {
 			getMessage();
 		}
 	}, [account.isConnected]);
 
 	const getMessage = async () => {
-		const contract = SecretMessage__factory.connect(
+		const contract = await SecretMessage__factory.connect(
 			SECRETMESSAGE_CONTRACT_ADDRESS,
 			provider
 		);
@@ -38,7 +41,6 @@ function SecretMessagePage() {
 			setMessage(result);
 			showToast.success("Message fetched successfully");
 		} catch (error) {
-			console.error(error);
 			console.error(error);
 			const errorMessage = handleSecretMessageCustomContractError(
 				error,
@@ -90,7 +92,7 @@ function SecretMessagePage() {
 		<motion.div
 			initial={{ opacity: 0, y: 20 }}
 			animate={{ opacity: 1, y: 0 }}
-			className='min-h-screen py-12 px-4 sm:px-6 bg-gray-50'>
+			className='min-h-screen py-12 px-4 sm:px-6 bg-gray-100'>
 			<div className='max-w-6xl mx-auto'>
 				{/* Header Section */}
 				<motion.div
@@ -99,11 +101,11 @@ function SecretMessagePage() {
 					className='flex items-center justify-between mb-8'>
 					<ConnectKitButton />
 					<motion.h1
-						className='text-3xl font-semibold text-gray-500 tracking-tight'
+						className='text-3xl font-semibold text-gray-500 tracking-tight font-manrope'
 						initial={{ scale: 0.9 }}
 						animate={{ scale: 1 }}
 						transition={{ type: "spring", stiffness: 200 }}>
-						Message Dapp
+						Simple Message
 					</motion.h1>
 					<motion.button
 						whileHover={{ scale: 1.05 }}
@@ -190,7 +192,7 @@ function SecretMessagePage() {
 
 				{/* Main Content */}
 				{account.address && (
-					<div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
+					<div className='flex  flex-col lg:flex-row lg:justify-between gap-8'>
 						<MessageForm />
 						<MessageList />
 					</div>

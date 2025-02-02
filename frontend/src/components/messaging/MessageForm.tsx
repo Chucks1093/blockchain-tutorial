@@ -50,6 +50,9 @@ export function MessageForm() {
 		}
 	};
 	useEffect(() => {
+		if (!provider) {
+			return;
+		}
 		const contract = SecretMessage__factory.connect(
 			SECRETMESSAGE_CONTRACT_ADDRESS,
 			provider
@@ -80,7 +83,7 @@ export function MessageForm() {
 		<motion.div
 			initial={{ opacity: 0, y: 20 }}
 			animate={{ opacity: 1, y: 0 }}
-			className='bg-white p-6 rounded-2xl shadow-lg space-y-4'>
+			className='h-fit w-full bg-white p-6 rounded-2xl shadow-lg space-y-4'>
 			<h2 className='text-xl font-semibold text-gray-800'>Send Message</h2>
 
 			<div className='relative'>

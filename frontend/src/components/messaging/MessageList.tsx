@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SecretMessage, SecretMessage__factory } from "@/types/contracts";
+import { SecretMessage__factory, SecretMessage } from "@/types/contracts";
 import { SECRETMESSAGE_CONTRACT_ADDRESS } from "@/lib/constants";
 import { showToast } from "@/lib/utils";
 import { motion } from "framer-motion";
@@ -22,8 +22,8 @@ export function MessageList() {
 	const [activeTab, setActiveTab] = useState<"sent" | "received">("received");
 
 	const fetchMessages = async () => {
-		if (!provider || !account) return;
-
+		if (!provider || !signer) return;
+		showToast.loading("Fetching messages");
 		setIsLoading(true);
 		try {
 			const contract = SecretMessage__factory.connect(
@@ -42,6 +42,7 @@ export function MessageList() {
 			console.log(sent);
 			setSentMessages(sent);
 			setReceivedMessages(received);
+			showToast.success("Messages fetch successfully");
 		} catch (error) {
 			console.error(error);
 			showToast.error("Failed to fetch messages");
@@ -54,7 +55,7 @@ export function MessageList() {
 		if (account) {
 			fetchMessages();
 		}
-	}, [account]);
+	}, [account, signer]);
 
 	const formatAddress = (address: string) => {
 		return `${address.slice(0, 6)}...${address.slice(-4)}`;
@@ -68,7 +69,7 @@ export function MessageList() {
 		<motion.div
 			initial={{ opacity: 0, y: 20 }}
 			animate={{ opacity: 1, y: 0 }}
-			className='bg-white p-6 rounded-2xl shadow-lg'>
+			className='w-full bg-white p-6 rounded-2xl shadow-lg'>
 			<div className='flex justify-between items-center mb-6'>
 				<h2 className='text-xl font-semibold text-gray-800'>Messages</h2>
 				<motion.button

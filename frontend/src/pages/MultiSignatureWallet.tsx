@@ -1,24 +1,25 @@
-import {  useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+	MuliSigWalletService,
+	useContractService,
+} from "@/components/multisign/MultisigWalletService";
 import {
 	Wallet,
 	Send,
 	Users,
 	CheckCircle,
-
 	Settings,
-
 	AlertTriangle,
 	Download,
 	Upload,
 	Search,
-
 	Trash2,
-
 	RefreshCw,
 } from "lucide-react";
 
 import { ConnectKitButton } from "connectkit";
+import { showToast } from "@/lib/utils";
 
 interface Transaction {
 	id: number;
@@ -35,46 +36,48 @@ interface Transaction {
 
 const MultisigWallet = () => {
 	// Enhanced state management
-const [transactions, setTransactions] = useState<Transaction[]>([
-	{
-		id: 1,
-		to: "0x123...",
-		amount: "1.5 ETH",
-		approvals: 2,
-		required: 3,
-		status: "pending",
-		description: "Treasury payment",
-		timestamp: Date.now(),
-		approvers: ["0x789...", "0xabc..."],
-		nonce: 1,
-	},
-]);
-const [requiredSignatures, setRequiredSignatures] = useState<number>(3);
-const [owners, setOwners] = useState<string[]>([
-	"0x789...",
-	"0xabc...",
-	"0xdef...",
-]);
+	const [transactions, setTransactions] = useState<Transaction[]>([
+		{
+			id: 1,
+			to: "0x123...",
+			amount: "1.5 ETH",
+			approvals: 2,
+			required: 3,
+			status: "pending",
+			description: "Treasury payment",
+			timestamp: Date.now(),
+			approvers: ["0x789...", "0xabc..."],
+			nonce: 1,
+		},
+	]);
 
-const [activeTab, setActiveTab] = useState<string>("transactions");
-const [walletBalance, setWalletBalance] = useState<string>("10.5 ETH");
-const [filters, setFilters] = useState<{
-	status: string;
-	timeRange: string;
-	minAmount: string;
-	maxAmount: string;
-}>({
-	status: "all",
-	timeRange: "all",
-	minAmount: "",
-	maxAmount: "",
-});
-const [searchTerm, setSearchTerm] = useState<string>("");
-const [sortOrder, setSortOrder] = useState<string>("newest");
-const [isLoading, setIsLoading] = useState<boolean>(false);
-const [selectedTransaction, setSelectedTransaction] =
-	useState<Transaction | null>(null);
-const [showConfirmDialog, setShowConfirmDialog] = useState<boolean>(false);
+	const contractService = useContractService(MuliSigWalletService);
+	const [requiredSignatures, setRequiredSignatures] = useState<number>(3);
+	const [owners, setOwners] = useState<string[]>([
+		"0x789...",
+		"0xabc...",
+		"0xdef...",
+	]);
+
+	const [activeTab, setActiveTab] = useState<string>("transactions");
+	const [walletBalance, setWalletBalance] = useState<string>("10.5 ETH");
+	const [filters, setFilters] = useState<{
+		status: string;
+		timeRange: string;
+		minAmount: string;
+		maxAmount: string;
+	}>({
+		status: "all",
+		timeRange: "all",
+		minAmount: "",
+		maxAmount: "",
+	});
+	const [searchTerm, setSearchTerm] = useState<string>("");
+	const [sortOrder, setSortOrder] = useState<string>("newest");
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [selectedTransaction, setSelectedTransaction] =
+		useState<Transaction | null>(null);
+	const [showConfirmDialog, setShowConfirmDialog] = useState<boolean>(false);
 
 	// Additional refs for new features
 	const addressRef = useRef<HTMLInputElement>(null);
@@ -86,33 +89,39 @@ const [showConfirmDialog, setShowConfirmDialog] = useState<boolean>(false);
 
 	// Enhanced transaction management
 	const submitTransaction = async () => {
-		if (!addressRef.current?.value || !amountRef.current?.value) {
+		if (
+			!addressRef.current?.value ||
+			!amountRef.current?.value ||
+			!descriptionRef.current?.value
+		) {
 			// Show error toast
-			return;
+			return showToast.error("Fill all input");
 		}
+
+		showToast.loading("Submitting Transaction");
 
 		setIsLoading(true);
 		try {
 			// Contract interaction logic here
 			const newTransaction = {
-				id: transactions.length + 1,
 				to: addressRef.current.value,
-				amount: `${amountRef.current.value} ETH`,
+				amount: amountRef.current.value,
 				description: descriptionRef.current?.value || "",
-				approvals: 0,
-				required: requiredSignatures,
-				status: "pending",
-				timestamp: Date.now(),
-				approvers: [],
-				nonce: transactions.length + 1,
 			};
-			setTransactions([...transactions, newTransaction]);
+			const submittedTransaction = await contractService.submitTransaction(
+				newTransaction.to,
+				newTransaction.amount,
+				newTransaction.description
+			);
+			console.log(submittedTransaction);
+			// setTransactions([...transactions, submittedTransaction]);
 
 			// Reset form
 			addressRef.current.value = "";
 			amountRef.current.value = "";
-			if (descriptionRef.current) descriptionRef.current.value = "";
+			showToast.success("Transaction submitted successfully");
 		} catch (error) {
+			showToast.error("Transaction submission failed");
 			console.error("Transaction submission failed:", error);
 			// Show error toast
 		} finally {
@@ -121,7 +130,7 @@ const [showConfirmDialog, setShowConfirmDialog] = useState<boolean>(false);
 	};
 
 	// Batch transaction approval
-	const approveBatch = async (selectedIds: number[]): Promise<void> =>{
+	const approveBatch = async (selectedIds: number[]): Promise<void> => {
 		setIsLoading(true);
 		try {
 			// Contract interaction for batch approval
@@ -189,6 +198,7 @@ const [showConfirmDialog, setShowConfirmDialog] = useState<boolean>(false);
 		try {
 			// Contract interaction for adding owner
 			const newOwner = newOwnerRef.current.value;
+			await contractService.addNewOwner(newOwner);
 			setOwners([...owners, newOwner]);
 			newOwnerRef.current.value = "";
 		} catch (error) {

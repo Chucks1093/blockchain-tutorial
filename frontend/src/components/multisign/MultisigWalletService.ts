@@ -1,74 +1,75 @@
+import { MultiSignatureWallet__factory } from "@/types/contracts/factories/MultiSignatureWallet__factory";
+import { MultiSignatureWallet } from "@/types/contracts/MultiSignatureWallet";
+import { MULTISIGN_CONTRACT_ADDRESS } from "@/lib/constants";
+import {
+	ContractProvider,
+	ContractSigner,
+} from "../shared/BaseContractService";
+import { useState } from "react";
+import { useEthersSigner } from "@/hooks/useEthersSigner";
+import { useEthersProvider } from "@/hooks/useEthersProvider";
 import { ethers } from "ethers";
-import { MultisigWallet__factory } from "@/types/contracts";
 
-export class MultisigWalletService {
-	private contract: ethers.Contract;
+type Transaction = MultiSignatureWallet.TransactionStruct;
+type ContractServiceConstructor<T> = new (
+	provider: ContractProvider,
+	signer: ContractSigner
+) => T;
 
-	constructor(
-		private address: string,
-		private provider: ethers.providers.Provider,
-		private signer?: ethers.Signer
-	) {
-		this.contract = MultisigWallet__factory.connect(address, provider);
+// 2. Update the hook to be generic
+export const useContractService = <T extends object>(
+	ContractService: ContractServiceConstructor<T>
+) => {
+	const signer = useEthersSigner();
+	const provider = useEthersProvider();
+	const [contractService] = useState(
+		() => new ContractService(provider, signer)
+	);
+
+	return contractService;
+};
+
+export class MuliSigWalletService {
+	private contract: MultiSignatureWallet;
+	private signer: MultiSignatureWallet;
+
+	constructor(provider: ContractProvider, signer: ContractSigner) {
+		this.contract = MultiSignatureWallet__factory.connect(
+			MULTISIGN_CONTRACT_ADDRESS,
+			provider
+		);
+		this.signer = this.contract.connect(signer);
 	}
 
 	async getOwners() {
 		return await this.contract.getOwners();
 	}
 
-	async getRequiredSignatures() {
-		return await this.contract.requiredSignatures();
+	async addNewOwner(newOwner: ethers.AddressLike) {
+		return await this.contract.addNewOwner(newOwner);
+	}
+
+	async getRequiredSignatures(): Promise<number> {
+		return 2;
 	}
 
 	async getBalance() {
-		return ethers.utils.formatEther(
-			await this.provider.getBalance(this.address)
-		);
+		return await this.contract.getBalace();
 	}
 
-	async submitTransaction(to: string, amount: string) {
-		if (!this.signer) throw new Error("Signer required");
-		const contractWithSigner = this.contract.connect(this.signer);
-		const value = ethers.utils.parseEther(amount);
-		return await contractWithSigner.submitTransaction(to, value);
+	async submitTransaction(
+		to: ethers.AddressLike,
+		amount: ethers.BigNumberish,
+		data: ethers.BytesLike
+	) {
+		return await this.signer.submitTransaction(to, amount, data);
 	}
 
-	async approveTransaction(txIndex: number) {
-		if (!this.signer) throw new Error("Signer required");
-		const contractWithSigner = this.contract.connect(this.signer);
-		return await contractWithSigner.approveTransaction(txIndex);
+	async confirmTransaction(tx: Transaction) {
+		return await this.signer.confirmTransaction(tx.txIndex, tx.from);
 	}
 
-	async executeTransaction(txIndex: number) {
-		if (!this.signer) throw new Error("Signer required");
-		const contractWithSigner = this.contract.connect(this.signer);
-		return await contractWithSigner.executeTransaction(txIndex);
-	}
-
-	async getPendingTransactions() {
-		const txCount = await this.contract.getTransactionCount();
-		const transactions = [];
-
-		for (let i = 0; i < txCount; i++) {
-			const tx = await this.contract.getTransaction(i);
-			if (!tx.executed) {
-				const approvals = await this.contract.getApprovalCount(i);
-				transactions.push({
-					index: i,
-					to: tx.to,
-					amount: ethers.utils.formatEther(tx.value),
-					executed: tx.executed,
-					approvals,
-				});
-			}
-		}
-
-		return transactions;
-	}
-
-	async changeRequiredSignatures(newRequired: number) {
-		if (!this.signer) throw new Error("Signer required");
-		const contractWithSigner = this.contract.connect(this.signer);
-		return await contractWithSigner.changeRequiredSignatures(newRequired);
+	async getAllTransactions() {
+		return await this.contract.getUserTransactions();
 	}
 }
