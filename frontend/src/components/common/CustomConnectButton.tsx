@@ -9,7 +9,7 @@ const CustomConnectButton = () => (
 					onClick={show}
 					className='flex items-center gap-2 px-4 py-2 text-[.8rem] md:text-[1rem] 
                      bg-app-offwhite text-app-primary rounded-[.5rem] md:rounded-[.7rem] 
-                     hover:bg-blue-700 hover:text-white transition-colors shadow-lg'>
+                     hover:bg-zinc-300 hover:text-zinc-600 transition-colors shadow-lg'>
 					{isConnected ? (
 						<>
 							<img

@@ -36,7 +36,7 @@ interface Transaction {
 
 const MultisigWallet = () => {
 	// Enhanced state management
-	const [transactions, setTransactions] = useState<Transaction[]>([
+	const [transactions] = useState<Transaction[]>([
 		{
 			id: 1,
 			to: "0x123...",
@@ -52,7 +52,7 @@ const MultisigWallet = () => {
 	]);
 
 	const contractService = useContractService(MuliSigWalletService);
-	const [requiredSignatures, setRequiredSignatures] = useState<number>(3);
+	const [requiredSignatures] = useState<number>(3);
 	const [owners, setOwners] = useState<string[]>([
 		"0x789...",
 		"0xabc...",
@@ -60,7 +60,7 @@ const MultisigWallet = () => {
 	]);
 
 	const [activeTab, setActiveTab] = useState<string>("transactions");
-	const [walletBalance, setWalletBalance] = useState<string>("10.5 ETH");
+	const [walletBalance] = useState<string>("10.5 ETH");
 	const [filters, setFilters] = useState<{
 		status: string;
 		timeRange: string;
@@ -85,7 +85,7 @@ const MultisigWallet = () => {
 	const descriptionRef = useRef<HTMLInputElement>(null);
 	const newSignaturesRef = useRef<HTMLInputElement>(null);
 	const newOwnerRef = useRef<HTMLInputElement>(null);
-	const ownerRoleRef = useRef<HTMLInputElement>(null);
+	const ownerRoleRef = useRef<HTMLSelectElement>(null);
 
 	// Enhanced transaction management
 	const submitTransaction = async () => {
@@ -130,17 +130,17 @@ const MultisigWallet = () => {
 	};
 
 	// Batch transaction approval
-	const approveBatch = async (selectedIds: number[]): Promise<void> => {
-		setIsLoading(true);
-		try {
-			// Contract interaction for batch approval
-			// Update state after successful approval
-		} catch (error) {
-			console.error("Batch approval failed:", error);
-		} finally {
-			setIsLoading(false);
-		}
-	};
+	// const approveBatch = async (): Promise<void> => {
+	// 	setIsLoading(true);
+	// 	try {
+	// 		// Contract interaction for batch approval
+	// 		// Update state after successful approval
+	// 	} catch (error) {
+	// 		console.error("Batch approval failed:", error);
+	// 	} finally {
+	// 		setIsLoading(false);
+	// 	}
+	// };
 
 	// Transaction history export
 	const exportTransactionHistory = () => {
@@ -208,10 +208,10 @@ const MultisigWallet = () => {
 		}
 	};
 
-	const removeOwner = async (ownerAddress) => {
-		setShowConfirmDialog(true);
-		// Show confirmation dialog before removal
-	};
+	// const removeOwner = async () => {
+	// 	setShowConfirmDialog(true);
+	// 	// Show confirmation dialog before removal
+	// };
 
 	// Enhanced UI Components
 	const TransactionFilters = () => (
@@ -278,16 +278,14 @@ const MultisigWallet = () => {
 										<motion.button
 											whileHover={{ scale: 1.05 }}
 											whileTap={{ scale: 0.95 }}
-											className='p-2 bg-green-500 text-white rounded-lg'
-											onClick={() => approveTransaction(tx.id)}>
+											className='p-2 bg-green-500 text-white rounded-lg'>
 											<CheckCircle className='h-5 w-5' />
 										</motion.button>
 										{tx.approvals >= tx.required && (
 											<motion.button
 												whileHover={{ scale: 1.05 }}
 												whileTap={{ scale: 0.95 }}
-												className='p-2 bg-blue-500 text-white rounded-lg'
-												onClick={() => executeTransaction(tx.id)}>
+												className='p-2 bg-blue-500 text-white rounded-lg'>
 												<Send className='h-5 w-5' />
 											</motion.button>
 										)}
@@ -563,7 +561,6 @@ const MultisigWallet = () => {
 								className='w-full flex items-center justify-center gap-2 px-6 py-3 bg-green-500 
                   hover:bg-green-600 rounded-xl text-white font-medium shadow-lg 
                   shadow-green-500/20 transition-colors duration-200'
-								onClick={() => approveBatch([])}
 								disabled={isLoading}>
 								{isLoading ? (
 									<RefreshCw className='h-5 w-5 animate-spin' />
@@ -652,8 +649,7 @@ const MultisigWallet = () => {
 											<motion.button
 												whileHover={{ scale: 1.05 }}
 												whileTap={{ scale: 0.95 }}
-												className='p-2 text-red-500 hover:bg-red-50 rounded-lg'
-												onClick={() => removeOwner(owner)}>
+												className='p-2 text-red-500 hover:bg-red-50 rounded-lg'>
 												<Trash2 className='h-5 w-5' />
 											</motion.button>
 										</div>

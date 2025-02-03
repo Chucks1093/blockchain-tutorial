@@ -12,7 +12,6 @@ function WagmiConnectionProvider({ children }: { children: React.ReactNode }) {
 		<WagmiProvider config={wagmiConfig}>
 			<QueryClientProvider client={queryClient}>
 				<ConnectKitProvider
-					theme='midnight'
 					options={{
 						customAvatar: ({ address, size }) => (
 							<img

@@ -2,30 +2,29 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
 	Lock,
-	Unlock,
-	AlertTriangle,
+	// Unlock,
+	// AlertTriangle,
 	Plus,
-	ChevronRight,
+	// ChevronRight,
 	User,
-	Users,
-	Settings,
+	// Users,
+	// Settings,
 	RefreshCw,
-	Calendar,
-	DollarSign,
-	Ban,
+	// Calendar,
+	// DollarSign,
+	// Ban,
 	CheckCircle,
 	ArrowUpRight,
-	ArrowDownRight,
-	History,
-	LineChart as LineChartIcon,
-	PieChart as PieChartIcon,
+	// ArrowDownRight,
+	// History,
+	// LineChart as LineChartIcon,
+	// PieChart as PieChartIcon,
 } from "lucide-react";
-import { BarChart, LineChart } from "@/components/ui/chart";
+// import { BarChart, LineChart } from "@/components/ui/chart";
 import {
 	Card,
 	CardContent,
 	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
@@ -39,14 +38,12 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
 } from "@/components/ui/dialog";
 import {
 	Select,
 	SelectContent,
 	SelectGroup,
 	SelectItem,
-	SelectLabel,
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
@@ -56,17 +53,55 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { TokenVestingChart } from "@/components/token-vesting/TokenVestingChart";
 import { ConnectKitButton } from "connectkit";
 
-const TokenVesting = () => {
-	const [activeTab, setActiveTab] = useState("overview");
-	const [showCreateModal, setShowCreateModal] = useState(false);
-	const [showRevokeModal, setShowRevokeModal] = useState(false);
-	const [showDetailsModal, setShowDetailsModal] = useState(false);
-	const [selectedSchedule, setSelectedSchedule] = useState(null);
+// Types for Vesting Schedule
+interface VestingSchedule {
+	id: number;
+	beneficiary: string;
+	totalAmount: string;
+	cliffPeriod: string;
+	vestingPeriod: string;
+	released: string;
+	nextRelease: string;
+	status: "active" | "revoked" | "completed";
+	startDate: string;
+	endDate: string;
+	releaseFrequency: "Monthly" | "Quarterly" | "Yearly";
+	progress: number;
+	history: VestingEvent[];
+}
 
+// Types for Vesting Events
+interface VestingEvent {
+	date: string;
+	amount: string;
+	type: "release" | "revoke" | "create";
+}
 
+// Form types for Create Schedule
+interface CreateScheduleForm {
+	beneficiary: string;
+	amount: number;
+	cliffPeriod: number;
+	vestingPeriod: number;
+	releaseFrequency: "monthly" | "quarterly" | "yearly";
+}
+
+// Component props
+interface TokenVestingProps {
+	onScheduleCreate?: (schedule: CreateScheduleForm) => Promise<void>;
+	onScheduleRevoke?: (scheduleId: number) => Promise<void>;
+}
+
+// Update your component declaration:
+const TokenVesting: React.FC<TokenVestingProps> = () => {
+	const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
+	const [showRevokeModal, setShowRevokeModal] = useState<boolean>(false);
+	const [showDetailsModal, setShowDetailsModal] = useState<boolean>(false);
+	const [selectedSchedule, setSelectedSchedule] =
+		useState<VestingSchedule | null>(null);
 
 	// Sample vesting schedules with more details
-	const schedules = [
+	const schedules: VestingSchedule[] = [
 		{
 			id: 1,
 			beneficiary: "0x1234...5678",
