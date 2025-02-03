@@ -40,14 +40,14 @@ const AppLayout = () => {
 							src='/icons/spark.svg'
 							alt=''
 						/>
-						<div className='relative  px-4 sm:px-6 max-w-6xl mx-auto  flex md:items-center justify-start  h-full '>
+						<div className='relative  px-4 sm:px-6 max-w-6xl mx-auto  flex md:items-center justify-start h-full'>
 							<nav className='absolute  w-full top-5 lg:top-[5rem] max-w-6xl mx-auto flex justify-between items-center  left-1/2 -translate-x-1/2 px-4 sm:px-6'>
 								<a
 									href='https://www.base.org/name/sebastian%F0%9F%8C%9F'
 									className='md:text-xl text-sm  text-gray-200 flex items-center font-bold md:font-normal'>
 									<span className='hidden md:block'>Sebastian</span>
 									<img
-										src='/icons/ens-star.svg'
+										src='/icons/base.svg'
 										alt=''
 										className='md:w-5  w-[1.8rem]'
 									/>
