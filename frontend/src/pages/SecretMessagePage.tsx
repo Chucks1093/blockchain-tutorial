@@ -11,6 +11,19 @@ import { MessageForm } from "@/components/messaging/MessageForm";
 import { MessageList } from "@/components/messaging/MessageList";
 import { Send, RefreshCw, Edit2 } from "lucide-react";
 import { motion } from "framer-motion";
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import { ExternalLink } from "lucide-react";
+
+const projectLinks = [
+	{ name: "Project 1", github: "https://github...", demo: "https://demo..." },
+	// ... more projects
+];
 
 function SecretMessagePage() {
 	const account = useAccount();
@@ -88,6 +101,8 @@ function SecretMessagePage() {
 		}
 	};
 
+	const [isOpen, setIsOpen] = useState(false);
+
 	return (
 		<motion.div
 			initial={{ opacity: 0, y: 20 }}
@@ -107,14 +122,68 @@ function SecretMessagePage() {
 						transition={{ type: "spring", stiffness: 200 }}>
 						Simple Message
 					</motion.h1>
-					<motion.button
-						whileHover={{ scale: 1.05 }}
-						whileTap={{ scale: 0.95 }}
-						className='px-6 py-2.5 bg-red-500/90 hover:bg-red-600 rounded-xl text-white 
-              font-medium shadow-lg shadow-red-500/20 transition-colors duration-200'
-						onClick={() => disconnect()}>
-						Disconnect
-					</motion.button>
+					<div className='flex gap-3'>
+						<Dialog
+							open={isOpen}
+							onOpenChange={setIsOpen}>
+							<DialogTrigger asChild>
+								<motion.button
+									whileHover={{ scale: 1.05 }}
+									whileTap={{ scale: 0.95 }}
+									className='px-6 py-2.5 bg-blue-500/90 hover:bg-blue-600 rounded-xl text-white 
+                        font-medium shadow-lg shadow-blue-500/20 transition-colors duration-200'>
+									View All Projects
+								</motion.button>
+							</DialogTrigger>
+							<DialogContent className='sm:max-w-md'>
+								<DialogHeader>
+									<DialogTitle className='text-xl font-semibold mb-4'>
+										Project Links
+									</DialogTitle>
+								</DialogHeader>
+
+								<div className='grid gap-4'>
+									{projectLinks.map((project) => (
+										<div
+											key={project.name}
+											className='flex items-center justify-between p-3 bg-zinc-50 
+                                                  rounded-lg border border-zinc-100'>
+											<span className='font-medium text-zinc-700'>
+												{project.name}
+											</span>
+											<div className='flex gap-2'>
+												<a
+													href={project.github}
+													target='_blank'
+													rel='noopener noreferrer'
+													className='p-2 bg-white rounded-lg border border-zinc-200 
+                               hover:border-blue-300 hover:bg-blue-50 transition-all'>
+													<ExternalLink className='h-4 w-4 text-zinc-600 hover:text-blue-600' />
+												</a>
+												<a
+													href={project.demo}
+													target='_blank'
+													rel='noopener noreferrer'
+													className='p-2 bg-white rounded-lg border border-zinc-200 
+                               hover:border-blue-300 hover:bg-blue-50 transition-all'>
+													<ExternalLink className='h-4 w-4 text-zinc-600 hover:text-blue-600' />
+												</a>
+											</div>
+										</div>
+									))}
+								</div>
+							</DialogContent>
+						</Dialog>
+
+						<motion.button
+							whileHover={{ scale: 1.05 }}
+							whileTap={{ scale: 0.95 }}
+							className='px-6 py-2.5 bg-red-500/90 hover:bg-red-600 rounded-xl text-white 
+                     font-medium shadow-lg shadow-red-500/20 transition-colors duration-200'
+							onClick={() => disconnect()}>
+							Disconnect
+						</motion.button>
+					</div>
 				</motion.div>
 
 				{/* General Message Section */}

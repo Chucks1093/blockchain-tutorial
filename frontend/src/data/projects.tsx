@@ -24,9 +24,10 @@ export const projects = [
 			"Decentralized messaging with encrypted data stored on Base network",
 		category: "Social",
 		stack: ["Solidity", "Foundry", "React"],
-		metrics: { contracts: 2, tests: 32, complexity: "Medium" },
+		metrics: { contracts: 1, tests: 5, complexity: "Easy" },
 		demoUrl: "/messaging",
 		githubUrl: "#",
+		tag: "messaging",
 		icon: <MessageSquare className='h-6 w-6 text-blue-600' />,
 	},
 	{
@@ -38,6 +39,7 @@ export const projects = [
 		metrics: { contracts: 3, tests: 45, complexity: "High" },
 		demoUrl: "#",
 		githubUrl: "#",
+		tag: "messaging",
 		icon: <Wallet className='h-6 w-6 text-blue-600' />,
 	},
 	{
@@ -49,6 +51,7 @@ export const projects = [
 		metrics: { contracts: 2, tests: 38, complexity: "Medium" },
 		demoUrl: "#",
 		githubUrl: "#",
+		tag: "messaging",
 		icon: <Timer className='h-6 w-6 text-blue-600' />,
 	},
 	{
@@ -60,6 +63,7 @@ export const projects = [
 		metrics: { contracts: 4, tests: 52, complexity: "High" },
 		demoUrl: "#",
 		githubUrl: "#",
+		tag: "messaging",
 		icon: <Box className='h-6 w-6 text-blue-600' />,
 	},
 	{
@@ -71,6 +75,7 @@ export const projects = [
 		metrics: { contracts: 3, tests: 41, complexity: "Medium" },
 		demoUrl: "#",
 		githubUrl: "#",
+		tag: "messaging",
 		icon: <BoxIcon className='h-6 w-6 text-blue-600' />,
 	},
 	{
@@ -82,6 +87,7 @@ export const projects = [
 		metrics: { contracts: 2, tests: 35, complexity: "Medium" },
 		demoUrl: "#",
 		githubUrl: "#",
+		tag: "messaging",
 		icon: <Ticket className='h-6 w-6 text-blue-600' />,
 	},
 	{
@@ -93,6 +99,7 @@ export const projects = [
 		metrics: { contracts: 2, tests: 48, complexity: "High" },
 		demoUrl: "#",
 		githubUrl: "#",
+		tag: "messaging",
 		icon: <Shield className='h-6 w-6 text-blue-600' />,
 	},
 	{
@@ -104,6 +111,7 @@ export const projects = [
 		metrics: { contracts: 4, tests: 56, complexity: "High" },
 		demoUrl: "#",
 		githubUrl: "#",
+		tag: "messaging",
 		icon: <VoteIcon className='h-6 w-6 text-blue-600' />,
 	},
 	{
@@ -114,6 +122,7 @@ export const projects = [
 		metrics: { contracts: 2, tests: 32, complexity: "Medium" },
 		demoUrl: "#",
 		githubUrl: "#",
+		tag: "messaging",
 		icon: <FileCheck className='h-6 w-6 text-blue-600' />,
 	},
 	{
@@ -122,9 +131,10 @@ export const projects = [
 			"Periodic token distribution with cooldowns and claim limits",
 		category: "Tools",
 		stack: ["Solidity", "Foundry", "React"],
-		metrics: { contracts: 1, tests: 28, complexity: "Low" },
+		metrics: { contracts: 1, tests: 28, complexity: "Easy" },
 		demoUrl: "#",
 		githubUrl: "#",
+		tag: "messaging",
 		icon: <Droplet className='h-6 w-6 text-blue-600' />,
 	},
 	{
@@ -136,6 +146,7 @@ export const projects = [
 		metrics: { contracts: 4, tests: 62, complexity: "High" },
 		demoUrl: "#",
 		githubUrl: "#",
+		tag: "messaging",
 		icon: <TableRowsSplit className='h-6 w-6 text-blue-600' />,
 	},
 	{
@@ -147,6 +158,7 @@ export const projects = [
 		metrics: { contracts: 2, tests: 38, complexity: "Medium" },
 		demoUrl: "#",
 		githubUrl: "#",
+		tag: "messaging",
 		icon: <CreditCard className='h-6 w-6 text-blue-600' />,
 	},
 	{
@@ -157,6 +169,7 @@ export const projects = [
 		metrics: { contracts: 2, tests: 34, complexity: "Medium" },
 		demoUrl: "#",
 		githubUrl: "#",
+		tag: "messaging",
 		icon: <Award className='h-6 w-6 text-blue-600' />,
 	},
 	{
@@ -168,6 +181,7 @@ export const projects = [
 		metrics: { contracts: 2, tests: 42, complexity: "Medium" },
 		demoUrl: "#",
 		githubUrl: "#",
+		tag: "messaging",
 		icon: <Lock className='h-6 w-6 text-blue-600' />,
 	},
 	{
@@ -179,6 +193,7 @@ export const projects = [
 		metrics: { contracts: 2, tests: 36, complexity: "Medium" },
 		demoUrl: "#",
 		githubUrl: "#",
+		tag: "messaging",
 		icon: <Flame className='h-6 w-6 text-blue-600' />,
 	},
 	{
@@ -190,6 +205,7 @@ export const projects = [
 		metrics: { contracts: 3, tests: 44, complexity: "High" },
 		demoUrl: "#",
 		githubUrl: "#",
+		tag: "messaging",
 		icon: <Umbrella className='h-6 w-6 text-blue-600' />,
 	},
 ];

@@ -1,9 +1,10 @@
 import { Fragment, useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, Shield, HardHat } from "lucide-react";
-import { ArrowRight, BookOpen } from "lucide-react";
+import { ExternalLink, Shield } from "lucide-react";
+import { ArrowRight, BookOpen, GitPullRequestArrow } from "lucide-react";
 import { projects } from "@/data/projects";
 import CustomConnectButton from "@/components/common/CustomConnectButton";
+import { useNavigate } from "react-router";
 
 const Footer = () => {
 	return (
@@ -18,7 +19,17 @@ const Footer = () => {
 					/>{" "}
 					for Base
 				</p>
-				<p>Based Projects!</p>
+				<a
+					href='https://www.base.org/name/sebastian%F0%9F%8C%9F'
+					className='text-sm  text-gray-200 flex items-center font-bold md:font-normal'>
+					<span className='hidden md:block'>Sebastian</span>
+					<img
+						src='/icons/ens-star.svg'
+						alt=''
+						className='md:w-3  w-[1.8rem] '
+					/>
+					<span className='hidden md:block'>.eth</span>
+				</a>
 			</div>
 		</footer>
 	);
@@ -26,6 +37,8 @@ const Footer = () => {
 
 const AppLayout = () => {
 	const [activeFilter, setActiveFilter] = useState("all");
+
+	const navigate = useNavigate();
 
 	// from-blue-50 via-blue-100/50 to-white
 
@@ -45,13 +58,16 @@ const AppLayout = () => {
 								<a
 									href='https://www.base.org/name/sebastian%F0%9F%8C%9F'
 									className='md:text-xl text-sm  text-gray-200 flex items-center font-bold md:font-normal'>
-									<span className='hidden md:block'>Sebastian</span>
 									<img
 										src='/icons/base.svg'
 										alt=''
-										className='md:w-5  w-[1.8rem]'
+										className='md:w-5  w-[1.8rem] mr-1'
 									/>
-									<span className='hidden md:block'>.eth</span>
+									<span className='hidden md:block'>
+										Based Students
+									</span>
+
+									<span className='hidden md:block'></span>
 								</a>
 								<div className='flex items-center gap-8'>
 									<a
@@ -82,7 +98,7 @@ const AppLayout = () => {
 										alt=''
 										className=' w-[7rem] md:w-[10rem] mb-4'
 									/>
-									<h1 className='text-[2rem] md:text-7xl leading-8 md:leading-12 font-medium mb-6  font-marlin text-app-offwhite '>
+									<h1 className='text-[2rem] md:text-6xl leading-8 md:leading-12 font-medium mb-6  font-marlin text-app-offwhite '>
 										Learning & Building
 										<br className='md:block hidden' />
 										<span className='block mt-2 '>
@@ -125,16 +141,7 @@ const AppLayout = () => {
 
 					{/* Filters */}
 					<div className=' justify-center gap-4 mb-12 flex-wrap hidden md:flex'>
-						{[
-							"all",
-							"DeFi",
-							"NFT",
-							"DAO",
-							"Gaming",
-							"Security",
-							"Tools",
-							"Social",
-						].map((filter) => (
+						{["all", "Easy", "Medium", "High"].map((filter) => (
 							<motion.button
 								key={filter}
 								whileHover={{ scale: 1.05 }}
@@ -156,7 +163,7 @@ const AppLayout = () => {
 							.filter(
 								(project) =>
 									activeFilter === "all" ||
-									project.category === activeFilter
+									project.metrics.complexity === activeFilter
 							)
 							.map((project, index) => (
 								<motion.div
@@ -164,7 +171,8 @@ const AppLayout = () => {
 									initial={{ opacity: 0, y: 20 }}
 									animate={{ opacity: 1, y: 0 }}
 									transition={{ delay: index * 0.1 }}
-									className='bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-zinc-100 hover:border-blue-200 group'>
+									className='bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-zinc-100 hover:border-blue-200 group cursor-pointer'
+									onClick={() => navigate(`/${project.tag}`)}>
 									{/* Project Header */}
 									<div className='p-8'>
 										<div className='flex items-center justify-between mb-6'>
@@ -172,7 +180,7 @@ const AppLayout = () => {
 												{project.icon}
 											</div>
 											<span className='px-4 py-1.5 bg-zinc-100 rounded-full text-sm font-medium text-zinc-700'>
-												{project.category}
+												{project.metrics.complexity}
 											</span>
 										</div>
 										<h3 className='text-xl font-semibold font-marlin text-zinc-600 mb-3 group-hover:text-blue-600 transition-colors'>
@@ -200,14 +208,20 @@ const AppLayout = () => {
 												<motion.a
 													whileHover={{ scale: 1.05 }}
 													whileTap={{ scale: 0.95 }}
-													href={project.githubUrl}
+													href={`https://github.com/Chucks1093/blockchain-tutorial/issues?q=is%3Aissue%20state%3Aopen%20label%3A${project.tag}`}
+													onClick={(e) => {
+														e.stopPropagation();
+													}}
 													className='p-2.5 bg-white border border-zinc-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-all'>
-													<HardHat className='h-5 w-5 text-zinc-600 hover:text-blue-600' />
+													<GitPullRequestArrow className='h-5 w-5 text-zinc-600 hover:text-blue-600' />
 												</motion.a>
 												<motion.a
 													whileHover={{ scale: 1.05 }}
 													whileTap={{ scale: 0.95 }}
 													href={project.demoUrl}
+													onClick={(e) => {
+														e.stopPropagation();
+													}}
 													className='p-2.5 bg-white border border-zinc-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-all'>
 													<ExternalLink className='h-5 w-5 text-zinc-600 hover:text-blue-600' />
 												</motion.a>
