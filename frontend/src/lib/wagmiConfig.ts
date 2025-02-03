@@ -1,10 +1,10 @@
 import { http, createConfig } from "wagmi";
-import { anvil, baseSepolia } from "wagmi/chains";
+import { baseSepolia } from "wagmi/chains";
 
 import { WAGMI_PROJECT_ID } from "./constants";
 import { getDefaultConfig } from "connectkit";
 
-const chains = [anvil, baseSepolia] as const;
+const chains = [baseSepolia] as const;
 
 export const wagmiConfig = createConfig(
 	getDefaultConfig({
