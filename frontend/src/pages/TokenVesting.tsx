@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+
 import {
 	Lock,
 	// Unlock,
@@ -51,7 +51,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { TokenVestingChart } from "@/components/token-vesting/TokenVestingChart";
-import { ConnectKitButton } from "connectkit";
+
+import Header from "@/components/common/ProjectHeader";
 
 // Types for Vesting Schedule
 interface VestingSchedule {
@@ -360,36 +361,22 @@ const TokenVesting: React.FC<TokenVestingProps> = () => {
 	return (
 		<div className='min-h-screen bg-gradient-to-b from-gray-50 to-gray-100'>
 			{/* Header with gradient background */}
-			<div className='bg-white border-b border-gray-200'>
-				<div className='max-w-7xl mx-auto px-4 sm:px-6'>
-					<div className='flex justify-between items-center h-16'>
-						<div className='flex items-center gap-2'>
-							<ConnectKitButton />
-						</div>
-						<motion.h1
-							className='text-2xl font-semibold text-gray-800 tracking-tight'
-							initial={{ scale: 0.9 }}
-							animate={{ scale: 1 }}
-							transition={{ type: "spring", stiffness: 200 }}>
-							Token Vesting
-						</motion.h1>
-						<div className='flex items-center gap-4'>
-							<Button
-								variant='outline'
-								className='gap-2'>
-								<RefreshCw className='h-4 w-4' />
-								Sync
-							</Button>
-							<Button
-								onClick={() => setShowCreateModal(true)}
-								className='gap-2 bg-blue-500 hover:bg-blue-600'>
-								<Plus className='h-4 w-4' />
-								New Schedule
-							</Button>
-						</div>
-					</div>
-				</div>
-			</div>
+			<Header
+				title='Token Vesting'
+				connectButton='bg-white text-zinc-700 shadow-lg'>
+				<Button
+					variant='outline'
+					className='gap-2'>
+					<RefreshCw className='h-4 w-4' />
+					Sync
+				</Button>
+				<Button
+					onClick={() => setShowCreateModal(true)}
+					className='gap-2 bg-blue-500 hover:bg-blue-600'>
+					<Plus className='h-4 w-4' />
+					New Schedule
+				</Button>
+			</Header>
 
 			{/* Main Content */}
 			<div className='max-w-7xl mx-auto px-4 sm:px-6 py-8'>

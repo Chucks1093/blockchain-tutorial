@@ -1,6 +1,5 @@
 import { useAccount, useDisconnect } from "wagmi";
-import { ConnectKitButton } from "connectkit";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, Fragment } from "react";
 import { SECRETMESSAGE_CONTRACT_ADDRESS } from "@/lib/constants";
 import { useEthersProvider } from "@/hooks/useEthersProvider";
 import { useEthersSigner } from "@/hooks/useEthersSigner";
@@ -11,19 +10,8 @@ import { MessageForm } from "@/components/messaging/MessageForm";
 import { MessageList } from "@/components/messaging/MessageList";
 import { Send, RefreshCw, Edit2 } from "lucide-react";
 import { motion } from "framer-motion";
-import {
-	Dialog,
-	DialogContent,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from "@/components/ui/dialog";
-import { ExternalLink } from "lucide-react";
 
-const projectLinks = [
-	{ name: "Project 1", github: "https://github...", demo: "https://demo..." },
-	// ... more projects
-];
+import ProjectHeader from "@/components/common/ProjectHeader";
 
 function SecretMessagePage() {
 	const account = useAccount();
@@ -101,173 +89,110 @@ function SecretMessagePage() {
 		}
 	};
 
-	const [isOpen, setIsOpen] = useState(false);
-
 	return (
-		<motion.div
-			initial={{ opacity: 0, y: 20 }}
-			animate={{ opacity: 1, y: 0 }}
-			className='min-h-screen py-12 px-4 sm:px-6 bg-gray-100'>
-			<div className='max-w-6xl mx-auto'>
-				{/* Header Section */}
-				<motion.div
-					initial={{ opacity: 0, y: -20 }}
-					animate={{ opacity: 1, y: 0 }}
-					className='flex items-center justify-between mb-8'>
-					<ConnectKitButton />
-					<motion.h1
-						className='text-3xl font-semibold text-gray-500 tracking-tight font-manrope'
-						initial={{ scale: 0.9 }}
-						animate={{ scale: 1 }}
-						transition={{ type: "spring", stiffness: 200 }}>
-						Simple Message
-					</motion.h1>
-					<div className='flex gap-3'>
-						<Dialog
-							open={isOpen}
-							onOpenChange={setIsOpen}>
-							<DialogTrigger asChild>
-								<motion.button
-									whileHover={{ scale: 1.05 }}
-									whileTap={{ scale: 0.95 }}
-									className='px-6 py-2.5 bg-blue-500/90 hover:bg-blue-600 rounded-xl text-white 
-                        font-medium shadow-lg shadow-blue-500/20 transition-colors duration-200'>
-									View All Projects
-								</motion.button>
-							</DialogTrigger>
-							<DialogContent className='sm:max-w-md'>
-								<DialogHeader>
-									<DialogTitle className='text-xl font-semibold mb-4'>
-										Project Links
-									</DialogTitle>
-								</DialogHeader>
-
-								<div className='grid gap-4'>
-									{projectLinks.map((project) => (
-										<div
-											key={project.name}
-											className='flex items-center justify-between p-3 bg-zinc-50 
-                                                  rounded-lg border border-zinc-100'>
-											<span className='font-medium text-zinc-700'>
-												{project.name}
-											</span>
-											<div className='flex gap-2'>
-												<a
-													href={project.github}
-													target='_blank'
-													rel='noopener noreferrer'
-													className='p-2 bg-white rounded-lg border border-zinc-200 
-                               hover:border-blue-300 hover:bg-blue-50 transition-all'>
-													<ExternalLink className='h-4 w-4 text-zinc-600 hover:text-blue-600' />
-												</a>
-												<a
-													href={project.demo}
-													target='_blank'
-													rel='noopener noreferrer'
-													className='p-2 bg-white rounded-lg border border-zinc-200 
-                               hover:border-blue-300 hover:bg-blue-50 transition-all'>
-													<ExternalLink className='h-4 w-4 text-zinc-600 hover:text-blue-600' />
-												</a>
-											</div>
-										</div>
-									))}
-								</div>
-							</DialogContent>
-						</Dialog>
-
-						<motion.button
-							whileHover={{ scale: 1.05 }}
-							whileTap={{ scale: 0.95 }}
-							className='px-6 py-2.5 bg-red-500/90 hover:bg-red-600 rounded-xl text-white 
+		<Fragment>
+			<ProjectHeader
+				connectButton='bg-white text-zinc-700 shadow-lg border border-gray-100'
+				title='Simple Messaging'>
+				<motion.button
+					whileHover={{ scale: 1.05 }}
+					whileTap={{ scale: 0.95 }}
+					className='px-6 py-2.5 bg-red-500/90 hover:bg-red-600 rounded-xl text-white 
                      font-medium shadow-lg shadow-red-500/20 transition-colors duration-200'
-							onClick={() => disconnect()}>
-							Disconnect
-						</motion.button>
-					</div>
-				</motion.div>
+					onClick={() => disconnect()}>
+					Disconnect
+				</motion.button>
+			</ProjectHeader>
+			<motion.div
+				initial={{ opacity: 0, y: 20 }}
+				animate={{ opacity: 1, y: 0 }}
+				className='min-h-screen  	   py-12  bg-gray-100'>
+				<div className=' mx-auto max-w-7xl px-4 md:px-8 '>
+					{/* Header Section */}
 
-				{/* General Message Section */}
-				{account.address && (
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						className='bg-white p-6 rounded-2xl shadow-lg mb-8'>
-						<h2 className='text-xl font-semibold text-gray-800 mb-4'>
-							General Message
-						</h2>
+					{/* General Message Section */}
+					{account.address && (
+						<motion.div
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							className='bg-white p-6 rounded-2xl shadow-lg mb-8'>
+							<h2 className='text-xl font-semibold text-gray-800 mb-4'>
+								General Message
+							</h2>
 
-						{/* Current Message Display */}
-						<div className='bg-gray-50 p-4 rounded-xl mb-4'>
-							<p className='text-gray-700'>
-								{message || "No message set"}
-							</p>
-						</div>
+							{/* Current Message Display */}
+							<div className='bg-gray-50 p-4 rounded-xl mb-4'>
+								<p className='text-gray-700'>
+									{message || "No message set"}
+								</p>
+							</div>
 
-						{/* Message Input */}
-						<div className='space-y-4'>
-							<div className='relative'>
-								<Edit2 className='absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400' />
-								<input
-									ref={inputRef}
-									type='text'
-									placeholder='Enter new general message...'
-									className='w-full pl-12 pr-4 py-3 rounded-xl bg-white border border-gray-200 
+							{/* Message Input */}
+							<div className='space-y-4'>
+								<div className='relative'>
+									<Edit2 className='absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400' />
+									<input
+										ref={inputRef}
+										type='text'
+										placeholder='Enter new general message...'
+										className='w-full pl-12 pr-4 py-3 rounded-xl bg-white border border-gray-200 
                     text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 
                     focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200'
-								/>
-							</div>
+									/>
+								</div>
 
-							<div className='flex gap-4'>
-								<motion.button
-									whileHover={{ scale: 1.02 }}
-									whileTap={{ scale: 0.98 }}
-									className='flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-blue-500 
+								<div className='flex gap-4'>
+									<motion.button
+										whileHover={{ scale: 1.02 }}
+										whileTap={{ scale: 0.98 }}
+										className='flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-blue-500 
                     hover:bg-blue-600 rounded-xl text-white font-medium shadow-lg 
                     shadow-blue-500/20 transition-colors duration-200'
-									onClick={setGeneralMessage}
-									disabled={isLoading}>
-									<Send className='h-5 w-5' />
-									Update Message
-								</motion.button>
+										onClick={setGeneralMessage}
+										disabled={isLoading}>
+										<Send className='h-5 w-5' />
+										Update Message
+									</motion.button>
 
-								<motion.button
-									whileHover={{ scale: 1.02 }}
-									whileTap={{ scale: 0.98 }}
-									className='flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 
+									<motion.button
+										whileHover={{ scale: 1.02 }}
+										whileTap={{ scale: 0.98 }}
+										className='flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 
                     hover:bg-gray-200 rounded-xl text-gray-700 font-medium 
                     transition-colors duration-200'
-									onClick={getMessage}
-									disabled={isLoading}>
-									<RefreshCw
-										className={`h-5 w-5 ${
-											isLoading ? "animate-spin" : ""
-										}`}
-									/>
-									Refresh
-								</motion.button>
+										onClick={getMessage}
+										disabled={isLoading}>
+										<RefreshCw
+											className={`h-5 w-5 ${
+												isLoading ? "animate-spin" : ""
+											}`}
+										/>
+										Refresh
+									</motion.button>
+								</div>
 							</div>
+						</motion.div>
+					)}
+
+					{/* Alert Message */}
+					{!account.address && (
+						<Alert
+							message='Connect wallet to send and receive messages'
+							variant='error'
+							isLoading={false}
+						/>
+					)}
+
+					{/* Main Content */}
+					{account.address && (
+						<div className='flex  flex-col lg:flex-row lg:justify-between gap-8'>
+							<MessageForm />
+							<MessageList />
 						</div>
-					</motion.div>
-				)}
-
-				{/* Alert Message */}
-				{!account.address && (
-					<Alert
-						message='Connect wallet to send and receive messages'
-						variant='error'
-						isLoading={false}
-					/>
-				)}
-
-				{/* Main Content */}
-				{account.address && (
-					<div className='flex  flex-col lg:flex-row lg:justify-between gap-8'>
-						<MessageForm />
-						<MessageList />
-					</div>
-				)}
-			</div>
-		</motion.div>
+					)}
+				</div>
+			</motion.div>
+		</Fragment>
 	);
 }
 

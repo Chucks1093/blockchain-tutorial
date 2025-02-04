@@ -76,7 +76,7 @@ const AppLayout = () => {
 										 hover:text-white md:block hidden'>
 										About Me
 									</a>
-									<CustomConnectButton />
+									<CustomConnectButton className='bg-app-offwhite text-app-primary' />
 								</div>
 							</nav>
 
@@ -208,6 +208,7 @@ const AppLayout = () => {
 												<motion.a
 													whileHover={{ scale: 1.05 }}
 													whileTap={{ scale: 0.95 }}
+													target='_blank'
 													href={`https://github.com/Chucks1093/blockchain-tutorial/issues?q=is%3Aissue%20state%3Aopen%20label%3A${project.tag}`}
 													onClick={(e) => {
 														e.stopPropagation();
@@ -218,7 +219,8 @@ const AppLayout = () => {
 												<motion.a
 													whileHover={{ scale: 1.05 }}
 													whileTap={{ scale: 0.95 }}
-													href={project.demoUrl}
+													target='_blank'
+													href={project.contractUrl}
 													onClick={(e) => {
 														e.stopPropagation();
 													}}

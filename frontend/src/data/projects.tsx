@@ -27,6 +27,8 @@ export const projects = [
 		metrics: { contracts: 1, tests: 5, complexity: "Easy" },
 		demoUrl: "/messaging",
 		githubUrl: "#",
+		contractUrl:
+			"https://sepolia.basescan.org/address/0xc15f0f9a02f30f85a515313c9eccdaee48bc6d85",
 		tag: "messaging",
 		icon: <MessageSquare className='h-6 w-6 text-blue-600' />,
 	},
@@ -39,7 +41,9 @@ export const projects = [
 		metrics: { contracts: 3, tests: 45, complexity: "High" },
 		demoUrl: "#",
 		githubUrl: "#",
-		tag: "messaging",
+		contractUrl:
+			"https://sepolia.basescan.org/address/0xc15f0f9a02f30f85a515313c9eccdaee48bc6d85#code",
+		tag: "multisign",
 		icon: <Wallet className='h-6 w-6 text-blue-600' />,
 	},
 	{
@@ -51,6 +55,8 @@ export const projects = [
 		metrics: { contracts: 2, tests: 38, complexity: "Medium" },
 		demoUrl: "#",
 		githubUrl: "#",
+		contractUrl:
+			"https://sepolia.basescan.org/address/0xc15f0f9a02f30f85a515313c9eccdaee48bc6d85#code",
 		tag: "messaging",
 		icon: <Timer className='h-6 w-6 text-blue-600' />,
 	},
@@ -63,6 +69,8 @@ export const projects = [
 		metrics: { contracts: 4, tests: 52, complexity: "High" },
 		demoUrl: "#",
 		githubUrl: "#",
+		contractUrl:
+			"https://sepolia.basescan.org/address/0xc15f0f9a02f30f85a515313c9eccdaee48bc6d85#code",
 		tag: "messaging",
 		icon: <Box className='h-6 w-6 text-blue-600' />,
 	},
@@ -75,6 +83,8 @@ export const projects = [
 		metrics: { contracts: 3, tests: 41, complexity: "Medium" },
 		demoUrl: "#",
 		githubUrl: "#",
+		contractUrl:
+			"https://sepolia.basescan.org/address/0xc15f0f9a02f30f85a515313c9eccdaee48bc6d85#code",
 		tag: "messaging",
 		icon: <BoxIcon className='h-6 w-6 text-blue-600' />,
 	},
@@ -87,6 +97,8 @@ export const projects = [
 		metrics: { contracts: 2, tests: 35, complexity: "Medium" },
 		demoUrl: "#",
 		githubUrl: "#",
+		contractUrl:
+			"https://sepolia.basescan.org/address/0xc15f0f9a02f30f85a515313c9eccdaee48bc6d85#code",
 		tag: "messaging",
 		icon: <Ticket className='h-6 w-6 text-blue-600' />,
 	},
@@ -99,6 +111,8 @@ export const projects = [
 		metrics: { contracts: 2, tests: 48, complexity: "High" },
 		demoUrl: "#",
 		githubUrl: "#",
+		contractUrl:
+			"https://sepolia.basescan.org/address/0xc15f0f9a02f30f85a515313c9eccdaee48bc6d85#code",
 		tag: "messaging",
 		icon: <Shield className='h-6 w-6 text-blue-600' />,
 	},
@@ -111,6 +125,8 @@ export const projects = [
 		metrics: { contracts: 4, tests: 56, complexity: "High" },
 		demoUrl: "#",
 		githubUrl: "#",
+		contractUrl:
+			"https://sepolia.basescan.org/address/0xc15f0f9a02f30f85a515313c9eccdaee48bc6d85#code",
 		tag: "messaging",
 		icon: <VoteIcon className='h-6 w-6 text-blue-600' />,
 	},
@@ -122,6 +138,8 @@ export const projects = [
 		metrics: { contracts: 2, tests: 32, complexity: "Medium" },
 		demoUrl: "#",
 		githubUrl: "#",
+		contractUrl:
+			"https://sepolia.basescan.org/address/0xc15f0f9a02f30f85a515313c9eccdaee48bc6d85#code",
 		tag: "messaging",
 		icon: <FileCheck className='h-6 w-6 text-blue-600' />,
 	},
@@ -134,6 +152,8 @@ export const projects = [
 		metrics: { contracts: 1, tests: 28, complexity: "Easy" },
 		demoUrl: "#",
 		githubUrl: "#",
+		contractUrl:
+			"https://sepolia.basescan.org/address/0xc15f0f9a02f30f85a515313c9eccdaee48bc6d85#code",
 		tag: "messaging",
 		icon: <Droplet className='h-6 w-6 text-blue-600' />,
 	},
@@ -146,6 +166,8 @@ export const projects = [
 		metrics: { contracts: 4, tests: 62, complexity: "High" },
 		demoUrl: "#",
 		githubUrl: "#",
+		contractUrl:
+			"https://sepolia.basescan.org/address/0xc15f0f9a02f30f85a515313c9eccdaee48bc6d85#code",
 		tag: "messaging",
 		icon: <TableRowsSplit className='h-6 w-6 text-blue-600' />,
 	},
@@ -158,6 +180,8 @@ export const projects = [
 		metrics: { contracts: 2, tests: 38, complexity: "Medium" },
 		demoUrl: "#",
 		githubUrl: "#",
+		contractUrl:
+			"https://sepolia.basescan.org/address/0xc15f0f9a02f30f85a515313c9eccdaee48bc6d85#code",
 		tag: "messaging",
 		icon: <CreditCard className='h-6 w-6 text-blue-600' />,
 	},
@@ -169,6 +193,8 @@ export const projects = [
 		metrics: { contracts: 2, tests: 34, complexity: "Medium" },
 		demoUrl: "#",
 		githubUrl: "#",
+		contractUrl:
+			"https://sepolia.basescan.org/address/0xc15f0f9a02f30f85a515313c9eccdaee48bc6d85#code",
 		tag: "messaging",
 		icon: <Award className='h-6 w-6 text-blue-600' />,
 	},
@@ -181,6 +207,8 @@ export const projects = [
 		metrics: { contracts: 2, tests: 42, complexity: "Medium" },
 		demoUrl: "#",
 		githubUrl: "#",
+		contractUrl:
+			"https://sepolia.basescan.org/address/0xc15f0f9a02f30f85a515313c9eccdaee48bc6d85#code",
 		tag: "messaging",
 		icon: <Lock className='h-6 w-6 text-blue-600' />,
 	},
@@ -193,6 +221,8 @@ export const projects = [
 		metrics: { contracts: 2, tests: 36, complexity: "Medium" },
 		demoUrl: "#",
 		githubUrl: "#",
+		contractUrl:
+			"https://sepolia.basescan.org/address/0xc15f0f9a02f30f85a515313c9eccdaee48bc6d85#code",
 		tag: "messaging",
 		icon: <Flame className='h-6 w-6 text-blue-600' />,
 	},
@@ -205,6 +235,8 @@ export const projects = [
 		metrics: { contracts: 3, tests: 44, complexity: "High" },
 		demoUrl: "#",
 		githubUrl: "#",
+		contractUrl:
+			"https://sepolia.basescan.org/address/0xc15f0f9a02f30f85a515313c9eccdaee48bc6d85#code",
 		tag: "messaging",
 		icon: <Umbrella className='h-6 w-6 text-blue-600' />,
 	},

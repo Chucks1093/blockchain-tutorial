@@ -1,15 +1,24 @@
+import { cn, showToast } from "@/lib/utils";
 import { ConnectKitButton } from "connectkit";
 import makeBlockie from "ethereum-blockies-base64";
 
-const CustomConnectButton = () => (
+type ButtonProps = {
+	className?: string;
+};
+const CustomConnectButton = (props: ButtonProps) => (
 	<ConnectKitButton.Custom>
 		{({ isConnected, show, address }) => {
+			const handleClick = () => {
+				showToast.message("Clicked");
+				show?.();
+			};
 			return (
 				<button
-					onClick={show}
-					className='flex items-center gap-2 px-4 py-2 text-[.8rem] md:text-[1rem] 
-                     bg-app-offwhite text-app-primary rounded-[.5rem] md:rounded-[.7rem] 
-                     hover:bg-zinc-300 hover:text-zinc-600 transition-colors shadow-lg'>
+					onClick={handleClick}
+					className={cn(
+						"flex items-center gap-2 px-4 py-3 text-[.8rem] md:text-[1rem] bg-app-primary text-app-offwhite rounded-[.5rem] md:rounded-[.7rem] hover:bg-zinc-50 hover:text-zinc-600 transition-colors shadow-md ",
+						props.className
+					)}>
 					{isConnected ? (
 						<>
 							<img
