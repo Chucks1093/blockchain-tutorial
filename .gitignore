@@ -28,7 +28,7 @@ contracts/.env
 /frontend/lerna-debug.log*
 
 /frontend/node_modules
-d/frontend/ist
+/frontend/dist
 /frontend/dist-ssr
 /frontend/*.local
 

@@ -16,7 +16,7 @@ const CustomConnectButton = (props: ButtonProps) => (
 				<button
 					onClick={handleClick}
 					className={cn(
-						"flex items-center gap-2 px-4 py-3 text-[.8rem] md:text-[1rem] bg-app-primary text-app-offwhite rounded-[.5rem] md:rounded-[.7rem] hover:bg-zinc-50 hover:text-zinc-600 transition-colors shadow-md ",
+						"flex items-center gap-2 px-4 py-3 text-[.8rem] md:text-[1rem] rounded-[.5rem] md:rounded-[.7rem] hover:bg-zinc-50 hover:text-zinc-600 transition-colors shadow-md bg-white text-app-primary",
 						props.className
 					)}>
 					{isConnected ? (

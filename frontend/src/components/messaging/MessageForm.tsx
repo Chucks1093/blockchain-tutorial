@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { MessageSquare, Send } from "lucide-react";
-import { SecretMessage__factory } from "@/types/contracts";
+import { SecretMessage__factory } from "@/types/contracts/factories/SecretMessage__factory";
 import { SECRETMESSAGE_CONTRACT_ADDRESS } from "@/lib/constants";
 import { shortenAddress, showToast } from "@/lib/utils";
 import { motion } from "framer-motion";

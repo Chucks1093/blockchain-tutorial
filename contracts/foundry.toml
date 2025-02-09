@@ -1,6 +1,7 @@
 [profile.default]
 src = "src"
 out = "out"
+ffi = true
 libs = ["lib"]
 solc = "0.8.28"
 
@@ -10,6 +11,9 @@ force = false        # Don't force recompilation if files haven't changed
 
 
 remappings = ["@libraries/=src/libraries", "@simple-tasks/=src/simple-tasks/"]
+
+[profile.default.etherscan]
+base_sepolia = { key = "${BASESCAN_API_KEY}" }
 
 [fmt]
 line_length = 120

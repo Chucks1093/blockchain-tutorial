@@ -23,9 +23,9 @@ FOUNDRY_PROFILE ?= default
 ifeq ($(NETWORK),local)
 	RPC_URL ?= http://127.0.0.1:$(ANVIL_PORT)
 	CHAIN_ID ?= 31337
-else ifeq ($(NETWORK),ganache)
-	RPC_URL ?= http://127.0.0.1:$(GANACHE_PORT)
-	CHAIN_ID ?= 5777
+else ifeq ($(NETWORK),quicknode)
+	RPC_URL ?=https://sepolia.base.org
+	CHAIN_ID ?= 11155111  
 else ifeq ($(NETWORK),sepolia)
 	RPC_URL ?= $(SEPOLIA_RPC_URL)
 	CHAIN_ID ?= 11155111
@@ -108,7 +108,13 @@ deploy:
 		forge script $$selected_script --rpc-url $(RPC_URL) --account $$key_name --sender $$address --broadcast | tee deployment.log; \
 	else \
 		echo "Deploying to $(NETWORK)..."; \
-		forge script script/DeployGreeting.s.sol --rpc-url $(RPC_URL) --broadcast --verify --chain-id $(CHAIN_ID) --account deployer | tee deployment.log; \
+		echo "Available deployment scripts:"; \
+		ls script/simple-tasks/*.s.sol | cat -n; \
+		read -p "Select script number to deploy: " script_number; \
+		selected_script=$$(ls script/simple-tasks/*.s.sol | sed -n "$$script_number"p); \
+		read -p "Enter address: " address; \
+		read -p "Enter key name: " key_name; \
+		forge script $$selected_script --rpc-url $(RPC_URL) --account $$key_name --sender $$address --broadcast --verify --etherscan-api-key ${BASESCAN_API_KEY} --chain-id $(CHAIN_ID) --account myKey -vvvv | tee deployment.log; \
 	fi
 
 deploy-local: 
@@ -117,8 +123,8 @@ deploy-local:
 deploy-sepolia: 
 	@make deploy NETWORK=sepolia
 
-deploy-ganache: 
-	@make deploy NETWORK=ganache
+deploy-quicknode: 
+	@make deploy NETWORK=quicknode
 
 deploy-mainnet: 
 	@make deploy NETWORK=mainnet
@@ -126,7 +132,7 @@ deploy-mainnet:
 # ========== Frontend Commands ==========
 generate-types:
 	@echo "Generating types in frontend..."
-	@cd $(FRONTEND_PATH) && npx typechain --target ethers-v6 --out-dir src/types/contracts "../contracts/out/SecretMessage.sol/*json"  --show-stack-traces
+	@cd $(FRONTEND_PATH) && npx typechain --target ethers-v6 --out-dir src/types/contracts "../contracts/out/MultiSignatureWallet.sol/*json" --show-stack-traces
 
 # ========== Help ==========
 help:

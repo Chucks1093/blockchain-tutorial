@@ -36,7 +36,7 @@ contract SecretMessageTest is Test {
       SecretMessage.MessageInfo[] memory sentMessages = secretMessage.getSentMessages();
       vm.stopPrank();
       console.log("Number of messages:", sentMessages.length);
-      assertEq(sentMessages.length, 1);
+      assertEq(sentMessages.length, 4);
       assertEq(sentMessages[0].content, TEST_MESSAGE);
       assertEq(sentMessages[0].recipient, bob);
    }

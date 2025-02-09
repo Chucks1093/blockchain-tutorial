@@ -24,6 +24,25 @@ import type {
 } from "./common";
 
 export declare namespace MultiSignatureWallet {
+  export type ProposedAdminStruct = {
+    newAdmin: AddressLike;
+    approvals: BigNumberish;
+    disapprovals: BigNumberish;
+    isActive: boolean;
+  };
+
+  export type ProposedAdminStructOutput = [
+    newAdmin: string,
+    approvals: bigint,
+    disapprovals: bigint,
+    isActive: boolean
+  ] & {
+    newAdmin: string;
+    approvals: bigint;
+    disapprovals: bigint;
+    isActive: boolean;
+  };
+
   export type TransactionStruct = {
     txHash: BytesLike;
     txIndex: BigNumberish;
@@ -33,6 +52,7 @@ export declare namespace MultiSignatureWallet {
     data: BytesLike;
     executed: boolean;
     confirmations: BigNumberish;
+    confirmers: AddressLike[];
     timestamp: BigNumberish;
   };
 
@@ -45,6 +65,7 @@ export declare namespace MultiSignatureWallet {
     data: string,
     executed: boolean,
     confirmations: bigint,
+    confirmers: string[],
     timestamp: bigint
   ] & {
     txHash: string;
@@ -55,6 +76,7 @@ export declare namespace MultiSignatureWallet {
     data: string;
     executed: boolean;
     confirmations: bigint;
+    confirmers: string[];
     timestamp: bigint;
   };
 }
@@ -62,40 +84,78 @@ export declare namespace MultiSignatureWallet {
 export interface MultiSignatureWalletInterface extends Interface {
   getFunction(
     nameOrSignature:
-      | "CONFIRMATIIONS"
+      | "ADMIN"
+      | "REQUIRED_SIGNATURES"
       | "addNewOwner"
+      | "addressToIndex"
+      | "adminChangeConfirmations"
+      | "approveProposedAdmin"
+      | "changeRequiredSignatures"
+      | "checkHasVoted"
       | "checkIsOwner"
       | "confirmTransaction"
       | "confirmedTransactions"
+      | "disApproveNewAdmin"
       | "executeTransaction"
       | "getBalace"
+      | "getCurrentAdminDetails"
       | "getOwners"
+      | "getPropsedAdminDetails"
+      | "getRequiredSignatures"
       | "getTransationDetails"
       | "getUserTransactions"
       | "owners"
+      | "proposeNewAdmin"
+      | "proposedAdmin"
       | "removeOwner"
       | "revokeTransaction"
       | "submitTransaction"
+      | "transactionAddresses"
       | "transactions"
   ): FunctionFragment;
 
   getEvent(
     nameOrSignatureOrTopic:
+      | "AdminChangeApproved"
+      | "AdminChangeDisapproved"
+      | "AdminChangeProposed"
       | "OwnerAdded"
       | "OwnerRemoved"
       | "TransactionConfrimed"
       | "TransactionExecuted"
       | "TransactionRevoked"
       | "TransactionSubmitted"
+      | "VotedAdminChange"
   ): EventFragment;
 
+  encodeFunctionData(functionFragment: "ADMIN", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "CONFIRMATIIONS",
+    functionFragment: "REQUIRED_SIGNATURES",
     values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "addNewOwner",
     values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addressToIndex",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "adminChangeConfirmations",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "approveProposedAdmin",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "changeRequiredSignatures",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "checkHasVoted",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "checkIsOwner",
@@ -110,14 +170,30 @@ export interface MultiSignatureWalletInterface extends Interface {
     values: [BytesLike, AddressLike]
   ): string;
   encodeFunctionData(
+    functionFragment: "disApproveNewAdmin",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "executeTransaction",
     values: [BigNumberish, AddressLike]
   ): string;
   encodeFunctionData(functionFragment: "getBalace", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "getCurrentAdminDetails",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "getOwners", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "getPropsedAdminDetails",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getRequiredSignatures",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "getTransationDetails",
-    values: [BigNumberish]
+    values: [BigNumberish, AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "getUserTransactions",
@@ -126,6 +202,14 @@ export interface MultiSignatureWalletInterface extends Interface {
   encodeFunctionData(
     functionFragment: "owners",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "proposeNewAdmin",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "proposedAdmin",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "removeOwner",
@@ -140,16 +224,41 @@ export interface MultiSignatureWalletInterface extends Interface {
     values: [AddressLike, BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(
+    functionFragment: "transactionAddresses",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "transactions",
     values: [AddressLike, BigNumberish]
   ): string;
 
+  decodeFunctionResult(functionFragment: "ADMIN", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "CONFIRMATIIONS",
+    functionFragment: "REQUIRED_SIGNATURES",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "addNewOwner",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "addressToIndex",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "adminChangeConfirmations",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "approveProposedAdmin",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "changeRequiredSignatures",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "checkHasVoted",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -165,11 +274,27 @@ export interface MultiSignatureWalletInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "disApproveNewAdmin",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "executeTransaction",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getBalace", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getCurrentAdminDetails",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "getOwners", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getPropsedAdminDetails",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getRequiredSignatures",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "getTransationDetails",
     data: BytesLike
@@ -179,6 +304,14 @@ export interface MultiSignatureWalletInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owners", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "proposeNewAdmin",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "proposedAdmin",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "removeOwner",
     data: BytesLike
@@ -192,9 +325,52 @@ export interface MultiSignatureWalletInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "transactionAddresses",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "transactions",
     data: BytesLike
   ): Result;
+}
+
+export namespace AdminChangeApprovedEvent {
+  export type InputTuple = [oldAdmin: AddressLike, newAdmin: AddressLike];
+  export type OutputTuple = [oldAdmin: string, newAdmin: string];
+  export interface OutputObject {
+    oldAdmin: string;
+    newAdmin: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace AdminChangeDisapprovedEvent {
+  export type InputTuple = [oldAdmin: AddressLike, newAdmin: AddressLike];
+  export type OutputTuple = [oldAdmin: string, newAdmin: string];
+  export interface OutputObject {
+    oldAdmin: string;
+    newAdmin: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace AdminChangeProposedEvent {
+  export type InputTuple = [proposer: AddressLike, newAdmin: AddressLike];
+  export type OutputTuple = [proposer: string, newAdmin: string];
+  export interface OutputObject {
+    proposer: string;
+    newAdmin: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
 }
 
 export namespace OwnerAddedEvent {
@@ -223,9 +399,14 @@ export namespace OwnerRemovedEvent {
 }
 
 export namespace TransactionConfrimedEvent {
-  export type InputTuple = [txHash: BytesLike, owner: AddressLike];
-  export type OutputTuple = [txHash: string, owner: string];
+  export type InputTuple = [
+    txIndex: BigNumberish,
+    txHash: BytesLike,
+    owner: AddressLike
+  ];
+  export type OutputTuple = [txIndex: bigint, txHash: string, owner: string];
   export interface OutputObject {
+    txIndex: bigint;
     txHash: string;
     owner: string;
   }
@@ -236,9 +417,10 @@ export namespace TransactionConfrimedEvent {
 }
 
 export namespace TransactionExecutedEvent {
-  export type InputTuple = [txHash: BytesLike];
-  export type OutputTuple = [txHash: string];
+  export type InputTuple = [txIndex: BigNumberish, txHash: BytesLike];
+  export type OutputTuple = [txIndex: bigint, txHash: string];
   export interface OutputObject {
+    txIndex: bigint;
     txHash: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
@@ -248,9 +430,14 @@ export namespace TransactionExecutedEvent {
 }
 
 export namespace TransactionRevokedEvent {
-  export type InputTuple = [txHash: BytesLike, owner: AddressLike];
-  export type OutputTuple = [txHash: string, owner: string];
+  export type InputTuple = [
+    txIndex: BigNumberish,
+    txHash: BytesLike,
+    owner: AddressLike
+  ];
+  export type OutputTuple = [txIndex: bigint, txHash: string, owner: string];
   export interface OutputObject {
+    txIndex: bigint;
     txHash: string;
     owner: string;
   }
@@ -262,25 +449,37 @@ export namespace TransactionRevokedEvent {
 
 export namespace TransactionSubmittedEvent {
   export type InputTuple = [
-    txHash: BytesLike,
+    txIndex: BigNumberish,
     from: AddressLike,
     to: AddressLike,
     amount: BigNumberish,
     data: BytesLike
   ];
   export type OutputTuple = [
-    txHash: string,
+    txIndex: bigint,
     from: string,
     to: string,
     amount: bigint,
     data: string
   ];
   export interface OutputObject {
-    txHash: string;
+    txIndex: bigint;
     from: string;
     to: string;
     amount: bigint;
     data: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace VotedAdminChangeEvent {
+  export type InputTuple = [owner: AddressLike];
+  export type OutputTuple = [owner: string];
+  export interface OutputObject {
+    owner: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -331,13 +530,33 @@ export interface MultiSignatureWallet extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
-  CONFIRMATIIONS: TypedContractMethod<[], [bigint], "view">;
+  ADMIN: TypedContractMethod<[], [string], "view">;
+
+  REQUIRED_SIGNATURES: TypedContractMethod<[], [bigint], "view">;
 
   addNewOwner: TypedContractMethod<
     [_newOwner: AddressLike],
     [bigint],
     "nonpayable"
   >;
+
+  addressToIndex: TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+
+  adminChangeConfirmations: TypedContractMethod<[], [bigint], "view">;
+
+  approveProposedAdmin: TypedContractMethod<
+    [],
+    [MultiSignatureWallet.ProposedAdminStructOutput],
+    "nonpayable"
+  >;
+
+  changeRequiredSignatures: TypedContractMethod<
+    [_confirmations: BigNumberish],
+    [bigint],
+    "nonpayable"
+  >;
+
+  checkHasVoted: TypedContractMethod<[], [boolean], "view">;
 
   checkIsOwner: TypedContractMethod<[_owner: AddressLike], [boolean], "view">;
 
@@ -353,6 +572,8 @@ export interface MultiSignatureWallet extends BaseContract {
     "view"
   >;
 
+  disApproveNewAdmin: TypedContractMethod<[], [void], "nonpayable">;
+
   executeTransaction: TypedContractMethod<
     [_txIndex: BigNumberish, _from: AddressLike],
     [bigint],
@@ -361,10 +582,20 @@ export interface MultiSignatureWallet extends BaseContract {
 
   getBalace: TypedContractMethod<[], [bigint], "view">;
 
+  getCurrentAdminDetails: TypedContractMethod<[], [string], "view">;
+
   getOwners: TypedContractMethod<[], [string[]], "view">;
 
+  getPropsedAdminDetails: TypedContractMethod<
+    [],
+    [MultiSignatureWallet.ProposedAdminStructOutput],
+    "view"
+  >;
+
+  getRequiredSignatures: TypedContractMethod<[], [bigint], "view">;
+
   getTransationDetails: TypedContractMethod<
-    [_txIndex: BigNumberish],
+    [_txIndex: BigNumberish, _from: AddressLike],
     [MultiSignatureWallet.TransactionStructOutput],
     "view"
   >;
@@ -376,6 +607,25 @@ export interface MultiSignatureWallet extends BaseContract {
   >;
 
   owners: TypedContractMethod<[arg0: BigNumberish], [string], "view">;
+
+  proposeNewAdmin: TypedContractMethod<
+    [_newAdmin: AddressLike],
+    [string],
+    "nonpayable"
+  >;
+
+  proposedAdmin: TypedContractMethod<
+    [],
+    [
+      [string, bigint, bigint, boolean] & {
+        newAdmin: string;
+        approvals: bigint;
+        disapprovals: bigint;
+        isActive: boolean;
+      }
+    ],
+    "view"
+  >;
 
   removeOwner: TypedContractMethod<[_owner: AddressLike], [void], "nonpayable">;
 
@@ -389,6 +639,12 @@ export interface MultiSignatureWallet extends BaseContract {
     [_to: AddressLike, _amount: BigNumberish, _data: BytesLike],
     [MultiSignatureWallet.TransactionStructOutput],
     "nonpayable"
+  >;
+
+  transactionAddresses: TypedContractMethod<
+    [arg0: BigNumberish],
+    [string],
+    "view"
   >;
 
   transactions: TypedContractMethod<
@@ -424,11 +680,37 @@ export interface MultiSignatureWallet extends BaseContract {
   ): T;
 
   getFunction(
-    nameOrSignature: "CONFIRMATIIONS"
+    nameOrSignature: "ADMIN"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "REQUIRED_SIGNATURES"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "addNewOwner"
   ): TypedContractMethod<[_newOwner: AddressLike], [bigint], "nonpayable">;
+  getFunction(
+    nameOrSignature: "addressToIndex"
+  ): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "adminChangeConfirmations"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "approveProposedAdmin"
+  ): TypedContractMethod<
+    [],
+    [MultiSignatureWallet.ProposedAdminStructOutput],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "changeRequiredSignatures"
+  ): TypedContractMethod<
+    [_confirmations: BigNumberish],
+    [bigint],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "checkHasVoted"
+  ): TypedContractMethod<[], [boolean], "view">;
   getFunction(
     nameOrSignature: "checkIsOwner"
   ): TypedContractMethod<[_owner: AddressLike], [boolean], "view">;
@@ -447,6 +729,9 @@ export interface MultiSignatureWallet extends BaseContract {
     "view"
   >;
   getFunction(
+    nameOrSignature: "disApproveNewAdmin"
+  ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
     nameOrSignature: "executeTransaction"
   ): TypedContractMethod<
     [_txIndex: BigNumberish, _from: AddressLike],
@@ -457,12 +742,25 @@ export interface MultiSignatureWallet extends BaseContract {
     nameOrSignature: "getBalace"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
+    nameOrSignature: "getCurrentAdminDetails"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
     nameOrSignature: "getOwners"
   ): TypedContractMethod<[], [string[]], "view">;
   getFunction(
+    nameOrSignature: "getPropsedAdminDetails"
+  ): TypedContractMethod<
+    [],
+    [MultiSignatureWallet.ProposedAdminStructOutput],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "getRequiredSignatures"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
     nameOrSignature: "getTransationDetails"
   ): TypedContractMethod<
-    [_txIndex: BigNumberish],
+    [_txIndex: BigNumberish, _from: AddressLike],
     [MultiSignatureWallet.TransactionStructOutput],
     "view"
   >;
@@ -476,6 +774,23 @@ export interface MultiSignatureWallet extends BaseContract {
   getFunction(
     nameOrSignature: "owners"
   ): TypedContractMethod<[arg0: BigNumberish], [string], "view">;
+  getFunction(
+    nameOrSignature: "proposeNewAdmin"
+  ): TypedContractMethod<[_newAdmin: AddressLike], [string], "nonpayable">;
+  getFunction(
+    nameOrSignature: "proposedAdmin"
+  ): TypedContractMethod<
+    [],
+    [
+      [string, bigint, bigint, boolean] & {
+        newAdmin: string;
+        approvals: bigint;
+        disapprovals: bigint;
+        isActive: boolean;
+      }
+    ],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "removeOwner"
   ): TypedContractMethod<[_owner: AddressLike], [void], "nonpayable">;
@@ -493,6 +808,9 @@ export interface MultiSignatureWallet extends BaseContract {
     [MultiSignatureWallet.TransactionStructOutput],
     "nonpayable"
   >;
+  getFunction(
+    nameOrSignature: "transactionAddresses"
+  ): TypedContractMethod<[arg0: BigNumberish], [string], "view">;
   getFunction(
     nameOrSignature: "transactions"
   ): TypedContractMethod<
@@ -523,6 +841,27 @@ export interface MultiSignatureWallet extends BaseContract {
     "view"
   >;
 
+  getEvent(
+    key: "AdminChangeApproved"
+  ): TypedContractEvent<
+    AdminChangeApprovedEvent.InputTuple,
+    AdminChangeApprovedEvent.OutputTuple,
+    AdminChangeApprovedEvent.OutputObject
+  >;
+  getEvent(
+    key: "AdminChangeDisapproved"
+  ): TypedContractEvent<
+    AdminChangeDisapprovedEvent.InputTuple,
+    AdminChangeDisapprovedEvent.OutputTuple,
+    AdminChangeDisapprovedEvent.OutputObject
+  >;
+  getEvent(
+    key: "AdminChangeProposed"
+  ): TypedContractEvent<
+    AdminChangeProposedEvent.InputTuple,
+    AdminChangeProposedEvent.OutputTuple,
+    AdminChangeProposedEvent.OutputObject
+  >;
   getEvent(
     key: "OwnerAdded"
   ): TypedContractEvent<
@@ -565,8 +904,48 @@ export interface MultiSignatureWallet extends BaseContract {
     TransactionSubmittedEvent.OutputTuple,
     TransactionSubmittedEvent.OutputObject
   >;
+  getEvent(
+    key: "VotedAdminChange"
+  ): TypedContractEvent<
+    VotedAdminChangeEvent.InputTuple,
+    VotedAdminChangeEvent.OutputTuple,
+    VotedAdminChangeEvent.OutputObject
+  >;
 
   filters: {
+    "AdminChangeApproved(address,address)": TypedContractEvent<
+      AdminChangeApprovedEvent.InputTuple,
+      AdminChangeApprovedEvent.OutputTuple,
+      AdminChangeApprovedEvent.OutputObject
+    >;
+    AdminChangeApproved: TypedContractEvent<
+      AdminChangeApprovedEvent.InputTuple,
+      AdminChangeApprovedEvent.OutputTuple,
+      AdminChangeApprovedEvent.OutputObject
+    >;
+
+    "AdminChangeDisapproved(address,address)": TypedContractEvent<
+      AdminChangeDisapprovedEvent.InputTuple,
+      AdminChangeDisapprovedEvent.OutputTuple,
+      AdminChangeDisapprovedEvent.OutputObject
+    >;
+    AdminChangeDisapproved: TypedContractEvent<
+      AdminChangeDisapprovedEvent.InputTuple,
+      AdminChangeDisapprovedEvent.OutputTuple,
+      AdminChangeDisapprovedEvent.OutputObject
+    >;
+
+    "AdminChangeProposed(address,address)": TypedContractEvent<
+      AdminChangeProposedEvent.InputTuple,
+      AdminChangeProposedEvent.OutputTuple,
+      AdminChangeProposedEvent.OutputObject
+    >;
+    AdminChangeProposed: TypedContractEvent<
+      AdminChangeProposedEvent.InputTuple,
+      AdminChangeProposedEvent.OutputTuple,
+      AdminChangeProposedEvent.OutputObject
+    >;
+
     "OwnerAdded(address,uint256)": TypedContractEvent<
       OwnerAddedEvent.InputTuple,
       OwnerAddedEvent.OutputTuple,
@@ -589,7 +968,7 @@ export interface MultiSignatureWallet extends BaseContract {
       OwnerRemovedEvent.OutputObject
     >;
 
-    "TransactionConfrimed(bytes32,address)": TypedContractEvent<
+    "TransactionConfrimed(uint256,bytes32,address)": TypedContractEvent<
       TransactionConfrimedEvent.InputTuple,
       TransactionConfrimedEvent.OutputTuple,
       TransactionConfrimedEvent.OutputObject
@@ -600,7 +979,7 @@ export interface MultiSignatureWallet extends BaseContract {
       TransactionConfrimedEvent.OutputObject
     >;
 
-    "TransactionExecuted(bytes32)": TypedContractEvent<
+    "TransactionExecuted(uint256,bytes32)": TypedContractEvent<
       TransactionExecutedEvent.InputTuple,
       TransactionExecutedEvent.OutputTuple,
       TransactionExecutedEvent.OutputObject
@@ -611,7 +990,7 @@ export interface MultiSignatureWallet extends BaseContract {
       TransactionExecutedEvent.OutputObject
     >;
 
-    "TransactionRevoked(bytes32,address)": TypedContractEvent<
+    "TransactionRevoked(uint256,bytes32,address)": TypedContractEvent<
       TransactionRevokedEvent.InputTuple,
       TransactionRevokedEvent.OutputTuple,
       TransactionRevokedEvent.OutputObject
@@ -622,7 +1001,7 @@ export interface MultiSignatureWallet extends BaseContract {
       TransactionRevokedEvent.OutputObject
     >;
 
-    "TransactionSubmitted(bytes32,address,address,uint256,bytes)": TypedContractEvent<
+    "TransactionSubmitted(uint256,address,address,uint256,bytes)": TypedContractEvent<
       TransactionSubmittedEvent.InputTuple,
       TransactionSubmittedEvent.OutputTuple,
       TransactionSubmittedEvent.OutputObject
@@ -631,6 +1010,17 @@ export interface MultiSignatureWallet extends BaseContract {
       TransactionSubmittedEvent.InputTuple,
       TransactionSubmittedEvent.OutputTuple,
       TransactionSubmittedEvent.OutputObject
+    >;
+
+    "VotedAdminChange(address)": TypedContractEvent<
+      VotedAdminChangeEvent.InputTuple,
+      VotedAdminChangeEvent.OutputTuple,
+      VotedAdminChangeEvent.OutputObject
+    >;
+    VotedAdminChange: TypedContractEvent<
+      VotedAdminChangeEvent.InputTuple,
+      VotedAdminChangeEvent.OutputTuple,
+      VotedAdminChangeEvent.OutputObject
     >;
   };
 }

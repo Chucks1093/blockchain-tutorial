@@ -1,5 +1,5 @@
-Compiling 24 files with Solc 0.8.28
-Solc 0.8.28 finished in 2.07s
+Compiling 23 files with Solc 0.8.28
+Solc 0.8.28 finished in 1.80s
 Compiler run successful!
 Script ran successfully.
 
@@ -9,11 +9,11 @@ Script ran successfully.
 
 Chain 31337
 
-Estimated gas price: 2.000000001 gwei
+Estimated gas price: 1.165823738 gwei
 
-Estimated total gas used for script: 948422
+Estimated total gas used for script: 3291377
 
-Estimated amount required: 0.001896844000948422 ETH
+Estimated amount required: 0.003837165437307226 ETH
 
 ==========================
 
@@ -22,7 +22,7 @@ Estimated amount required: 0.001896844000948422 ETH
 
 ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
 
-Transactions saved to: /Users/user/Documents/programs/blockchain-tutorial/projects/contracts/broadcast/SimpleTasks.s.sol/31337/run-latest.json
+Transactions saved to: /Users/user/Documents/programs/blockchain-tutorial/projects/contracts/broadcast/MultiSignatureWallet.s.sol/31337/run-latest.json
 
-Sensitive values saved to: /Users/user/Documents/programs/blockchain-tutorial/projects/contracts/cache/SimpleTasks.s.sol/31337/run-latest.json
+Sensitive values saved to: /Users/user/Documents/programs/blockchain-tutorial/projects/contracts/cache/MultiSignatureWallet.s.sol/31337/run-latest.json
 

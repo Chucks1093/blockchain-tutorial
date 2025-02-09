@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { SecretMessage__factory, SecretMessage } from "@/types/contracts";
+import { SecretMessage__factory } from "@/types/contracts/factories/SecretMessage__factory";
+import { SecretMessage } from "@/types/contracts/SecretMessage";
 import { SECRETMESSAGE_CONTRACT_ADDRESS } from "@/lib/constants";
 import { showToast } from "@/lib/utils";
 import { motion } from "framer-motion";
@@ -7,6 +8,7 @@ import { RefreshCw } from "lucide-react";
 import { useEthersProvider } from "@/hooks/useEthersProvider";
 import { useEthersSigner } from "@/hooks/useEthersSigner";
 import { useAccount } from "wagmi";
+import { formatTimestamp } from "@/lib/utils";
 
 export function MessageList() {
 	const provider = useEthersProvider();
@@ -59,10 +61,6 @@ export function MessageList() {
 
 	const formatAddress = (address: string) => {
 		return `${address.slice(0, 6)}...${address.slice(-4)}`;
-	};
-
-	const formatTimestamp = (timestamp: bigint) => {
-		return new Date(Number(timestamp) * 1000).toLocaleString();
 	};
 
 	return (

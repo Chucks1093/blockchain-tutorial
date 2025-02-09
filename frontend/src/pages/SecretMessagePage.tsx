@@ -4,7 +4,7 @@ import { SECRETMESSAGE_CONTRACT_ADDRESS } from "@/lib/constants";
 import { useEthersProvider } from "@/hooks/useEthersProvider";
 import { useEthersSigner } from "@/hooks/useEthersSigner";
 import { handleSecretMessageCustomContractError, showToast } from "@/lib/utils";
-import { SecretMessage__factory } from "@/types/contracts";
+import { SecretMessage__factory } from "@/types/contracts/factories/SecretMessage__factory";
 import { Alert } from "@/components/Alert";
 import { MessageForm } from "@/components/messaging/MessageForm";
 import { MessageList } from "@/components/messaging/MessageList";

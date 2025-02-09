@@ -23,7 +23,7 @@ contract MultiSignatureWalletTest is Test {
       owners.push(owner1);
       owners.push(owner2);
       owners.push(owner3);
-      multisignatureWallet = new MultiSignatureWallet(owners);
+      multisignatureWallet = new MultiSignatureWallet(owners, owners.length);
       vm.deal(address(multisignatureWallet), 200 ether);
    }
 
@@ -49,7 +49,8 @@ contract MultiSignatureWalletTest is Test {
       multisignatureWallet.confirmTransaction(firstTx.txIndex, ordinaryUser);
 
       vm.prank(ordinaryUser);
-      MultiSignatureWallet.Transaction memory transaction = multisignatureWallet.getTransationDetails(firstTx.txIndex);
+      MultiSignatureWallet.Transaction memory transaction =
+         multisignatureWallet.getTransationDetails(firstTx.txIndex, ordinaryUser);
 
       assertEq(transaction.confirmations, 2);
    }
@@ -58,6 +59,9 @@ contract MultiSignatureWalletTest is Test {
       vm.prank(ordinaryUser);
       MultiSignatureWallet.Transaction memory transaction =
          multisignatureWallet.submitTransaction(owner2, amount, "Treasury");
+
+      vm.prank(owner3);
+      multisignatureWallet.confirmTransaction(transaction.txIndex, ordinaryUser);
 
       vm.prank(owner1);
       multisignatureWallet.confirmTransaction(transaction.txIndex, ordinaryUser);
@@ -94,5 +98,77 @@ contract MultiSignatureWalletTest is Test {
       vm.prank(owner1);
       multisignatureWallet.removeOwner(owner2);
       assertEq(multisignatureWallet.getOwners().length, owners.length - 1);
+   }
+
+   function testChangeRequiredSignatures() public {
+      uint256 newSignature = multisignatureWallet.changeRequiredSignatures(3);
+      assertEq(newSignature, multisignatureWallet.getRequiredSignatures());
+   }
+
+   function testProposeAdmin() public returns (MultiSignatureWallet.ProposedAdmin memory) {
+      address newAdmin = makeAddr("newAdmin");
+      vm.prank(owner1);
+      address proposedAdmin = multisignatureWallet.proposeNewAdmin(newAdmin);
+
+      assertEq(newAdmin, proposedAdmin);
+      vm.prank(owner1);
+      bool hasVoted = multisignatureWallet.checkHasVoted();
+      assertTrue(hasVoted);
+      vm.prank(owner1);
+      MultiSignatureWallet.ProposedAdmin memory proposedAdminDetails = multisignatureWallet.getPropsedAdminDetails();
+      assertEq(proposedAdminDetails.approvals, 1);
+      assertTrue(proposedAdminDetails.isActive);
+      return proposedAdminDetails;
+   }
+
+   function testApproveProposedAdmin() public {
+      testProposeAdmin();
+      vm.prank(owner2);
+      multisignatureWallet.approveProposedAdmin();
+      vm.prank(owner2);
+      MultiSignatureWallet.ProposedAdmin memory proposedAdminDetails = multisignatureWallet.getPropsedAdminDetails();
+      assertEq(proposedAdminDetails.approvals, 2);
+   }
+
+   function testDisapporveProposedAdmin() public {
+      testProposeAdmin();
+      vm.prank(owner2);
+      multisignatureWallet.disApproveNewAdmin();
+      vm.prank(owner2);
+      MultiSignatureWallet.ProposedAdmin memory proposedAdminDetails = multisignatureWallet.getPropsedAdminDetails();
+      assertEq(proposedAdminDetails.disapprovals, 1);
+   }
+
+   function testChangeAdmin() public {
+      testProposeAdmin();
+      vm.prank(owner2);
+      multisignatureWallet.approveProposedAdmin();
+      vm.prank(owner3);
+      multisignatureWallet.approveProposedAdmin();
+
+      vm.prank(owner1);
+      MultiSignatureWallet.ProposedAdmin memory proposedAdminDetails = multisignatureWallet.getPropsedAdminDetails();
+
+      address admin = multisignatureWallet.getCurrentAdminDetails();
+
+      assertEq(proposedAdminDetails.newAdmin, admin);
+
+      assertFalse(proposedAdminDetails.isActive);
+   }
+
+   function testGetUserTransactions() public {
+      vm.startPrank(ordinaryUser);
+      multisignatureWallet.submitTransaction(owner2, amount, "Treasury");
+      multisignatureWallet.submitTransaction(owner2, amount, "Food");
+      multisignatureWallet.submitTransaction(owner2, amount, "Cake");
+      multisignatureWallet.submitTransaction(owner2, amount, "Party");
+      MultiSignatureWallet.Transaction[] memory userTxns = multisignatureWallet.getUserTransactions();
+      assertEq(userTxns.length, 4);
+
+      vm.stopPrank();
+      vm.startPrank(owner2);
+      multisignatureWallet.submitTransaction(owner1, amount, "Simba");
+      MultiSignatureWallet.Transaction[] memory ownerTxns = multisignatureWallet.getUserTransactions();
+      assertEq(ownerTxns.length, 5);
    }
 }
