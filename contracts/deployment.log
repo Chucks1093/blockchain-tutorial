@@ -1,5 +1,5 @@
 Compiling 23 files with Solc 0.8.28
-Solc 0.8.28 finished in 1.80s
+Solc 0.8.28 finished in 2.49s
 Compiler run successful!
 Script ran successfully.
 
@@ -9,11 +9,11 @@ Script ran successfully.
 
 Chain 31337
 
-Estimated gas price: 1.165823738 gwei
+Estimated gas price: 2.000000001 gwei
 
 Estimated total gas used for script: 3291377
 
-Estimated amount required: 0.003837165437307226 ETH
+Estimated amount required: 0.006582754003291377 ETH
 
 ==========================
 
