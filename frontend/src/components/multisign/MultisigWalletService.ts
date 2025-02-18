@@ -160,7 +160,7 @@ export const useMultiSigWallet = () => {
 				from
 			);
 			console.log(newTransaction);
-			setTransactions([...transactions, newTransaction]);
+			setTransactions((prev) => [...prev, newTransaction]);
 
 			// Reset form
 			addressRef.current!.value = "";
