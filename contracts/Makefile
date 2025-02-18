@@ -129,6 +129,10 @@ deploy-quicknode:
 deploy-mainnet: 
 	@make deploy NETWORK=mainnet
 
+
+watch-contract-events:
+	@cast events --address YOUR_CONTRACT_ADDRESS
+
 # ========== Frontend Commands ==========
 generate-types:
 	@echo "Generating types in frontend..."

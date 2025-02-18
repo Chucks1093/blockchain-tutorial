@@ -5,7 +5,7 @@ import { console } from "forge-std/console.sol";
 import { Script } from "forge-std/Script.sol";
 import { MultiSignatureWallet } from "@simple-tasks/MultiSignatureWallet.sol";
 
-contract SimpleTasksScript is Script {
+contract MultiSignatureWalletScript is Script {
    address[] public initialOwners;
 
    function setUp() public {

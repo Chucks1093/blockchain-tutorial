@@ -1,32 +1,41 @@
 [profile.default]
 src = "src"
 out = "out"
-ffi = true
 libs = ["lib"]
+ffi = true
 solc = "0.8.28"
+force = false
+optimizer = true
+optimizer_runs = 200
 
-cache = true
-cache_path = "cache"
-force = false        # Don't force recompilation if files haven't changed
+# Remappings
+remappings = [
+   "@libraries/=src/libraries",
+   "@simple-tasks/=src/simple-tasks/",
+   "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+   "@chainlink/contracts/=lib/chainlink/contracts/",
+   "@script/=script/",
+   "@src/=src/",
+]
 
+# File system permissions
+fs_permissions = [
+   { access = "read", path = "./broadcast" },
+   { access = "read", path = "./reports" },
+]
 
-remappings = ["@libraries/=src/libraries", "@simple-tasks/=src/simple-tasks/"]
-
+# Etherscan verification
 [profile.default.etherscan]
 base_sepolia = { key = "${BASESCAN_API_KEY}" }
 
+# Formatter settings
 [fmt]
 line_length = 120
 tab_width = 3
-
 bracket_spacing = true
-
-# Number of spaces per indentation level
-
-
-# Ensure consistent indentation style
 indent_width = 3
 indent_type = "tabs"
 
-
-# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+# Model checker
+[profile.default.model_checker]
+contracts = { "src/TokenVesting.sol" = ["TokenVesting"] }

@@ -6,7 +6,7 @@ function ConnectButton() {
 	const { address } = useAccount();
 	const { connect } = useConnect();
 	const { disconnect } = useDisconnect();
-
+  
 	return address ? (
 		<button
 			onClick={() => disconnect()}
