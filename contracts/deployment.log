@@ -1,19 +1,41 @@
-Compiling 23 files with Solc 0.8.28
-Solc 0.8.28 finished in 2.49s
+Compiling 1 files with Solc 0.8.28
+Solc 0.8.28 finished in 1.48s
 Compiler run successful!
+Traces:
+  [2327445] MultiSignatureWalletScript::run()
+    ├─ [0] VM::startBroadcast()
+    │   └─ ← [Return] 
+    ├─ [2275069] → new MultiSignatureWallet@0x53B421C6E197fa4b304194bFB050d4B29cADcDE5
+    │   └─ ← [Return] 10455 bytes of code
+    ├─ [55] MultiSignatureWallet::receive{value: 2000000000000000}()
+    │   └─ ← [Stop] 
+    ├─ [0] VM::stopBroadcast()
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+
 Script ran successfully.
 
 ## Setting up 1 EVM.
+==========================
+Simulated On-chain Traces:
+
+  [2275069] → new MultiSignatureWallet@0x53B421C6E197fa4b304194bFB050d4B29cADcDE5
+    └─ ← [Return] 10455 bytes of code
+
+  [55] MultiSignatureWallet::receive{value: 2000000000000000}()
+    └─ ← [Stop] 
+
 
 ==========================
 
-Chain 31337
+Chain 84532
 
-Estimated gas price: 2.000000001 gwei
+Estimated gas price: 0.000709815 gwei
 
 Estimated total gas used for script: 3291377
 
-Estimated amount required: 0.006582754003291377 ETH
+Estimated amount required: 0.000002336268765255 ETH
 
 ==========================
 
@@ -21,8 +43,19 @@ Estimated amount required: 0.006582754003291377 ETH
 ==========================
 
 ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
+##
+Start verification for (1) contracts
+Start verifying contract `0x53B421C6E197fa4b304194bFB050d4B29cADcDE5` deployed on base-sepolia
 
-Transactions saved to: /Users/user/Documents/programs/blockchain-tutorial/projects/contracts/broadcast/MultiSignatureWallet.s.sol/31337/run-latest.json
+Submitting verification for [src/simple-tasks/MultiSignatureWallet.sol:MultiSignatureWallet] 0x53B421C6E197fa4b304194bFB050d4B29cADcDE5.
+Submitted contract for verification:
+	Response: `OK`
+	GUID: `kcn8gqcjmgkzjchmxnakmchdgl4twstkpaxf35klifrjtcylkj`
+	URL: https://sepolia.basescan.org/address/0x53b421c6e197fa4b304194bfb050d4b29cadcde5
+Contract successfully verified
+All (1) contracts were verified!
 
-Sensitive values saved to: /Users/user/Documents/programs/blockchain-tutorial/projects/contracts/cache/MultiSignatureWallet.s.sol/31337/run-latest.json
+Transactions saved to: /Users/user/Documents/programs/blockchain-tutorial/projects/contracts/broadcast/MultiSignatureWallet.s.sol/84532/run-latest.json
+
+Sensitive values saved to: /Users/user/Documents/programs/blockchain-tutorial/projects/contracts/cache/MultiSignatureWallet.s.sol/84532/run-latest.json
 

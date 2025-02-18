@@ -16,7 +16,7 @@ contract MultiSignatureWalletScript is Script {
    function run() external {
       vm.startBroadcast();
       MultiSignatureWallet multiSig = new MultiSignatureWallet(initialOwners, initialOwners.length);
-      (bool success,) = address(multiSig).call{ value: 1 ether }("");
+      (bool success,) = address(multiSig).call{ value: 0.002 ether }("");
       require(success, "Failed to send Ether");
       vm.stopBroadcast();
 
