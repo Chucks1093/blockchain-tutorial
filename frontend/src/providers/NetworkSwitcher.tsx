@@ -6,6 +6,6 @@ export default function NetworkSwitcher({
 }: {
 	children: React.ReactNode;
 }) {
-	// useAutoSwitchNetwork();
+	useAutoSwitchNetwork();
 	return <Fragment>{children}</Fragment>;
 }
