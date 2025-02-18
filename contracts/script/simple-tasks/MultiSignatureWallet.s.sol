@@ -9,8 +9,7 @@ contract MultiSignatureWalletScript is Script {
    address[] public initialOwners;
 
    function setUp() public {
-      initialOwners.push(vm.envAddress("OWNER_ONE"));
-      initialOwners.push(vm.envAddress("OWNER_TWO"));
+      initialOwners.push(msg.sender);
    }
 
    function run() external {
