@@ -1,9 +1,6 @@
 [submodule "contracts/lib/openzeppelin-contracts"]
 	path = contracts/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
-[submodule "contracts/lib/chainlink-brownie-contracts"]
-	path = contracts/lib/chainlink-brownie-contracts
-	url = https://github.com/smartcontractkit/chainlink-brownie-contracts
 [submodule "contracts/lib/foundry-devops"]
 	path = contracts/lib/foundry-devops
 	url = https://github.com/Cyfrin/foundry-devops
@@ -13,3 +10,7 @@
 [submodule "contracts/lib/chainlink"]
 	path = contracts/lib/chainlink
 	url = https://github.com/smartcontractkit/chainlink
+
+[submodule "contracts/lib/abdk-libraries-solidity"]
+	path = contracts/lib/abdk-libraries-solidity
+	url = https://github.com/abdk-consulting/abdk-libraries-solidity

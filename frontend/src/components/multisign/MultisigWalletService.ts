@@ -154,7 +154,6 @@ export const useMultiSigWallet = () => {
 			txIndex: bigint,
 			from: string
 		) => {
-			console.log("txIndex", txIndex);
 			const newTransaction = await contractService.getTransactionDetails(
 				Number(txIndex),
 				from

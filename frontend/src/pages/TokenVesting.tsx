@@ -363,7 +363,7 @@ const TokenVesting: React.FC<TokenVestingProps> = () => {
 			{/* Header with gradient background */}
 			<Header
 				title='Token Vesting'
-				connectButton='bg-white text-zinc-700 shadow-lg'>
+				connectButton='bg-white text-zinc-700 shadow-lg py-3'>
 				<Button
 					variant='outline'
 					className='gap-2'>

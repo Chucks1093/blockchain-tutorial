@@ -37,7 +37,7 @@ contract RegisterAutomation is Script {
       // 2. Register upkeep
       string memory upkeepName = "TokenVesting_Automation";
       bytes memory checkData = "";
-      address[] memory transmitters = new address[](0);
+      // address[] memory transmitters = new address[](0);
       uint32 gasLimit = 500000;
 
       AutomationRegistryBaseInterface automation = AutomationRegistryBaseInterface(networkConfig.automationRegistry);

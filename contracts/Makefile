@@ -63,6 +63,8 @@ test:
 test-gas:
 	forge test --gas-report
 
+test-match:
+	forge test --match-path test/token-vesting/TokenVesting.t.sol --match-test testReleasedTokensAfterCliff -vvv
 # Clean build artifacts
 clean:
 	forge clean
@@ -79,6 +81,21 @@ snapshot:
 format:
 	forge fmt
 
+automate:
+	@if [ ! -f .env ]; then \
+		echo "ERROR: .env file not found"; \
+		exit 1; \
+	fi
+	@if [ -z "$$AUTOMATOR_ADDRESS" ]; then \
+		echo "ERROR: AUTOMATOR_ADDRESS not set in .env"; \
+		exit 1; \
+	fi
+	@echo "Starting automation..."
+	@forge script script/token-vesting/TokenVesting.s.sol \
+		--rpc-url http://localhost:8545 \
+		--broadcast \
+		--sender 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266 \
+		-vvvv
 
 # ========== Wallet Management ==========
 new-wallet:
@@ -97,25 +114,39 @@ delete-wallet:
 
 # ========== Deployment Commands ==========
 deploy:
-	@if [ "$(NETWORK)" = "local" ] || [ "$(NETWORK)" = "ganache" ]; then \
-		echo "Deploying to $(NETWORK) network..."; \
-		echo "Available deployment scripts:"; \
-		ls script/simple-tasks/*.s.sol | cat -n; \
-		read -p "Select script number to deploy: " script_number; \
-		selected_script=$$(ls script/simple-tasks/*.s.sol | sed -n "$$script_number"p); \
-		read -p "Enter address: " address; \
-		read -p "Enter key name: " key_name; \
-		forge script $$selected_script --rpc-url $(RPC_URL) --account $$key_name --sender $$address --broadcast | tee deployment.log; \
+	@echo "Deploying to $(NETWORK) network..."
+	@echo "Available deployment scripts:"
+	@find script -name "*.s.sol" | cat -n
+	@echo ""
+	@read -p "Select script number to deploy: " script_number; \
+	selected_script=$$(find script -name "*.s.sol" | sed -n "$$script_number"p); \
+	echo "Selected script: $$selected_script"; \
+	read -p "Enter address: " address; \
+	read -p "Enter key name: " key_name; \
+	if [ "$(NETWORK)" = "local" ]; then \
+		forge script $$selected_script \
+			--rpc-url $(RPC_URL) \
+			--account $$key_name \
+			--sender $$address \
+			--broadcast \
+			-vvvv | tee deployment.log; \
 	else \
-		echo "Deploying to $(NETWORK)..."; \
-		echo "Available deployment scripts:"; \
-		ls script/simple-tasks/*.s.sol | cat -n; \
-		read -p "Select script number to deploy: " script_number; \
-		selected_script=$$(ls script/simple-tasks/*.s.sol | sed -n "$$script_number"p); \
-		read -p "Enter address: " address; \
-		read -p "Enter key name: " key_name; \
-		forge script $$selected_script --rpc-url $(RPC_URL) --account $$key_name --sender $$address --broadcast --verify --etherscan-api-key ${BASESCAN_API_KEY} --chain-id $(CHAIN_ID) --account myKey -vvvv | tee deployment.log; \
+		forge script $$selected_script \
+			--rpc-url $(RPC_URL) \
+			--account $$key_name \
+			--sender $$address \
+			--broadcast \
+			--verify \
+			--etherscan-api-key ${BASESCAN_API_KEY} \
+			--chain-id $(CHAIN_ID) \
+			-vvvv | tee deployment.log; \
 	fi
+
+# Helper to list all available scripts
+list-scripts:
+	@echo "Available deployment scripts:"
+	@find script -name "*.s.sol" | cat -n
+
 
 deploy-local: 
 	@make deploy NETWORK=local
@@ -131,12 +162,15 @@ deploy-mainnet:
 
 
 watch-contract-events:
-	@cast events --address YOUR_CONTRACT_ADDRESS
+	@cast events --address 0xDc82c0362A241Aa94d53546648EACe48C9773dAa
+
+
 
 # ========== Frontend Commands ==========
 generate-types:
 	@echo "Generating types in frontend..."
 	@cd $(FRONTEND_PATH) && npx typechain --target ethers-v6 --out-dir src/types/contracts "../contracts/out/MultiSignatureWallet.sol/*json" --show-stack-traces
+
 
 # ========== Help ==========
 help:

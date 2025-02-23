@@ -186,38 +186,35 @@ contract TokenVesting is Ownable, ReentrancyGuard, Pausable, AutomationCompatibl
       uint256 timeFromStart = block.timestamp - schedule.startTime;
       uint256 releasePeriod = _getReleasePeriod(schedule.releaseFrequency);
 
-      uint256 totalPeriods = schedule.duration / releasePeriod;
+      uint256 totalPeriods = (schedule.duration) / releasePeriod;
       // remaining days for the duration to end before reaching a release period
       uint256 remainingDays = schedule.duration % releasePeriod;
-
-      uint256 tokensPerPeriod;
-      uint256 tokensForRemainingDays;
-
-      if (remainingDays > 0) {
-         //* Adjust tokens per period to account for remaining days
-         tokensPerPeriod = (schedule.totalAmount * releasePeriod) / schedule.duration;
-         tokensForRemainingDays = (schedule.totalAmount * remainingDays) / schedule.duration;
-      } else {
-         tokensPerPeriod = schedule.totalAmount / totalPeriods;
-         tokensForRemainingDays = 0;
-      }
 
       // Calculate complete periods passed from start
       uint256 completePeriods = timeFromStart / releasePeriod;
       uint256 daysIntoCurrentPeriod = timeFromStart % releasePeriod;
 
-      // Calculate total releasable amount
-      uint256 releasableAmount = (tokensPerPeriod * completePeriods);
+      // Calculate expected releasable amount
+      uint256 releasableAmout;
+      uint256 tokensForRemainingDays;
+
+      if (remainingDays > 0) {
+         releasableAmout = (schedule.totalAmount * releasePeriod * completePeriods) / schedule.duration;
+         tokensForRemainingDays = (schedule.totalAmount * remainingDays) / schedule.duration;
+      } else {
+         releasableAmout = ((schedule.totalAmount * completePeriods) / totalPeriods);
+         tokensForRemainingDays = 0;
+      }
 
       // Add tokens for remaining days if in last period
       if (completePeriods == totalPeriods && daysIntoCurrentPeriod >= remainingDays) {
-         releasableAmount += tokensForRemainingDays;
+         releasableAmout += tokensForRemainingDays;
       }
 
       // Subtract already released amount
-      releasableAmount -= schedule.releasedAmount;
+      releasableAmout -= schedule.releasedAmount;
 
-      return releasableAmount;
+      return releasableAmout;
    }
 
    function _isScheduleReadyForRelease(uint256 _scheduleID) internal view returns (bool) {

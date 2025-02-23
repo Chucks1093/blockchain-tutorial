@@ -1,18 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
+import { ChainInfo } from "@src/shared/ChainInfo.sol";
 import { Script, console2 } from "forge-std/Script.sol";
 import { LinkToken } from "@chainlink/contracts/src/v0.8/shared/token/ERC677/LinkToken.sol";
-import { MockKeeperRegistry } from "../../test/mocks/MockKeeperRegistry.sol";
+import { MockKeeperRegistry } from "@test/mocks/MockKeeperRegistry.sol";
 import { KeeperRegistrar1_2Mock } from "@chainlink/contracts/src/v0.8/automation/mocks/KeeperRegistrar1_2Mock.sol";
 
-abstract contract CodeConstants {
-   uint256 constant BASE_SEPOLIA_CHAIN_ID = 11155111;
-   uint256 public constant BASE_MAINNET_CHAIN_ID = 8453;
-   uint256 public constant ANVIL_CHAIN_ID = 31337;
-}
-
-contract HelperConfig is Script, CodeConstants {
+contract HelperConfig is Script, ChainInfo {
    error HelperConfig__InvalidChainId();
 
    // Struct

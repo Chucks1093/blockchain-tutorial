@@ -1,41 +1,236 @@
-Compiling 1 files with Solc 0.8.28
-Solc 0.8.28 finished in 1.63s
-Compiler run successful!
+No files changed, compilation skipped
 Traces:
-  [2257717] MultiSignatureWalletScript::run()
+  [11131856] TokenVestingScript::run()
+    ├─ [4430634] → new HelperConfig@0xC7f2Cf4845C6db0e1a1e91ED41Bcd0FcC1b0E141
+    │   └─ ← [Return] 22017 bytes of code
+    ├─ [3982257] HelperConfig::getConfig()
+    │   ├─ [0] console::log("⚠\u{fe0f} Using Chainlink mock contracts for local testing!") [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] VM::startBroadcast()
+    │   │   └─ ← [Return] 
+    │   ├─ [1251917] → new LinkToken@0x68B1D87F95878fE05B998F19b66F4baba5De1aed
+    │   │   └─ ← [Return] 5916 bytes of code
+    │   ├─ [2116289] → new MockKeeperRegistry@0x3Aa5ebB10DC797CAC828524e59A333d0A371443c
+    │   │   ├─ [1251917] → new LinkToken@0xeC4cFde48EAdca2bC63E94BB437BbeAcE1371bF3
+    │   │   │   └─ ← [Return] 5916 bytes of code
+    │   │   └─ ← [Return] 4038 bytes of code
+    │   ├─ [505535] → new KeeperRegistrar1_2Mock@0xc6e7DF5E7b4f2A278906862b61205850344D4e7d
+    │   │   └─ ← [Return] 2525 bytes of code
+    │   ├─ [0] VM::stopBroadcast()
+    │   │   └─ ← [Return] 
+    │   └─ ← [Return] NetworkConfig({ linkToken: 0x68B1D87F95878fE05B998F19b66F4baba5De1aed, automationRegistry: 0x3Aa5ebB10DC797CAC828524e59A333d0A371443c, automationRegistrar: 0xc6e7DF5E7b4f2A278906862b61205850344D4e7d, registrationFee: 100000000000000000 [1e17], minLinkBalance: 100000000000000000 [1e17], initialTokenSupply: 1000000000000000000000000 [1e24], deployer: 0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519 })
     ├─ [0] VM::startBroadcast()
     │   └─ ← [Return] 
-    ├─ [2207544] → new MultiSignatureWallet@0x821167870b658eA4160AaD3d2B61F72Ac6E3A3f3
-    │   └─ ← [Return] 10455 bytes of code
-    ├─ [55] MultiSignatureWallet::receive{value: 2000000000000000}()
+    ├─ [2560707] TokenVestingScript::deploy(NetworkConfig({ linkToken: 0x68B1D87F95878fE05B998F19b66F4baba5De1aed, automationRegistry: 0x3Aa5ebB10DC797CAC828524e59A333d0A371443c, automationRegistrar: 0xc6e7DF5E7b4f2A278906862b61205850344D4e7d, registrationFee: 100000000000000000 [1e17], minLinkBalance: 100000000000000000 [1e17], initialTokenSupply: 1000000000000000000000000 [1e24], deployer: 0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519 }))
+    │   ├─ [444907] → new MyToken@0xdaE97900D4B184c5D2012dcdB658c008966466DD
+    │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: TokenVestingScript: [0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519], value: 1000000000000000000000000 [1e24])
+    │   │   └─ ← [Return] 1764 bytes of code
+    │   ├─ [0] console::log("Token deployed at:", MyToken: [0xdaE97900D4B184c5D2012dcdB658c008966466DD]) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [1383582] → new TokenVesting@0x238213078DbD09f2D15F4c14c02300FA1b2A81BB
+    │   │   ├─ emit OwnershipTransferred(from: 0x0000000000000000000000000000000000000000, to: TokenVestingScript: [0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519])
+    │   │   └─ ← [Return] 6570 bytes of code
+    │   ├─ [0] console::log("Vesting deployed at:", TokenVesting: [0x238213078DbD09f2D15F4c14c02300FA1b2A81BB]) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [325] MyToken::totalSupply() [staticcall]
+    │   │   └─ ← [Return] 1000000000000000000000000 [1e24]
+    │   ├─ [24734] MyToken::approve(TokenVesting: [0x238213078DbD09f2D15F4c14c02300FA1b2A81BB], 1000000000000000000000000 [1e24])
+    │   │   ├─ emit Approval(owner: TokenVestingScript: [0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519], spender: TokenVesting: [0x238213078DbD09f2D15F4c14c02300FA1b2A81BB], value: 1000000000000000000000000 [1e24])
+    │   │   └─ ← [Return] true
+    │   ├─ [0] console::log("Approved vesting contract to spend tokens") [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [601812] → new LocalAutomator@0xd85BdcdaE4db1FAEB8eF93331525FE68D7C8B3f0
+    │   │   ├─ [0] console::log("Automator initialized:") [staticcall]
+    │   │   │   └─ ← [Stop] 
+    │   │   ├─ [0] console::log("- Initial timestamp:", 1740056649 [1.74e9]) [staticcall]
+    │   │   │   └─ ← [Stop] 
+    │   │   ├─ [0] console::log("- First check available at:", 1740056649 [1.74e9]) [staticcall]
+    │   │   │   └─ ← [Stop] 
+    │   │   ├─ [0] console::log("- Interval:", 5, "seconds") [staticcall]
+    │   │   │   └─ ← [Stop] 
+    │   │   └─ ← [Return] 2658 bytes of code
+    │   ├─ [0] console::log("LocalAutomator deployed at:", LocalAutomator: [0xd85BdcdaE4db1FAEB8eF93331525FE68D7C8B3f0]) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("Mock LINK token available at:", LinkToken: [0x68B1D87F95878fE05B998F19b66F4baba5De1aed]) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("Mock Registry available at:", MockKeeperRegistry: [0x3Aa5ebB10DC797CAC828524e59A333d0A371443c]) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("Mock Registrar available at:", KeeperRegistrar1_2Mock: [0xc6e7DF5E7b4f2A278906862b61205850344D4e7d]) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   └─ ← [Return] MyToken: [0xdaE97900D4B184c5D2012dcdB658c008966466DD], TokenVesting: [0x238213078DbD09f2D15F4c14c02300FA1b2A81BB], LocalAutomator: [0xd85BdcdaE4db1FAEB8eF93331525FE68D7C8B3f0]
+    ├─ [0] console::log("=== Deployment Successful ===") [staticcall]
     │   └─ ← [Stop] 
+    ├─ [0] console::log("Token:", MyToken: [0xdaE97900D4B184c5D2012dcdB658c008966466DD]) [staticcall]
+    │   └─ ← [Stop] 
+    ├─ [0] console::log("Vesting:", TokenVesting: [0x238213078DbD09f2D15F4c14c02300FA1b2A81BB]) [staticcall]
+    │   └─ ← [Stop] 
+    ├─ [0] console::log("Automator:", LocalAutomator: [0xd85BdcdaE4db1FAEB8eF93331525FE68D7C8B3f0]) [staticcall]
+    │   └─ ← [Stop] 
+    ├─ [0] console::log("\n--- Check Attempt", 1, "---") [staticcall]
+    │   └─ ← [Stop] 
+    ├─ [0] console::log("Current time:", 1740056649 [1.74e9]) [staticcall]
+    │   └─ ← [Stop] 
+    ├─ [0] console::log("Time since start:", 0) [staticcall]
+    │   └─ ← [Stop] 
+    ├─ [12389] LocalAutomator::checkAndExecute()
+    │   ├─ [0] console::log("\nInterval Check:") [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("Current time:", 1740056649 [1.74e9]) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("Last check:", 1740056644 [1.74e9]) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("Next valid check:", 1740056649 [1.74e9]) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("Time until next valid check:", 0) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ emit IntervalCheck(currentTime: 1740056649 [1.74e9], lastCheckTime: 1740056644 [1.74e9], nextValidTime: 1740056649 [1.74e9])
+    │   ├─ [3383] TokenVesting::checkUpkeep(0x) [staticcall]
+    │   │   └─ ← [Return] false, 0x000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    │   ├─ [0] console::log("No upkeep needed") [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ emit AutomationTriggered(timestamp: 1740056649 [1.74e9], wasNeeded: false)
+    │   └─ ← [Return] false
+    ├─ [0] console::log("Check successful!") [staticcall]
+    │   └─ ← [Stop] 
+    ├─ [0] console::log("Upkeep needed:", false) [staticcall]
+    │   └─ ← [Stop] 
+    ├─ [518] LocalAutomator::getTimeUntilNextCheck() [staticcall]
+    │   └─ ← [Return] 5
+    ├─ [0] console::log("Waiting for", 5, "seconds") [staticcall]
+    │   └─ ← [Stop] 
+    ├─ [0] VM::warp(1740056654 [1.74e9])
+    │   └─ ← [Return] 
+    ├─ [0] VM::roll(948)
+    │   └─ ← [Return] 
+    ├─ [0] console::log("\n--- Check Attempt", 2, "---") [staticcall]
+    │   └─ ← [Stop] 
+    ├─ [0] console::log("Current time:", 1740056654 [1.74e9]) [staticcall]
+    │   └─ ← [Stop] 
+    ├─ [0] console::log("Time since start:", 5) [staticcall]
+    │   └─ ← [Stop] 
+    ├─ [10389] LocalAutomator::checkAndExecute()
+    │   ├─ [0] console::log("\nInterval Check:") [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("Current time:", 1740056654 [1.74e9]) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("Last check:", 1740056649 [1.74e9]) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("Next valid check:", 1740056654 [1.74e9]) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("Time until next valid check:", 0) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ emit IntervalCheck(currentTime: 1740056654 [1.74e9], lastCheckTime: 1740056649 [1.74e9], nextValidTime: 1740056654 [1.74e9])
+    │   ├─ [1383] TokenVesting::checkUpkeep(0x) [staticcall]
+    │   │   └─ ← [Return] false, 0x000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    │   ├─ [0] console::log("No upkeep needed") [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ emit AutomationTriggered(timestamp: 1740056654 [1.74e9], wasNeeded: false)
+    │   └─ ← [Return] false
+    ├─ [0] console::log("Check successful!") [staticcall]
+    │   └─ ← [Stop] 
+    ├─ [0] console::log("Upkeep needed:", false) [staticcall]
+    │   └─ ← [Stop] 
+    ├─ [518] LocalAutomator::getTimeUntilNextCheck() [staticcall]
+    │   └─ ← [Return] 5
+    ├─ [0] console::log("Waiting for", 5, "seconds") [staticcall]
+    │   └─ ← [Stop] 
+    ├─ [0] VM::warp(1740056659 [1.74e9])
+    │   └─ ← [Return] 
+    ├─ [0] VM::roll(949)
+    │   └─ ← [Return] 
     ├─ [0] VM::stopBroadcast()
     │   └─ ← [Return] 
-    └─ ← [Stop] 
+    └─ ← [Return] 1249766602540170459066019233375269901565639812829 [1.249e48]
 
 
 Script ran successfully.
+
+== Return ==
+0: contract MyToken 0xdaE97900D4B184c5D2012dcdB658c008966466DD
+1: contract TokenVesting 0x238213078DbD09f2D15F4c14c02300FA1b2A81BB
+2: struct HelperConfig.NetworkConfig NetworkConfig({ linkToken: 0x68B1D87F95878fE05B998F19b66F4baba5De1aed, automationRegistry: 0x3Aa5ebB10DC797CAC828524e59A333d0A371443c, automationRegistrar: 0xc6e7DF5E7b4f2A278906862b61205850344D4e7d, registrationFee: 100000000000000000 [1e17], minLinkBalance: 100000000000000000 [1e17], initialTokenSupply: 1000000000000000000000000 [1e24], deployer: 0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519 })
+3: uint256 0
+
+== Logs ==
+  ⚠️ Using Chainlink mock contracts for local testing!
+  Token deployed at: 0xdaE97900D4B184c5D2012dcdB658c008966466DD
+  Vesting deployed at: 0x238213078DbD09f2D15F4c14c02300FA1b2A81BB
+  Approved vesting contract to spend tokens
+  Automator initialized:
+  - Initial timestamp: 1740056649
+  - First check available at: 1740056649
+  - Interval: 5 seconds
+  LocalAutomator deployed at: 0xd85BdcdaE4db1FAEB8eF93331525FE68D7C8B3f0
+  Mock LINK token available at: 0x68B1D87F95878fE05B998F19b66F4baba5De1aed
+  Mock Registry available at: 0x3Aa5ebB10DC797CAC828524e59A333d0A371443c
+  Mock Registrar available at: 0xc6e7DF5E7b4f2A278906862b61205850344D4e7d
+  === Deployment Successful ===
+  Token: 0xdaE97900D4B184c5D2012dcdB658c008966466DD
+  Vesting: 0x238213078DbD09f2D15F4c14c02300FA1b2A81BB
+  Automator: 0xd85BdcdaE4db1FAEB8eF93331525FE68D7C8B3f0
+  
+--- Check Attempt 1 ---
+  Current time: 1740056649
+  Time since start: 0
+  
+Interval Check:
+  Current time: 1740056649
+  Last check: 1740056644
+  Next valid check: 1740056649
+  Time until next valid check: 0
+  No upkeep needed
+  Check successful!
+  Upkeep needed: false
+  Waiting for 5 seconds
+  
+--- Check Attempt 2 ---
+  Current time: 1740056654
+  Time since start: 5
+  
+Interval Check:
+  Current time: 1740056654
+  Last check: 1740056649
+  Next valid check: 1740056654
+  Time until next valid check: 0
+  No upkeep needed
+  Check successful!
+  Upkeep needed: false
+  Waiting for 5 seconds
 
 ## Setting up 1 EVM.
 ==========================
 Simulated On-chain Traces:
 
-  [2207544] → new MultiSignatureWallet@0x821167870b658eA4160AaD3d2B61F72Ac6E3A3f3
-    └─ ← [Return] 10455 bytes of code
+  [1251917] → new LinkToken@0x68B1D87F95878fE05B998F19b66F4baba5De1aed
+    └─ ← [Return] 5916 bytes of code
 
-  [55] MultiSignatureWallet::receive{value: 2000000000000000}()
+  [2116289] → new MockKeeperRegistry@0x3Aa5ebB10DC797CAC828524e59A333d0A371443c
+    ├─ [1251917] → new LinkToken@0xeC4cFde48EAdca2bC63E94BB437BbeAcE1371bF3
+    │   └─ ← [Return] 5916 bytes of code
+    └─ ← [Return] 4038 bytes of code
+
+  [505535] → new KeeperRegistrar1_2Mock@0xc6e7DF5E7b4f2A278906862b61205850344D4e7d
+    └─ ← [Return] 2525 bytes of code
+
+  [0] TokenVestingScript::deploy(NetworkConfig({ linkToken: 0x68B1D87F95878fE05B998F19b66F4baba5De1aed, automationRegistry: 0x3Aa5ebB10DC797CAC828524e59A333d0A371443c, automationRegistrar: 0xc6e7DF5E7b4f2A278906862b61205850344D4e7d, registrationFee: 100000000000000000 [1e17], minLinkBalance: 100000000000000000 [1e17], initialTokenSupply: 1000000000000000000000000 [1e24], deployer: 0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519 }))
+    └─ ← [Stop] 
+
+  [0] LocalAutomator::checkAndExecute()
+    └─ ← [Stop] 
+
+  [0] LocalAutomator::checkAndExecute()
     └─ ← [Stop] 
 
 
 ==========================
 
-Chain 84532
+Chain 31337
 
-Estimated gas price: 0.000010724 gwei
+Estimated gas price: 0.000000015 gwei
 
-Estimated total gas used for script: 3203114
+Estimated total gas used for script: 5749322
 
-Estimated amount required: 0.000000034350194536 ETH
+Estimated amount required: 0.00000000008623983 ETH
 
 ==========================
 
@@ -43,19 +238,8 @@ Estimated amount required: 0.000000034350194536 ETH
 ==========================
 
 ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
-##
-Start verification for (1) contracts
-Start verifying contract `0x821167870b658eA4160AaD3d2B61F72Ac6E3A3f3` deployed on base-sepolia
 
-Submitting verification for [src/simple-tasks/MultiSignatureWallet.sol:MultiSignatureWallet] 0x821167870b658eA4160AaD3d2B61F72Ac6E3A3f3.
-Submitted contract for verification:
-	Response: `OK`
-	GUID: `kqk94ybaghdasnrqbi16ffmtt18zxaepiawb5dm15nrp93t1bp`
-	URL: https://sepolia.basescan.org/address/0x821167870b658ea4160aad3d2b61f72ac6e3a3f3
-Contract source code already verified
-All (1) contracts were verified!
+Transactions saved to: /Users/user/Documents/programs/blockchain-tutorial/projects/contracts/broadcast/TokenVesting.s.sol/31337/run-latest.json
 
-Transactions saved to: /Users/user/Documents/programs/blockchain-tutorial/projects/contracts/broadcast/MultiSignatureWallet.s.sol/84532/run-latest.json
-
-Sensitive values saved to: /Users/user/Documents/programs/blockchain-tutorial/projects/contracts/cache/MultiSignatureWallet.s.sol/84532/run-latest.json
+Sensitive values saved to: /Users/user/Documents/programs/blockchain-tutorial/projects/contracts/cache/TokenVesting.s.sol/31337/run-latest.json
 

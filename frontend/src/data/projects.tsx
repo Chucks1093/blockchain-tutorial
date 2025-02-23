@@ -57,7 +57,7 @@ export const projects = [
 		githubUrl: "#",
 		contractUrl:
 			"https://sepolia.basescan.org/address/0xc15f0f9a02f30f85a515313c9eccdaee48bc6d85#code",
-		tag: "messaging",
+		tag: "vesting",
 		icon: <Timer className='h-6 w-6 text-blue-600' />,
 	},
 	{
