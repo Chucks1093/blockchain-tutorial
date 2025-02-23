@@ -11,7 +11,6 @@ import { Pausable } from "@openzeppelin/contracts/utils/Pausable.sol";
 import { AutomationCompatibleInterface } from "@chainlink/contracts/src/v0.8/automation/AutomationCompatible.sol";
 
 contract TokenVesting is Ownable, ReentrancyGuard, Pausable, AutomationCompatibleInterface {
-   using Math for uint256;
    using SafeERC20 for IERC20;
 
    IERC20 public token;
@@ -172,49 +171,58 @@ contract TokenVesting is Ownable, ReentrancyGuard, Pausable, AutomationCompatibl
       emit TokensReleased(_scheduleID, schedule.beneficiary, releasableAmount);
    }
 
+   /**
+    * @notice Calculates the amount of tokens available for release for a given vesting schedule
+    * @param _scheduleID ID of the vesting schedule
+    * @return Amount of tokens available for release
+    */
    function _calculateReleasableAmount(uint256 _scheduleID) internal view returns (uint256) {
+      // Load the vesting schedule
       VestingSchedule memory schedule = vestingSchedules[_scheduleID];
 
+      // Return 0 if still in cliff period
       if (block.timestamp <= schedule.startTime + schedule.cliffDuration) {
          return 0;
       }
 
+      // Return remaining amount if vesting duration has completed
       if (block.timestamp >= schedule.startTime + schedule.duration) {
          return schedule.totalAmount - schedule.releasedAmount;
       }
 
+      // Calculate time-based parameters
       uint256 timeFromStart = block.timestamp - schedule.startTime;
       uint256 releasePeriod = _getReleasePeriod(schedule.releaseFrequency);
-
-      uint256 totalPeriods = (schedule.duration) / releasePeriod;
-      // remaining days for the duration to end before reaching a release period
+      uint256 totalPeriods = schedule.duration / releasePeriod;
       uint256 remainingDays = schedule.duration % releasePeriod;
-
-      // Calculate complete periods passed from start
       uint256 completePeriods = timeFromStart / releasePeriod;
       uint256 daysIntoCurrentPeriod = timeFromStart % releasePeriod;
 
-      // Calculate expected releasable amount
-      uint256 releasableAmout;
+      // Calculate releasable tokens based on vesting formula
+      uint256 releasableAmount;
       uint256 tokensForRemainingDays;
 
       if (remainingDays > 0) {
-         releasableAmout = (schedule.totalAmount * releasePeriod * completePeriods) / schedule.duration;
-         tokensForRemainingDays = (schedule.totalAmount * remainingDays) / schedule.duration;
+         // Calculate with remaining days consideration
+         releasableAmount = (schedule.totalAmount * releasePeriod * completePeriods) / schedule.duration;
+         tokensForRemainingDays = Math.ceilDiv((schedule.totalAmount * remainingDays), schedule.duration);
       } else {
-         releasableAmout = ((schedule.totalAmount * completePeriods) / totalPeriods);
+         // Calculate for perfect period division
+         releasableAmount = (schedule.totalAmount * completePeriods) / totalPeriods;
          tokensForRemainingDays = 0;
       }
 
-      // Add tokens for remaining days if in last period
+      // Add remaining days tokens if in final period
       if (completePeriods == totalPeriods && daysIntoCurrentPeriod >= remainingDays) {
-         releasableAmout += tokensForRemainingDays;
+         releasableAmount += tokensForRemainingDays;
       }
 
-      // Subtract already released amount
-      releasableAmout -= schedule.releasedAmount;
+      // Adjust for previously released tokens
+      releasableAmount -= schedule.releasedAmount;
 
-      return releasableAmout;
+      schedule.releasedAmount += releasableAmount;
+
+      return releasableAmount;
    }
 
    function _isScheduleReadyForRelease(uint256 _scheduleID) internal view returns (bool) {

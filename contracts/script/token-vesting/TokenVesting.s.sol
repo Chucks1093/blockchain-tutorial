@@ -17,7 +17,7 @@ contract TokenVestingScript is Script, ChainInfo {
 
    error DeploymentFailed(string reason);
 
-   function run() external returns (MyToken, TokenVesting, HelperConfig.NetworkConfig memory, uint256) {
+   function run() external returns (MyToken, TokenVesting, HelperConfig.NetworkConfig memory, LocalAutomator, uint256) {
       // Get configuration
       HelperConfig config = new HelperConfig();
       HelperConfig.NetworkConfig memory networkConfig = config.getConfig();
@@ -56,7 +56,7 @@ contract TokenVestingScript is Script, ChainInfo {
          vm.stopBroadcast();
       }
 
-      return (token, vesting, networkConfig, upkeepId);
+      return (token, vesting, networkConfig, automator, upkeepId);
    }
 
    function deploy(HelperConfig.NetworkConfig memory networkConfig)

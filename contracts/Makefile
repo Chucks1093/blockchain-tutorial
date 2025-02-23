@@ -64,7 +64,7 @@ test-gas:
 	forge test --gas-report
 
 test-match:
-	forge test --match-path test/token-vesting/TokenVesting.t.sol --match-test testReleasedTokensAfterCliff -vvv
+	forge test --match-path test/token-vesting/TokenVesting.t.sol --match-test testReleaseWithQuarterlyFrequency -vvv
 # Clean build artifacts
 clean:
 	forge clean
