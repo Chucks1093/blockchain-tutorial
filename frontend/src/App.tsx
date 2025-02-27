@@ -6,6 +6,7 @@ import WagmiConnectionProvider from "./providers/WagmiConnectionProvider";
 import MultiSignatureWallet from "./pages/MultiSignatureWallet";
 import SecretMessagePage from "./pages/SecretMessagePage";
 import TokenVesting from "./pages/TokenVesting";
+import LocalAutomator from "./pages/LocalAutomator";
 
 const router = createBrowserRouter([
 	{
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
 	{
 		path: "/vesting",
 		element: <TokenVesting />,
+	},
+	{
+		path: "/automator",
+		element: <LocalAutomator />,
 	},
 ]);
 

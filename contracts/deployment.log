@@ -1,61 +1,53 @@
 No files changed, compilation skipped
 Traces:
-  [11131856] TokenVestingScript::run()
-    ├─ [4430634] → new HelperConfig@0xC7f2Cf4845C6db0e1a1e91ED41Bcd0FcC1b0E141
-    │   └─ ← [Return] 22017 bytes of code
-    ├─ [3982257] HelperConfig::getConfig()
+  [10115939] TokenVestingScript::run()
+    ├─ [4306876] → new HelperConfig@0xC7f2Cf4845C6db0e1a1e91ED41Bcd0FcC1b0E141
+    │   └─ ← [Return] 21399 bytes of code
+    ├─ [3808963] HelperConfig::getConfig()
     │   ├─ [0] console::log("⚠\u{fe0f} Using Chainlink mock contracts for local testing!") [staticcall]
     │   │   └─ ← [Stop] 
     │   ├─ [0] VM::startBroadcast()
     │   │   └─ ← [Return] 
-    │   ├─ [1251917] → new LinkToken@0x68B1D87F95878fE05B998F19b66F4baba5De1aed
-    │   │   └─ ← [Return] 5916 bytes of code
-    │   ├─ [2116289] → new MockKeeperRegistry@0x3Aa5ebB10DC797CAC828524e59A333d0A371443c
-    │   │   ├─ [1251917] → new LinkToken@0xeC4cFde48EAdca2bC63E94BB437BbeAcE1371bF3
-    │   │   │   └─ ← [Return] 5916 bytes of code
-    │   │   └─ ← [Return] 4038 bytes of code
-    │   ├─ [505535] → new KeeperRegistrar1_2Mock@0xc6e7DF5E7b4f2A278906862b61205850344D4e7d
-    │   │   └─ ← [Return] 2525 bytes of code
+    │   ├─ [1317146] → new LinkToken@0x5FbDB2315678afecb367f032d93F642f64180aa3
+    │   │   └─ ← [Return] 6243 bytes of code
+    │   ├─ [2002918] → new MockKeeperRegistry@0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+    │   │   ├─ [1317146] → new LinkToken@0xCafac3dD18aC6c6e92c921884f9E4176737C052c
+    │   │   │   └─ ← [Return] 6243 bytes of code
+    │   │   └─ ← [Return] 3145 bytes of code
+    │   ├─ [380425] → new KeeperRegistrar1_2Mock@0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0
+    │   │   └─ ← [Return] 1900 bytes of code
     │   ├─ [0] VM::stopBroadcast()
     │   │   └─ ← [Return] 
-    │   └─ ← [Return] NetworkConfig({ linkToken: 0x68B1D87F95878fE05B998F19b66F4baba5De1aed, automationRegistry: 0x3Aa5ebB10DC797CAC828524e59A333d0A371443c, automationRegistrar: 0xc6e7DF5E7b4f2A278906862b61205850344D4e7d, registrationFee: 100000000000000000 [1e17], minLinkBalance: 100000000000000000 [1e17], initialTokenSupply: 1000000000000000000000000 [1e24], deployer: 0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519 })
+    │   └─ ← [Return] NetworkConfig({ linkToken: 0x5FbDB2315678afecb367f032d93F642f64180aa3, automationRegistry: 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512, automationRegistrar: 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0, registrationFee: 100000000000000000 [1e17], minLinkBalance: 100000000000000000 [1e17], initialTokenSupply: 1000000000000000000000000 [1e24], deployer: 0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519 })
     ├─ [0] VM::startBroadcast()
     │   └─ ← [Return] 
-    ├─ [2560707] TokenVestingScript::deploy(NetworkConfig({ linkToken: 0x68B1D87F95878fE05B998F19b66F4baba5De1aed, automationRegistry: 0x3Aa5ebB10DC797CAC828524e59A333d0A371443c, automationRegistrar: 0xc6e7DF5E7b4f2A278906862b61205850344D4e7d, registrationFee: 100000000000000000 [1e17], minLinkBalance: 100000000000000000 [1e17], initialTokenSupply: 1000000000000000000000000 [1e24], deployer: 0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519 }))
-    │   ├─ [444907] → new MyToken@0xdaE97900D4B184c5D2012dcdB658c008966466DD
+    ├─ [1903838] TokenVestingScript::deploy(NetworkConfig({ linkToken: 0x5FbDB2315678afecb367f032d93F642f64180aa3, automationRegistry: 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512, automationRegistrar: 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0, registrationFee: 100000000000000000 [1e17], minLinkBalance: 100000000000000000 [1e17], initialTokenSupply: 1000000000000000000000000 [1e24], deployer: 0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519 }))
+    │   ├─ [400347] → new MyToken@0xdaE97900D4B184c5D2012dcdB658c008966466DD
     │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: TokenVestingScript: [0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519], value: 1000000000000000000000000 [1e24])
-    │   │   └─ ← [Return] 1764 bytes of code
+    │   │   └─ ← [Return] 1543 bytes of code
     │   ├─ [0] console::log("Token deployed at:", MyToken: [0xdaE97900D4B184c5D2012dcdB658c008966466DD]) [staticcall]
     │   │   └─ ← [Stop] 
-    │   ├─ [1383582] → new TokenVesting@0x238213078DbD09f2D15F4c14c02300FA1b2A81BB
+    │   ├─ [1114465] → new TokenVesting@0x238213078DbD09f2D15F4c14c02300FA1b2A81BB
     │   │   ├─ emit OwnershipTransferred(from: 0x0000000000000000000000000000000000000000, to: TokenVestingScript: [0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519])
-    │   │   └─ ← [Return] 6570 bytes of code
+    │   │   └─ ← [Return] 5226 bytes of code
     │   ├─ [0] console::log("Vesting deployed at:", TokenVesting: [0x238213078DbD09f2D15F4c14c02300FA1b2A81BB]) [staticcall]
     │   │   └─ ← [Stop] 
-    │   ├─ [325] MyToken::totalSupply() [staticcall]
+    │   ├─ [300] MyToken::totalSupply() [staticcall]
     │   │   └─ ← [Return] 1000000000000000000000000 [1e24]
-    │   ├─ [24734] MyToken::approve(TokenVesting: [0x238213078DbD09f2D15F4c14c02300FA1b2A81BB], 1000000000000000000000000 [1e24])
+    │   ├─ [24325] MyToken::approve(TokenVesting: [0x238213078DbD09f2D15F4c14c02300FA1b2A81BB], 1000000000000000000000000 [1e24])
     │   │   ├─ emit Approval(owner: TokenVestingScript: [0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519], spender: TokenVesting: [0x238213078DbD09f2D15F4c14c02300FA1b2A81BB], value: 1000000000000000000000000 [1e24])
     │   │   └─ ← [Return] true
     │   ├─ [0] console::log("Approved vesting contract to spend tokens") [staticcall]
     │   │   └─ ← [Stop] 
-    │   ├─ [601812] → new LocalAutomator@0xd85BdcdaE4db1FAEB8eF93331525FE68D7C8B3f0
-    │   │   ├─ [0] console::log("Automator initialized:") [staticcall]
-    │   │   │   └─ ← [Stop] 
-    │   │   ├─ [0] console::log("- Initial timestamp:", 1740056649 [1.74e9]) [staticcall]
-    │   │   │   └─ ← [Stop] 
-    │   │   ├─ [0] console::log("- First check available at:", 1740056649 [1.74e9]) [staticcall]
-    │   │   │   └─ ← [Stop] 
-    │   │   ├─ [0] console::log("- Interval:", 5, "seconds") [staticcall]
-    │   │   │   └─ ← [Stop] 
-    │   │   └─ ← [Return] 2658 bytes of code
+    │   ├─ [260047] → new LocalAutomator@0xd85BdcdaE4db1FAEB8eF93331525FE68D7C8B3f0
+    │   │   └─ ← [Return] 966 bytes of code
     │   ├─ [0] console::log("LocalAutomator deployed at:", LocalAutomator: [0xd85BdcdaE4db1FAEB8eF93331525FE68D7C8B3f0]) [staticcall]
     │   │   └─ ← [Stop] 
-    │   ├─ [0] console::log("Mock LINK token available at:", LinkToken: [0x68B1D87F95878fE05B998F19b66F4baba5De1aed]) [staticcall]
+    │   ├─ [0] console::log("Mock LINK token available at:", LinkToken: [0x5FbDB2315678afecb367f032d93F642f64180aa3]) [staticcall]
     │   │   └─ ← [Stop] 
-    │   ├─ [0] console::log("Mock Registry available at:", MockKeeperRegistry: [0x3Aa5ebB10DC797CAC828524e59A333d0A371443c]) [staticcall]
+    │   ├─ [0] console::log("Mock Registry available at:", MockKeeperRegistry: [0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512]) [staticcall]
     │   │   └─ ← [Stop] 
-    │   ├─ [0] console::log("Mock Registrar available at:", KeeperRegistrar1_2Mock: [0xc6e7DF5E7b4f2A278906862b61205850344D4e7d]) [staticcall]
+    │   ├─ [0] console::log("Mock Registrar available at:", KeeperRegistrar1_2Mock: [0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0]) [staticcall]
     │   │   └─ ← [Stop] 
     │   └─ ← [Return] MyToken: [0xdaE97900D4B184c5D2012dcdB658c008966466DD], TokenVesting: [0x238213078DbD09f2D15F4c14c02300FA1b2A81BB], LocalAutomator: [0xd85BdcdaE4db1FAEB8eF93331525FE68D7C8B3f0]
     ├─ [0] console::log("=== Deployment Successful ===") [staticcall]
@@ -66,78 +58,6 @@ Traces:
     │   └─ ← [Stop] 
     ├─ [0] console::log("Automator:", LocalAutomator: [0xd85BdcdaE4db1FAEB8eF93331525FE68D7C8B3f0]) [staticcall]
     │   └─ ← [Stop] 
-    ├─ [0] console::log("\n--- Check Attempt", 1, "---") [staticcall]
-    │   └─ ← [Stop] 
-    ├─ [0] console::log("Current time:", 1740056649 [1.74e9]) [staticcall]
-    │   └─ ← [Stop] 
-    ├─ [0] console::log("Time since start:", 0) [staticcall]
-    │   └─ ← [Stop] 
-    ├─ [12389] LocalAutomator::checkAndExecute()
-    │   ├─ [0] console::log("\nInterval Check:") [staticcall]
-    │   │   └─ ← [Stop] 
-    │   ├─ [0] console::log("Current time:", 1740056649 [1.74e9]) [staticcall]
-    │   │   └─ ← [Stop] 
-    │   ├─ [0] console::log("Last check:", 1740056644 [1.74e9]) [staticcall]
-    │   │   └─ ← [Stop] 
-    │   ├─ [0] console::log("Next valid check:", 1740056649 [1.74e9]) [staticcall]
-    │   │   └─ ← [Stop] 
-    │   ├─ [0] console::log("Time until next valid check:", 0) [staticcall]
-    │   │   └─ ← [Stop] 
-    │   ├─ emit IntervalCheck(currentTime: 1740056649 [1.74e9], lastCheckTime: 1740056644 [1.74e9], nextValidTime: 1740056649 [1.74e9])
-    │   ├─ [3383] TokenVesting::checkUpkeep(0x) [staticcall]
-    │   │   └─ ← [Return] false, 0x000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-    │   ├─ [0] console::log("No upkeep needed") [staticcall]
-    │   │   └─ ← [Stop] 
-    │   ├─ emit AutomationTriggered(timestamp: 1740056649 [1.74e9], wasNeeded: false)
-    │   └─ ← [Return] false
-    ├─ [0] console::log("Check successful!") [staticcall]
-    │   └─ ← [Stop] 
-    ├─ [0] console::log("Upkeep needed:", false) [staticcall]
-    │   └─ ← [Stop] 
-    ├─ [518] LocalAutomator::getTimeUntilNextCheck() [staticcall]
-    │   └─ ← [Return] 5
-    ├─ [0] console::log("Waiting for", 5, "seconds") [staticcall]
-    │   └─ ← [Stop] 
-    ├─ [0] VM::warp(1740056654 [1.74e9])
-    │   └─ ← [Return] 
-    ├─ [0] VM::roll(948)
-    │   └─ ← [Return] 
-    ├─ [0] console::log("\n--- Check Attempt", 2, "---") [staticcall]
-    │   └─ ← [Stop] 
-    ├─ [0] console::log("Current time:", 1740056654 [1.74e9]) [staticcall]
-    │   └─ ← [Stop] 
-    ├─ [0] console::log("Time since start:", 5) [staticcall]
-    │   └─ ← [Stop] 
-    ├─ [10389] LocalAutomator::checkAndExecute()
-    │   ├─ [0] console::log("\nInterval Check:") [staticcall]
-    │   │   └─ ← [Stop] 
-    │   ├─ [0] console::log("Current time:", 1740056654 [1.74e9]) [staticcall]
-    │   │   └─ ← [Stop] 
-    │   ├─ [0] console::log("Last check:", 1740056649 [1.74e9]) [staticcall]
-    │   │   └─ ← [Stop] 
-    │   ├─ [0] console::log("Next valid check:", 1740056654 [1.74e9]) [staticcall]
-    │   │   └─ ← [Stop] 
-    │   ├─ [0] console::log("Time until next valid check:", 0) [staticcall]
-    │   │   └─ ← [Stop] 
-    │   ├─ emit IntervalCheck(currentTime: 1740056654 [1.74e9], lastCheckTime: 1740056649 [1.74e9], nextValidTime: 1740056654 [1.74e9])
-    │   ├─ [1383] TokenVesting::checkUpkeep(0x) [staticcall]
-    │   │   └─ ← [Return] false, 0x000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-    │   ├─ [0] console::log("No upkeep needed") [staticcall]
-    │   │   └─ ← [Stop] 
-    │   ├─ emit AutomationTriggered(timestamp: 1740056654 [1.74e9], wasNeeded: false)
-    │   └─ ← [Return] false
-    ├─ [0] console::log("Check successful!") [staticcall]
-    │   └─ ← [Stop] 
-    ├─ [0] console::log("Upkeep needed:", false) [staticcall]
-    │   └─ ← [Stop] 
-    ├─ [518] LocalAutomator::getTimeUntilNextCheck() [staticcall]
-    │   └─ ← [Return] 5
-    ├─ [0] console::log("Waiting for", 5, "seconds") [staticcall]
-    │   └─ ← [Stop] 
-    ├─ [0] VM::warp(1740056659 [1.74e9])
-    │   └─ ← [Return] 
-    ├─ [0] VM::roll(949)
-    │   └─ ← [Return] 
     ├─ [0] VM::stopBroadcast()
     │   └─ ← [Return] 
     └─ ← [Return] 1249766602540170459066019233375269901565639812829 [1.249e48]
@@ -148,77 +68,40 @@ Script ran successfully.
 == Return ==
 0: contract MyToken 0xdaE97900D4B184c5D2012dcdB658c008966466DD
 1: contract TokenVesting 0x238213078DbD09f2D15F4c14c02300FA1b2A81BB
-2: struct HelperConfig.NetworkConfig NetworkConfig({ linkToken: 0x68B1D87F95878fE05B998F19b66F4baba5De1aed, automationRegistry: 0x3Aa5ebB10DC797CAC828524e59A333d0A371443c, automationRegistrar: 0xc6e7DF5E7b4f2A278906862b61205850344D4e7d, registrationFee: 100000000000000000 [1e17], minLinkBalance: 100000000000000000 [1e17], initialTokenSupply: 1000000000000000000000000 [1e24], deployer: 0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519 })
-3: uint256 0
+2: struct HelperConfig.NetworkConfig NetworkConfig({ linkToken: 0x5FbDB2315678afecb367f032d93F642f64180aa3, automationRegistry: 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512, automationRegistrar: 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0, registrationFee: 100000000000000000 [1e17], minLinkBalance: 100000000000000000 [1e17], initialTokenSupply: 1000000000000000000000000 [1e24], deployer: 0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519 })
+3: contract LocalAutomator 0xd85BdcdaE4db1FAEB8eF93331525FE68D7C8B3f0
+4: uint256 0
 
 == Logs ==
   ⚠️ Using Chainlink mock contracts for local testing!
   Token deployed at: 0xdaE97900D4B184c5D2012dcdB658c008966466DD
   Vesting deployed at: 0x238213078DbD09f2D15F4c14c02300FA1b2A81BB
   Approved vesting contract to spend tokens
-  Automator initialized:
-  - Initial timestamp: 1740056649
-  - First check available at: 1740056649
-  - Interval: 5 seconds
   LocalAutomator deployed at: 0xd85BdcdaE4db1FAEB8eF93331525FE68D7C8B3f0
-  Mock LINK token available at: 0x68B1D87F95878fE05B998F19b66F4baba5De1aed
-  Mock Registry available at: 0x3Aa5ebB10DC797CAC828524e59A333d0A371443c
-  Mock Registrar available at: 0xc6e7DF5E7b4f2A278906862b61205850344D4e7d
+  Mock LINK token available at: 0x5FbDB2315678afecb367f032d93F642f64180aa3
+  Mock Registry available at: 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+  Mock Registrar available at: 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0
   === Deployment Successful ===
   Token: 0xdaE97900D4B184c5D2012dcdB658c008966466DD
   Vesting: 0x238213078DbD09f2D15F4c14c02300FA1b2A81BB
   Automator: 0xd85BdcdaE4db1FAEB8eF93331525FE68D7C8B3f0
-  
---- Check Attempt 1 ---
-  Current time: 1740056649
-  Time since start: 0
-  
-Interval Check:
-  Current time: 1740056649
-  Last check: 1740056644
-  Next valid check: 1740056649
-  Time until next valid check: 0
-  No upkeep needed
-  Check successful!
-  Upkeep needed: false
-  Waiting for 5 seconds
-  
---- Check Attempt 2 ---
-  Current time: 1740056654
-  Time since start: 5
-  
-Interval Check:
-  Current time: 1740056654
-  Last check: 1740056649
-  Next valid check: 1740056654
-  Time until next valid check: 0
-  No upkeep needed
-  Check successful!
-  Upkeep needed: false
-  Waiting for 5 seconds
 
 ## Setting up 1 EVM.
 ==========================
 Simulated On-chain Traces:
 
-  [1251917] → new LinkToken@0x68B1D87F95878fE05B998F19b66F4baba5De1aed
-    └─ ← [Return] 5916 bytes of code
+  [1317146] → new LinkToken@0x5FbDB2315678afecb367f032d93F642f64180aa3
+    └─ ← [Return] 6243 bytes of code
 
-  [2116289] → new MockKeeperRegistry@0x3Aa5ebB10DC797CAC828524e59A333d0A371443c
-    ├─ [1251917] → new LinkToken@0xeC4cFde48EAdca2bC63E94BB437BbeAcE1371bF3
-    │   └─ ← [Return] 5916 bytes of code
-    └─ ← [Return] 4038 bytes of code
+  [2002918] → new MockKeeperRegistry@0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+    ├─ [1317146] → new LinkToken@0xCafac3dD18aC6c6e92c921884f9E4176737C052c
+    │   └─ ← [Return] 6243 bytes of code
+    └─ ← [Return] 3145 bytes of code
 
-  [505535] → new KeeperRegistrar1_2Mock@0xc6e7DF5E7b4f2A278906862b61205850344D4e7d
-    └─ ← [Return] 2525 bytes of code
+  [380425] → new KeeperRegistrar1_2Mock@0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0
+    └─ ← [Return] 1900 bytes of code
 
-  [0] TokenVestingScript::deploy(NetworkConfig({ linkToken: 0x68B1D87F95878fE05B998F19b66F4baba5De1aed, automationRegistry: 0x3Aa5ebB10DC797CAC828524e59A333d0A371443c, automationRegistrar: 0xc6e7DF5E7b4f2A278906862b61205850344D4e7d, registrationFee: 100000000000000000 [1e17], minLinkBalance: 100000000000000000 [1e17], initialTokenSupply: 1000000000000000000000000 [1e24], deployer: 0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519 }))
-    └─ ← [Stop] 
-
-  [0] LocalAutomator::checkAndExecute()
-    └─ ← [Stop] 
-
-  [0] LocalAutomator::checkAndExecute()
+  [0] TokenVestingScript::deploy(NetworkConfig({ linkToken: 0x5FbDB2315678afecb367f032d93F642f64180aa3, automationRegistry: 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512, automationRegistrar: 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0, registrationFee: 100000000000000000 [1e17], minLinkBalance: 100000000000000000 [1e17], initialTokenSupply: 1000000000000000000000000 [1e24], deployer: 0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519 }))
     └─ ← [Stop] 
 
 
@@ -226,11 +109,11 @@ Simulated On-chain Traces:
 
 Chain 31337
 
-Estimated gas price: 0.000000015 gwei
+Estimated gas price: 2.000000001 gwei
 
-Estimated total gas used for script: 5749322
+Estimated total gas used for script: 5453172
 
-Estimated amount required: 0.00000000008623983 ETH
+Estimated amount required: 0.010906344005453172 ETH
 
 ==========================
 

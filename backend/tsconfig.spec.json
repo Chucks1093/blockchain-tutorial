@@ -1,0 +1,10 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"esModuleInterop": true,
+		"emitDecoratorMetadata": true,
+		"types": ["jest"],
+		"composite": true
+	},
+	"include": ["src/**/*.test.ts"]
+}

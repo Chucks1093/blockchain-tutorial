@@ -137,4 +137,20 @@ contract TokenVestingTest is Test {
 
       assertEq(token.balanceOf(firstBeneficiary), scheduleAfterSecond.totalAmount);
    }
+
+   function testReleaseWithYearlyFrequency() public {
+      vm.prank(deployer);
+      uint256 scheduleID =
+         tokenVesting.createVestingSchedule(firstBeneficiary, 1000, 3, 12, TokenVesting.ReleaseFrequency.Yearly);
+      TokenVesting.VestingSchedule memory vestingSchedule = tokenVesting.getVestingScheduleDetails(scheduleID);
+      vm.warp(vestingSchedule.startTime + (12 * 30 days) + 1);
+      uint256 firstReleasableAmount = tokenVesting.getNextReleaseAmount(scheduleID);
+
+      automator.checkAndExecute();
+
+      // Get updated schedule after first release
+      TokenVesting.VestingSchedule memory scheduleAfterFirst = tokenVesting.getVestingScheduleDetails(scheduleID);
+      console.log("first releasable Amount:", firstReleasableAmount);
+      console.log("first release", scheduleAfterFirst.releasedAmount);
+   }
 }

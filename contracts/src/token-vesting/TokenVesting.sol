@@ -9,6 +9,7 @@ import { Math } from "@openzeppelin/contracts/utils/math/Math.sol";
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import { Pausable } from "@openzeppelin/contracts/utils/Pausable.sol";
 import { AutomationCompatibleInterface } from "@chainlink/contracts/src/v0.8/automation/AutomationCompatible.sol";
+import { console } from "forge-std/Script.sol";
 
 contract TokenVesting is Ownable, ReentrancyGuard, Pausable, AutomationCompatibleInterface {
    using SafeERC20 for IERC20;
@@ -206,6 +207,7 @@ contract TokenVesting is Ownable, ReentrancyGuard, Pausable, AutomationCompatibl
          // Calculate with remaining days consideration
          releasableAmount = (schedule.totalAmount * releasePeriod * completePeriods) / schedule.duration;
          tokensForRemainingDays = Math.ceilDiv((schedule.totalAmount * remainingDays), schedule.duration);
+         console.log("tokensForRemainingDays:", tokensForRemainingDays);
       } else {
          // Calculate for perfect period division
          releasableAmount = (schedule.totalAmount * completePeriods) / totalPeriods;
@@ -213,14 +215,21 @@ contract TokenVesting is Ownable, ReentrancyGuard, Pausable, AutomationCompatibl
       }
 
       // Add remaining days tokens if in final period
+      console.log("daysIntoCurrentPeriod :", daysIntoCurrentPeriod);
+      console.log("remainingDays :", remainingDays);
+      console.log("B-releasableAmount :", releasableAmount);
       if (completePeriods == totalPeriods && daysIntoCurrentPeriod >= remainingDays) {
          releasableAmount += tokensForRemainingDays;
       }
+
+      console.log("A-releasableAmount :", releasableAmount);
 
       // Adjust for previously released tokens
       releasableAmount -= schedule.releasedAmount;
 
       schedule.releasedAmount += releasableAmount;
+
+      console.log("schedule.releasedAmount :", schedule.releasedAmount);
 
       return releasableAmount;
    }
