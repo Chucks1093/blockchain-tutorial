@@ -29,3 +29,15 @@ export const createUpKeep = async (input: UpkeepRequest) => {
 	});
 	return upKeep;
 };
+
+export const getAllUpKeeps = async (isActive?: boolean) => {
+	const where = isActive !== undefined ? { isActive } : {};
+
+	const upKeeps = prisma.upkeepContract.findMany({
+		where,
+		orderBy: {
+			createdAt: "desc",
+		},
+	});
+	return upKeeps;
+};

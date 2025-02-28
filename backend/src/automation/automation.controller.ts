@@ -2,14 +2,21 @@ import { Request, Response } from "express";
 import { z } from "zod";
 import {
 	createUpKeep,
+	getAllUpKeeps,
 	getUpKeepByAddress,
 	UpKeepSchema,
 } from "./automation.model";
+import { ethers } from "ethers";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+type Controller = Promise<any>;
 
 export const httpCreateUpKeep = async (
 	req: Request,
 	res: Response
-): Promise<any> => {
+): Controller => {
 	try {
 		const validatedData = UpKeepSchema.parse(req.body);
 		const existingContract = await getUpKeepByAddress(
@@ -46,4 +53,40 @@ export const httpCreateUpKeep = async (
 			message: "Failed to register upkeep contract",
 		});
 	}
+};
+
+export const httpGetAllUpKeep = async (
+	req: Request,
+	res: Response
+): Controller => {
+	try {
+		const isActive =
+			req.query.active === "true"
+				? true
+				: req.query.active === "false"
+				? false
+				: undefined;
+		const upKeeps = await getAllUpKeeps(isActive);
+
+		return res.status(200).json({
+			success: true,
+			message: "Upkeeps retrieved",
+			data: upKeeps,
+		});
+	} catch (error) {
+		console.error("Failed to run upkeep checks", error);
+
+		res.status(500).json({
+			success: false,
+			message: "Failed to run upkeep checks",
+		});
+	}
+};
+
+export const httpCheckAndExecuteUpKeep = async (
+	req: Request,
+	res: Response
+): Controller => {
+	try {
+	} catch (error) {}
 };

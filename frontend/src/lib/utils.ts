@@ -101,3 +101,43 @@ export const handleMultiSigCustomContractError = (
 	console.error("Non-contract error:", error);
 	return "An unexpected error occurred";
 };
+
+// const getFilteredHistory = () => {
+// 	return taskHistory
+// 		.filter((execution) => {
+// 			if (
+// 				filters.searchTerm &&
+// 				!execution.taskName
+// 					.toLowerCase()
+// 					.includes(filters.searchTerm.toLowerCase())
+// 			)
+// 				return false;
+// 			return true;
+// 		})
+// 		.sort((a, b) => {
+// 			return sortOrder === "newest"
+// 				? b.timestamp - a.timestamp
+// 				: a.timestamp - b.timestamp;
+// 		});
+// };
+
+// const getFilteredTasks = () => {
+// 	return activeTasks
+// 		.filter((task) => {
+// 			if (filters.status !== "all" && task.status !== filters.status)
+// 				return false;
+// 			if (
+// 				filters.searchTerm &&
+// 				!task.name
+// 					.toLowerCase()
+// 					.includes(filters.searchTerm.toLowerCase())
+// 			)
+// 				return false;
+// 			return true;
+// 		})
+// 		.sort((a, b) => {
+// 			return sortOrder === "newest"
+// 				? b.createdAt - a.createdAt
+// 				: a.createdAt - b.createdAt;
+// 		});
+// };

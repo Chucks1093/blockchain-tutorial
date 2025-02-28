@@ -1,5 +1,3 @@
-// src/lib/prisma.ts
-
 import { PrismaClient } from "@prisma/client";
 
 // Use global variable to prevent multiple instances in development

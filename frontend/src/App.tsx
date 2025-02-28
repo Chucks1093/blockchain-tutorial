@@ -7,6 +7,7 @@ import MultiSignatureWallet from "./pages/MultiSignatureWallet";
 import SecretMessagePage from "./pages/SecretMessagePage";
 import TokenVesting from "./pages/TokenVesting";
 import LocalAutomator from "./pages/LocalAutomator";
+import Footer from "./components/shared/Footer";
 
 const router = createBrowserRouter([
 	{
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
 		element: <TokenVesting />,
 	},
 	{
-		path: "/automator",
+		path: "/automator/*",
 		element: <LocalAutomator />,
 	},
 ]);
@@ -36,6 +37,7 @@ function App() {
 		<WagmiConnectionProvider>
 			<Toaster position='bottom-right' />
 			<RouterProvider router={router} />
+			<Footer />
 		</WagmiConnectionProvider>
 	);
 }

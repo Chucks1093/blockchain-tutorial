@@ -4,10 +4,11 @@ import cors from "cors";
 import path from "path";
 import morgan from "morgan";
 import { config } from "./config";
-import { Express } from "express";
+import helmet from "helmet";
 
-const app: Express = express();
+const app = express();
 
+// Middlewares
 app.use(
 	cors({
 		origin: config.allowedOrigins,
@@ -15,11 +16,14 @@ app.use(
 	})
 );
 
+app.use(helmet());
+
 app.use(morgan("combined"));
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "public")));
 
+// Endpoints
 app.use("/api/automation", automationRouter);
 
 app.get("/test", (_, res) => {
