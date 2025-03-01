@@ -8,6 +8,8 @@ import {
 	Plus,
 	Code,
 	ChevronDown,
+	Link,
+	Info as InfoIcon,
 } from "lucide-react";
 import ABIInput from "./ABIInput";
 import { useRef, useState } from "react";
@@ -27,8 +29,8 @@ interface AbiFunction {
 
 const LocalAutomationInfo = () => {
 	return (
-		<div className='bg-white p-6 rounded-lg border border-gray-200 mb-6 h-fit'>
-			<p className='text-gray-700 mb-4'>
+		<div className='bg-white p-6 rounded-lg border border-gray-200 mb-6 h-fit shadow-sm'>
+			<p className='text-gray-500 mb-4'>
 				Your contract needs to implement the{" "}
 				<span className='font-mono text-sm bg-gray-100 px-1 py-0.5 rounded'>
 					AutomationCompatibleInterface
@@ -44,11 +46,11 @@ const LocalAutomationInfo = () => {
 				functions even when using time-based triggers in local development.
 			</p>
 
-			<p className='text-gray-700 mb-4'>
+			<p className='text-gray-500 mb-4'>
 				When you create a time-based upkeep, the local automator will:
 			</p>
 
-			<ul className='list-disc pl-5 mb-4 text-gray-700 space-y-2'>
+			<ul className='list-disc pl-5 mb-4 text-gray-500 space-y-2'>
 				<li>Connect to your local Anvil instance</li>
 				<li>
 					Register your contract with the simulated automation registry
@@ -132,12 +134,6 @@ function NewTask() {
 						/>
 					</div>
 
-					<ABIInput
-						setAbiError={setAbiError}
-						setAbiString={setAbiString}
-						setAbiFunctions={setAbiFunctions}
-					/>
-
 					{/* Function selector that appears when ABI is valid */}
 					{!abiError && abiFunctions.length > 0 && (
 						<div className='space-y-2'>
@@ -216,6 +212,86 @@ function NewTask() {
 							)}
 						</div>
 					)}
+					{/* LINK Token Funding Section */}
+					<div className='space-y-4 mb-8'>
+						<label className='text-sm font-medium text-gray-700 mb-3'>
+							Fund Upkeep with LINK
+						</label>
+						<div className='bg-blue-50 rounded-xl p-4 border border-blue-100'>
+							<div className='flex items-center mb-3'>
+								<div className='bg-blue-500 p-2 rounded-lg mr-3'>
+									<Link className='h-5 w-5 text-white' />
+								</div>
+								<div>
+									<h3 className='font-medium text-gray-700'>
+										LINK Token
+									</h3>
+									<p className='text-xs text-gray-500'>
+										Required for Chainlink Automation
+									</p>
+								</div>
+							</div>
+
+							<div className='relative mt-4'>
+								<div className='absolute right-4 top-1/2 -translate-y-1/2 font-medium text-gray-500'>
+									LINK
+								</div>
+								<input
+									type='number'
+									step='0.1'
+									min='1'
+									placeholder='1.0'
+									defaultValue='1.0'
+									className='w-full pr-16 pl-4 py-3 rounded-xl bg-white border border-gray-200 
+          text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 
+          focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200'
+								/>
+							</div>
+
+							<div className='mt-3 flex justify-between text-sm'>
+								<span className='text-gray-500'>Minimum Required</span>
+								<span className='font-medium text-gray-700'>
+									1.0 LINK
+								</span>
+							</div>
+
+							<div className='mt-1 flex justify-between text-sm'>
+								<span className='text-gray-500'>
+									Estimated Monthly Cost
+								</span>
+								<span className='font-medium text-gray-700'>
+									~0.5 LINK
+								</span>
+							</div>
+
+							<div className='mt-3 pt-3 border-t border-blue-100 flex items-center justify-between'>
+								<div className='text-xs text-blue-600'>
+									Auto top-up when balance is low
+								</div>
+								<div className='relative inline-block w-10 mr-2 align-middle select-none'>
+									<input
+										type='checkbox'
+										id='autoTopUp'
+										className='sr-only peer'
+									/>
+									<label
+										htmlFor='autoTopUp'
+										className="block h-6 rounded-full w-10 bg-gray-200 cursor-pointer peer-checked:bg-blue-500 
+                    after:content-[''] after:absolute after:top-[2px] after:left-[2px] 
+                    after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 
+                    after:transition-all peer-checked:after:translate-x-4"></label>
+								</div>
+							</div>
+						</div>
+
+						<div className='flex items-center text-xs text-gray-500 mt-1'>
+							<InfoIcon className='h-3 w-3 mr-1' />
+							<span>
+								LINK tokens will be transferred from your wallet when
+								registering
+							</span>
+						</div>
+					</div>
 
 					<div className='p-4 bg-blue-50 rounded-xl border border-blue-100'>
 						<div className='flex items-start'>
@@ -247,7 +323,14 @@ function NewTask() {
 						Register Automation Task
 					</motion.button>
 				</div>
-				<LocalAutomationInfo />
+				<div>
+					<ABIInput
+						setAbiError={setAbiError}
+						setAbiString={setAbiString}
+						setAbiFunctions={setAbiFunctions}
+					/>
+					<LocalAutomationInfo />
+				</div>
 			</div>
 		</motion.div>
 	);

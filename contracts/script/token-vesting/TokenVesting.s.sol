@@ -7,17 +7,15 @@ import { MyToken } from "@src/token-vesting/MyToken.sol";
 import { RegisterAutomation } from "./Interactions.s.sol";
 import { HelperConfig } from "./HelperConfig.s.sol";
 import { ChainInfo } from "@src/shared/ChainInfo.sol";
-import { LocalAutomator } from "@src/token-vesting/LocalAutomator.sol";
 
 contract TokenVestingScript is Script, ChainInfo {
    MyToken token;
    TokenVesting vesting;
    uint256 upkeepId;
-   LocalAutomator public automator;
 
    error DeploymentFailed(string reason);
 
-   function run() external returns (MyToken, TokenVesting, HelperConfig.NetworkConfig memory, LocalAutomator, uint256) {
+   function run() external returns (MyToken, TokenVesting, HelperConfig.NetworkConfig memory, uint256) {
       // Get configuration
       HelperConfig config = new HelperConfig();
       HelperConfig.NetworkConfig memory networkConfig = config.getConfig();
@@ -25,18 +23,13 @@ contract TokenVestingScript is Script, ChainInfo {
       // Start deployment
       vm.startBroadcast();
 
-      try this.deploy(networkConfig) returns (MyToken _token, TokenVesting _vesting, LocalAutomator _automator) {
+      try this.deploy(networkConfig) returns (MyToken _token, TokenVesting _vesting) {
          token = _token;
          vesting = _vesting;
-         automator = _automator;
 
          console.log("=== Deployment Successful ===");
          console.log("Token:", address(token));
          console.log("Vesting:", address(vesting));
-
-         if (address(automator) != address(0)) {
-            console.log("Automator:", address(automator));
-         }
 
          // Verify contracts have code
          require(address(token).code.length > 0, "Token not deployed");
@@ -56,12 +49,12 @@ contract TokenVestingScript is Script, ChainInfo {
          vm.stopBroadcast();
       }
 
-      return (token, vesting, networkConfig, automator, upkeepId);
+      return (token, vesting, networkConfig, upkeepId);
    }
 
    function deploy(HelperConfig.NetworkConfig memory networkConfig)
       external
-      returns (MyToken _token, TokenVesting _vesting, LocalAutomator _automator)
+      returns (MyToken _token, TokenVesting _vesting)
    {
       // Deploy Token
       _token = new MyToken(networkConfig.initialTokenSupply);
@@ -74,18 +67,5 @@ contract TokenVestingScript is Script, ChainInfo {
       // Approve vesting contract
       _token.approve(address(_vesting), _token.totalSupply());
       console.log("Approved vesting contract to spend tokens");
-
-      // Deploy automator for local chain
-      if (block.chainid == ANVIL_CHAIN_ID) {
-         _automator = new LocalAutomator(_vesting);
-         console.log("LocalAutomator deployed at:", address(_automator));
-
-         // Set up mocks if needed
-         if (networkConfig.linkToken != address(0)) {
-            console.log("Mock LINK token available at:", networkConfig.linkToken);
-            console.log("Mock Registry available at:", networkConfig.automationRegistry);
-            console.log("Mock Registrar available at:", networkConfig.automationRegistrar);
-         }
-      }
    }
 }

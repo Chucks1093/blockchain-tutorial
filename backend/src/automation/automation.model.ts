@@ -4,8 +4,10 @@ import { z } from "zod";
 export const UpKeepSchema = z.object({
 	contractAddress: z.string().startsWith("0x"),
 	name: z.string().min(2),
+	interval: z.number().int().positive().default(300),
 	network: z.string().default("anvil"),
-	isActive: z.boolean(),
+	isActive: z.boolean().default(true),
+	owner: z.string().startsWith("0x"),
 });
 
 type UpkeepRequest = z.infer<typeof UpKeepSchema>;
@@ -25,6 +27,8 @@ export const createUpKeep = async (input: UpkeepRequest) => {
 			network: input.network || "anvil",
 			isActive: true,
 			createdAt: new Date(),
+			owner: input.owner,
+			automatorAddress: "",
 		},
 	});
 	return upKeep;

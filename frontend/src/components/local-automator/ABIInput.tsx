@@ -119,13 +119,10 @@ function ABIInput(props: ABIInputProps) {
 	};
 
 	return (
-		<div className='space-y-2'>
-			<label className='text-sm font-medium text-gray-700'>
-				Contract ABI
-			</label>
+		<div className='space-y-2 mb-7'>
 			<div className='relative'>
 				<textarea
-					rows={5}
+					rows={9}
 					placeholder='Paste contract ABI here...'
 					value={abiString}
 					onChange={handleAbiChange}

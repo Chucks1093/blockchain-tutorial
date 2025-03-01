@@ -15,6 +15,7 @@
 	"description": "",
 	"dependencies": {
 		"@prisma/client": "^6.4.1",
+		"@typechain/ethers-v6": "^0.5.1",
 		"@types/cors": "^2.8.17",
 		"@types/express": "^5.0.0",
 		"@types/node": "^22.13.5",
@@ -31,6 +32,7 @@
 		"@types/morgan": "^1.9.9",
 		"prisma": "^6.4.1",
 		"ts-jest": "^29.2.6",
-		"ts-node": "^10.9.2"
+		"ts-node": "^10.9.2",
+		"typechain": "^8.3.2"
 	}
 }

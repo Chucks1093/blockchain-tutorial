@@ -7,9 +7,8 @@ import {
 	UpKeepSchema,
 } from "./automation.model";
 import { ethers } from "ethers";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import { getProvider } from "../lib/utils";
+import { deployAutmator } from "./automation.service";
 
 type Controller = Promise<any>;
 
@@ -31,6 +30,12 @@ export const httpCreateUpKeep = async (
 			});
 		}
 		const newUpKeep = await createUpKeep(validatedData);
+
+		await deployAutmator(
+			validatedData.contractAddress,
+			validatedData.interval,
+			validatedData.owner
+		);
 
 		res.status(201).json({
 			success: true,
@@ -81,12 +86,4 @@ export const httpGetAllUpKeep = async (
 			message: "Failed to run upkeep checks",
 		});
 	}
-};
-
-export const httpCheckAndExecuteUpKeep = async (
-	req: Request,
-	res: Response
-): Controller => {
-	try {
-	} catch (error) {}
 };

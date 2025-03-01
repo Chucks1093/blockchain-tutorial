@@ -8,7 +8,9 @@ import { TokenVesting } from "@src/token-vesting/TokenVesting.sol";
 import { HelperConfig } from "@script/token-vesting/HelperConfig.s.sol";
 import { MyToken } from "@src/token-vesting/MyToken.sol";
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
-import { LocalAutomator } from "@src/token-vesting/LocalAutomator.sol";
+import { LocalAutomator } from "@src/automator/LocalAutomator.sol";
+import { DeployLocalAutomator } from "@src/automator/DeployLocalAutomator.sol";
+import { DeployLocalAutomatorScript } from "@script/simple-tasks/DeployLocalAutomator.s.sol";
 
 contract TokenVestingTest is Test {
    TokenVestingScript tokenVestingScript;
@@ -22,9 +24,16 @@ contract TokenVestingTest is Test {
 
    function setUp() public {
       tokenVestingScript = new TokenVestingScript();
-      (token, tokenVesting, networkConfig, automator,) = tokenVestingScript.run();
+      (token, tokenVesting, networkConfig,) = tokenVestingScript.run();
       firstBeneficiary = makeAddr("firstBeneficiary");
       secondBeneficiary = makeAddr("secondBeneficiary");
+      //
+      DeployLocalAutomatorScript deployLocalAutomatorScript = new DeployLocalAutomatorScript();
+      DeployLocalAutomator deployLocalAutomator = deployLocalAutomatorScript.run();
+      address automatorAddress =
+         deployLocalAutomator.deployAutomator(address(tokenVesting), 5 seconds, networkConfig.deployer);
+      LocalAutomator localAutomator = LocalAutomator(payable(automatorAddress));
+      automator = localAutomator;
       deployer = networkConfig.deployer;
    }
 

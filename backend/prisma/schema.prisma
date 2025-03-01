@@ -20,6 +20,10 @@ model UpkeepContract {
   lastCheckedAt   DateTime?
   checkCount      Int       @default(0)
   lastStatus      String?
+  owner           String
+
+  automatorAddress  String?  
+  interval     Int       @default(300) // Default 5 minutes in seconds
   
   @@map("upkeep_contracts")
 }

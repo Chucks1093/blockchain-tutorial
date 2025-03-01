@@ -15,6 +15,9 @@ GANACHE_PORT ?= 7545
 # Frontend path
 FRONTEND_PATH := ../frontend
 
+# Backend path
+BACKEND_PATH := ../backend
+
 
 # Compiler configurations
 FOUNDRY_PROFILE ?= default
@@ -167,9 +170,13 @@ watch-contract-events:
 
 
 # ========== Frontend Commands ==========
-generate-types:
+generate-types-frontend:
 	@echo "Generating types in frontend..."
 	@cd $(FRONTEND_PATH) && npx typechain --target ethers-v6 --out-dir src/types/contracts "../contracts/out/MultiSignatureWallet.sol/*json" --show-stack-traces
+
+generate-types-backend:
+	@echo "Generating types in backend..."
+	@cd $(BACKEND_PATH) && npx typechain --target ethers-v6 --out-dir src/types/contracts "../contracts/out/DeployLocalAutomator.sol/*json" --show-stack-traces
 
 
 # ========== Help ==========
