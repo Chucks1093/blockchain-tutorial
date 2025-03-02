@@ -6,8 +6,6 @@ import {
 	getUpKeepByAddress,
 	UpKeepSchema,
 } from "./automation.model";
-import { ethers } from "ethers";
-import { getProvider } from "../lib/utils";
 import { deployAutmator } from "./automation.service";
 
 type Controller = Promise<any>;

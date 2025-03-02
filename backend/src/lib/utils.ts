@@ -1,4 +1,5 @@
 import { ethers } from "ethers";
+import { logger } from "./logger";
 
 // Configure provider based on the network
 export const getProvider = (network: string) => {
@@ -68,3 +69,46 @@ export const listenForEvent = <T extends ethers.BaseContract>(
 		}
 	});
 };
+
+// Get gas price with backoff retry logic
+export const getFeeData = async (
+	network: string,
+	retryCount = 0
+): Promise<ethers.FeeData> => {
+	try {
+		const wallet = getWallet(network);
+		return await wallet.provider!.getFeeData();
+	} catch (error) {
+		if (retryCount < 3) {
+			logger.warn({ error }, "Error getting fee data, retrying...");
+			await new Promise((resolve) => setTimeout(resolve, 1000));
+			return getFeeData(network);
+		}
+		throw error;
+	}
+};
+
+/**
+
+* ██████╗  █████╗ ███╗   ██╗ ██████╗ ███████╗██████╗
+* ██╔══██╗██╔══██╗████╗  ██║██╔════╝ ██╔════╝██╔══██╗
+* ██║  ██║███████║██╔██╗ ██║██║  ███╗█████╗  ██████╔╝
+* ██║  ██║██╔══██║██║╚██╗██║██║   ██║██╔══╝  ██╔══██╗
+* ██████╔╝██║  ██║██║ ╚████║╚██████╔╝███████╗██║  ██║
+* ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝
+*
+* ⚠️ WARNING: DEVELOPMENT USE ONLY ⚠️
+ */
+
+export function getWallet(network: string): ethers.Wallet {
+	const provider = getProvider(network);
+
+	const privateKey = process.env.DEPLOYER_PRIVATE_KEY;
+	if (!privateKey) {
+		throw new Error(
+			"DEPLOYER_PRIVATE_KEY environment variable is not defined"
+		);
+	}
+
+	return new ethers.Wallet(privateKey, provider);
+}

@@ -1,4 +1,4 @@
-import { getProvider, listenForEvent } from "../lib/utils";
+import { getProvider, getWallet, listenForEvent } from "../lib/utils";
 import { ethers } from "ethers";
 import { DeployLocalAutomator__factory } from "../types/contracts";
 import { getUpKeepByAddress } from "./automation.model";
@@ -10,16 +10,6 @@ export const deployAutmator = async (
 	owner: string,
 	network = "anvil"
 ) => {
-	/**
-	 * ⚠️ WARNING: DEVELOPMENT USE ONLY ⚠️
-	 * =========================================
-	 * */
-	const privateKey = process.env.DEPLOYER_PRIVATE_KEY;
-	if (!privateKey) {
-		throw new Error(
-			"DEPLOYER_PRIVATE_KEY environment variable is not defined"
-		);
-	}
 	const deployerAutomatorAddress =
 		process.env.DEPLOYLOCALAUTOMATOR_CONTRACT_ADDRESS;
 	if (!deployerAutomatorAddress) {
@@ -27,9 +17,7 @@ export const deployAutmator = async (
 			"DEPLOYLOCALAUTOMATOR_CONTRACT_ADDRESS environment variable is not defined"
 		);
 	}
-	const provider = getProvider("anvil");
-
-	const wallet = new ethers.Wallet(privateKey, provider);
+	const wallet = getWallet("anvil");
 
 	const deployLocalAutomator = DeployLocalAutomator__factory.connect(
 		deployerAutomatorAddress,
@@ -59,8 +47,6 @@ export const deployAutmator = async (
 export const listenForAutomatorDeployed = async () => {
 	const deployerAutomatorAddress =
 		process.env.DEPLOYLOCALAUTOMATOR_CONTRACT_ADDRESS;
-
-	const providerUrl = "http://127.0.0.1:8545";
 
 	if (!deployerAutomatorAddress) {
 		throw new Error(

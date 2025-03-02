@@ -24,6 +24,56 @@ model UpkeepContract {
 
   automatorAddress  String?  
   interval     Int       @default(300) // Default 5 minutes in seconds
+
+  // Add relation to history
+  history         UpkeepHistory[] // One-to-many relationship with history entries
   
   @@map("upkeep_contracts")
+}
+
+// New UpkeepHistory model
+model UpkeepHistory {
+  id                String       @id @default(uuid())
+  createdAt         DateTime     @default(now())
+  
+  // Upkeep details
+  upkeepId          String       // ID of the upkeep
+  upkeepContract    UpkeepContract @relation(fields: [upkeepId], references: [id], onDelete: Cascade)
+  contractAddress   String       // Contract address
+  automatorAddress  String?      // Address of the automator that executed
+  
+  // Transaction details
+  txHash            String?      // Transaction hash (null if transaction failed to submit)
+  blockNumber       Int?         // Block number where transaction was confirmed
+  gasUsed           String?      // Gas used as string (to handle BigInt)
+  linkAmount        String?      // Amount of LINK as string (to handle decimal values)
+  
+  // Execution details
+  activityType      ActivityType // Type of activity
+  status            ExecStatus   // Status of the execution
+  upkeepPerformed   Boolean      // Whether the upkeep was actually performed
+  errorMessage      String?      // Error message if any
+  
+  @@index([upkeepId])
+  @@index([txHash])
+  @@index([createdAt])
+  @@map("upkeep_history")
+}
+
+
+// Enums for standardized values
+enum ActivityType {
+  CHECK_EXECUTE // Automation checkAndExecute call
+  FUND          // Funding the upkeep contract
+  REGISTER      // Registering a new upkeep
+  CANCEL        // Canceling an upkeep
+  WITHDRAW      // Withdrawing funds
+}
+
+enum ExecStatus {
+  PENDING       // Transaction submitted but not confirmed
+  SUCCESS       // Transaction successful
+  REVERTED      // Transaction reverted
+  ERROR         // Error during execution
+  SKIPPED       // Execution skipped (e.g., already running)
 }

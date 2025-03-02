@@ -1,70 +1,73 @@
 import { useState, Fragment } from "react";
 import { motion } from "framer-motion";
-import { Settings, Search, Download, BarChart2, Filter } from "lucide-react";
+import { Settings,  Download, BarChart2, Filter } from "lucide-react";
 import ProjectHeader from "@/components/common/ProjectHeader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UpkeepTable from "@/components/local-automator/UpKeepCard";
-
 import HistoryTable from "@/components/local-automator/HistoryCard";
+import HistoryDetail from "@/components/local-automator/HistoryDetail";
+import HistoryCardGrid from "@/components/local-automator/HistoryCardGrid";
 import { Route, Routes } from "react-router";
 import UpKeepDetails from "@/components/local-automator/UpKeepDetails";
 import NewTask from "@/components/local-automator/NewTask";
 
-const LocalAutomator = () => {
-	const [filters, setFilters] = useState({
-		status: "all",
-		timeRange: "all",
-		searchTerm: "",
-	});
-	const [sortOrder, setSortOrder] = useState("newest");
+// History home component
+const HistoryHome = () => {
+	const [activeView, setActiveView] = useState<"table" | "grid">("table");
 
-	const exportTaskHistory = () => {
-		// Logic to export task history as CSV
-		console.log("Exporting task history...");
-	};
+	return (
+		<Fragment>
+			<div className='max-w-7xl mx-auto px-4 sm:px-6 py-8'>
+				<motion.div
+					initial={{ opacity: 0, y: 20 }}
+					animate={{ opacity: 1, y: 0 }}>
+					<div className='flex justify-between items-center mb-6'>
+						<h1 className='text-3xl font-medium font-manrope'>
+							Transaction History
+						</h1>
+						<div className='flex items-center gap-3'>
+							<div className='flex bg-gray-100 p-1 rounded-lg'>
+								<button
+									className={`px-3 py-1.5 text-sm font-medium rounded-md ${
+										activeView === "table"
+											? "bg-white shadow-sm"
+											: "text-gray-600"
+									}`}
+									onClick={() => setActiveView("table")}>
+									Table View
+								</button>
+								<button
+									className={`px-3 py-1.5 text-sm font-medium rounded-md ${
+										activeView === "grid"
+											? "bg-white shadow-sm"
+											: "text-gray-600"
+									}`}
+									onClick={() => setActiveView("grid")}>
+									Card View
+								</button>
+							</div>
+							<motion.button
+								whileHover={{ scale: 1.05 }}
+								whileTap={{ scale: 0.95 }}
+								className='p-2 ml-2 bg-blue-100 text-blue-600 rounded-lg flex items-center gap-1'>
+								<Download className='h-4 w-4' />
+								<span className='text-sm font-medium'>Export</span>
+							</motion.button>
+						</div>
+					</div>
 
-	// Component for task filters
-	const TaskFilters = () => (
-		<div className='flex gap-4 mb-6 items-center'>
-			<div className='relative flex-1'>
-				<Search className='absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400' />
-				<input
-					type='text'
-					placeholder='Search tasks...'
-					value={filters.searchTerm}
-					onChange={(e) =>
-						setFilters({ ...filters, searchTerm: e.target.value })
-					}
-					className='w-full pl-12 pr-4 py-2 rounded-xl border border-gray-200'
-				/>
+					{activeView === "table" ? <HistoryTable /> : <HistoryCardGrid />}
+				</motion.div>
 			</div>
-			<select
-				value={filters.status}
-				onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-				className='px-4 py-2 rounded-xl border border-gray-200'>
-				<option value='all'>All Status</option>
-				<option value='active'>Active</option>
-				<option value='pending'>Pending</option>
-				<option value='cancelled'>Cancelled</option>
-			</select>
-			<select
-				value={sortOrder}
-				onChange={(e) => setSortOrder(e.target.value)}
-				className='px-4 py-2 rounded-xl border border-gray-200'>
-				<option value='newest'>Newest First</option>
-				<option value='oldest'>Oldest First</option>
-			</select>
-			<motion.button
-				whileHover={{ scale: 1.05 }}
-				whileTap={{ scale: 0.95 }}
-				onClick={exportTaskHistory}
-				className='p-2 bg-gray-100 rounded-lg'>
-				<Download className='h-5 w-5' />
-			</motion.button>
-		</div>
+		</Fragment>
 	);
+};
 
-	// Execution history item
+// Updated LocalAutomator component with better routing
+
+const LocalAutomator = () => {
+
+
 
 	// Main render
 	const Home = () => (
@@ -88,7 +91,6 @@ const LocalAutomator = () => {
 							<h1 className='my-3 mb-6 text-3xl font-medium font-manrope'>
 								My UpKeeps
 							</h1>
-							<TaskFilters />
 							<UpkeepTable />
 						</motion.div>
 					</TabsContent>
@@ -143,7 +145,7 @@ const LocalAutomator = () => {
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}>
 							<h1 className='my-3 mb-6 text-3xl font-medium font-manrope'>
-								History
+								Transaction History
 							</h1>
 							<HistoryTable />
 						</motion.div>
@@ -154,7 +156,7 @@ const LocalAutomator = () => {
 	);
 
 	return (
-		<div className='bg-gray-50'>
+		<div className='bg-gray-50 min-h-screen'>
 			<ProjectHeader title='Local Automator'>
 				<motion.button
 					whileHover={{ scale: 1.05 }}
@@ -164,13 +166,23 @@ const LocalAutomator = () => {
 				</motion.button>
 			</ProjectHeader>
 			<Routes>
+				{/* Main routes */}
 				<Route
+					path='/'
 					element={<Home />}
-					index
+				/>
+				{/* History routes */}
+				<Route
+					path='history'
+					element={<HistoryHome />}
 				/>
 				<Route
-					element={<UpKeepDetails />}
+					path='history/:historyId'
+					element={<HistoryDetail />}
+				/>
+				<Route
 					path=':id'
+					element={<UpKeepDetails />}
 				/>
 			</Routes>
 		</div>

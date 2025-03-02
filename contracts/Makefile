@@ -175,8 +175,8 @@ generate-types-frontend:
 	@cd $(FRONTEND_PATH) && npx typechain --target ethers-v6 --out-dir src/types/contracts "../contracts/out/MultiSignatureWallet.sol/*json" --show-stack-traces
 
 generate-types-backend:
-	@echo "Generating types in backend..."
-	@cd $(BACKEND_PATH) && npx typechain --target ethers-v6 --out-dir src/types/contracts "../contracts/out/DeployLocalAutomator.sol/*json" --show-stack-traces
+	@echo "Generating types in backend..." 
+	@cd $(BACKEND_PATH) && npx typechain --target ethers-v6 --out-dir src/types/contracts "../contracts/out/LocalAutomator.sol/*json" --show-stack-traces
 
 
 # ========== Help ==========
