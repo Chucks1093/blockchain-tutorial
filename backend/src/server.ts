@@ -1,6 +1,11 @@
 import app from "./app";
-import { onChainEventListeners } from "./automation/automation.service";
+import {
+	onChainEventListeners,
+	initializeEventHandlers,
+} from "./automation/automation.events";
+
 import { config } from "./config";
+import { logger } from "./lib/logger";
 import { prisma } from "./lib/prisma";
 
 // Store cleanup function so we can call it on shutdown
@@ -10,7 +15,8 @@ async function startServer() {
 	try {
 		await prisma.$connect();
 		stopListening = await onChainEventListeners();
-		console.log("Connected to database");
+		logger.info("Connected to database");
+		initializeEventHandlers();
 
 		app.listen(3000, () => {
 			console.log(`Server running on port ${config.port}`);
@@ -26,7 +32,7 @@ process.on("SIGINT", async () => {
 	// Stop the event listener if it's running
 	if (stopListening) {
 		stopListening();
-		console.log("📡 Event listener stopped");
+		logger.info("📡 Event listener stopped");
 	}
 	await prisma.$disconnect();
 	console.log("💾 Database connection closed");

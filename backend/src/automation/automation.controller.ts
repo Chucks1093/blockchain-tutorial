@@ -4,9 +4,9 @@ import {
 	createUpKeep,
 	getAllUpKeeps,
 	getUpKeepByAddress,
-	UpKeepSchema,
 } from "./automation.model";
 import { deployAutmator } from "./automation.service";
+import { UpKeepSchema } from "./automation.schema";
 
 type Controller = Promise<any>;
 

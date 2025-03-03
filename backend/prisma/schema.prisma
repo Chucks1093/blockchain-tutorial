@@ -40,7 +40,7 @@ model UpkeepHistory {
   upkeepId          String       // ID of the upkeep
   upkeepContract    UpkeepContract @relation(fields: [upkeepId], references: [id], onDelete: Cascade)
   contractAddress   String       // Contract address
-  automatorAddress  String?      // Address of the automator that executed
+  automatorAddress  String?      @unique  // Address of the automator that executed
   
   // Transaction details
   txHash            String?      // Transaction hash (null if transaction failed to submit)

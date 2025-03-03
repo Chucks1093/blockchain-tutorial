@@ -1,34 +1,42 @@
 No files changed, compilation skipped
 Traces:
-  [626414] SecretMessageScript::run()
+  [517156] DeployLocalAutomatorScript::run()
     ├─ [0] VM::startBroadcast()
     │   └─ ← [Return] 
-    ├─ [587652] → new SecretMessage@0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6
-    │   └─ ← [Return] 2710 bytes of code
+    ├─ [477919] → new DeployLocalAutomator@0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9
+    │   └─ ← [Return] 2387 bytes of code
     ├─ [0] VM::stopBroadcast()
     │   └─ ← [Return] 
-    └─ ← [Return] 
+    ├─ [0] console::log("DeployLocalAutomator contract deployed at :", DeployLocalAutomator: [0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9]) [staticcall]
+    │   └─ ← [Stop] 
+    └─ ← [Return] DeployLocalAutomator: [0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9]
 
 
 Script ran successfully.
+
+== Return ==
+0: contract DeployLocalAutomator 0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9
+
+== Logs ==
+  DeployLocalAutomator contract deployed at : 0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9
 
 ## Setting up 1 EVM.
 ==========================
 Simulated On-chain Traces:
 
-  [587652] → new SecretMessage@0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6
-    └─ ← [Return] 2710 bytes of code
+  [477919] → new DeployLocalAutomator@0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9
+    └─ ← [Return] 2387 bytes of code
 
 
 ==========================
 
 Chain 31337
 
-Estimated gas price: 1.582301132 gwei
+Estimated gas price: 1.774730935 gwei
 
-Estimated total gas used for script: 901617
+Estimated total gas used for script: 739818
 
-Estimated amount required: 0.001426629599730444 ETH
+Estimated amount required: 0.00131297789086983 ETH
 
 ==========================
 
@@ -37,7 +45,7 @@ Estimated amount required: 0.001426629599730444 ETH
 
 ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
 
-Transactions saved to: /Users/user/Documents/programs/blockchain-tutorial/projects/contracts/broadcast/SecretMessage.s.sol/31337/run-latest.json
+Transactions saved to: /Users/user/Documents/programs/blockchain-tutorial/projects/contracts/broadcast/DeployLocalAutomator.s.sol/31337/run-latest.json
 
-Sensitive values saved to: /Users/user/Documents/programs/blockchain-tutorial/projects/contracts/cache/SecretMessage.s.sol/31337/run-latest.json
+Sensitive values saved to: /Users/user/Documents/programs/blockchain-tutorial/projects/contracts/cache/DeployLocalAutomator.s.sol/31337/run-latest.json
 

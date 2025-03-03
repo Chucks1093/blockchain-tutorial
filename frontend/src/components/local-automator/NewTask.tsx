@@ -3,7 +3,6 @@ import {
 	FileText,
 	Terminal,
 	Clock,
-	AlertCircle,
 	RefreshCw,
 	Plus,
 	Code,
@@ -290,20 +289,6 @@ function NewTask() {
 								LINK tokens will be transferred from your wallet when
 								registering
 							</span>
-						</div>
-					</div>
-
-					<div className='p-4 bg-blue-50 rounded-xl border border-blue-100'>
-						<div className='flex items-start'>
-							<AlertCircle className='h-5 w-5 text-blue-500 mt-0.5 mr-3' />
-							<div>
-								<p className='text-sm text-blue-700'>
-									Your task will be funded with LINK tokens to pay for
-									Chainlink Automation services. Make sure your
-									contract implements the Automation interface
-									properly.
-								</p>
-							</div>
 						</div>
 					</div>
 
