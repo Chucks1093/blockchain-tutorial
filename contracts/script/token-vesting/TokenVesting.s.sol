@@ -34,6 +34,7 @@ contract TokenVestingScript is Script, ChainInfo {
          // Verify contracts have code
          require(address(token).code.length > 0, "Token not deployed");
          require(address(vesting).code.length > 0, "Vesting not deployed");
+         
       } catch Error(string memory reason) {
          revert DeploymentFailed(reason);
       }

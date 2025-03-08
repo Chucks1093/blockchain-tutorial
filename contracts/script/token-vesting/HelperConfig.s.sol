@@ -72,6 +72,10 @@ contract HelperConfig is Script, ChainInfo {
       // Deploy mock LINK token
       LinkToken link = new LinkToken();
 
+      link.grantMintRole(msg.sender);
+
+      link.mint(msg.sender, 1_000_000 * 10 ** 18);
+
       // Deploy mock Registry and Registrar
       MockKeeperRegistry registry = new MockKeeperRegistry(0.1 ether);
       KeeperRegistrar1_2Mock registrar = new KeeperRegistrar1_2Mock();
